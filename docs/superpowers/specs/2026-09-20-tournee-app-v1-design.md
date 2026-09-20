@@ -15,6 +15,17 @@ Blog SEO traité en spec séparée (hors scope V1).
 
 Hors scope V1: optimisation d'itinéraire, multi-véhicules simultanés, blog.
 
+## Métrique de succès V1
+% d'utilisateurs qui créent au moins une tournée complète (≥2 trajets + calcul affiché)
+dans les 7 jours suivant l'onboarding, mesuré via events PostHog
+(`signup` → `vehicle_profile_created` → `tournee_calculee`). Sert de seuil de décision
+avant d'investir en V2 (optimisation, carnet clients).
+
+## Limites connues V1 (à afficher/documenter, pas à corriger en V1)
+- Heure de fin estimée basée sur temps de trajet Mapbox "libre" (sans trafic temps réel) :
+  peut diverger en zone urbaine aux heures de pointe. Pas de correctif V1, à mentionner
+  dans l'UI (ex: tooltip "estimation hors trafic").
+
 ## Architecture
 
 ```
@@ -48,13 +59,17 @@ ou volume le justifient ; le calcul de coût (§ Logique de calcul) est agnostiq
 - **Infra**: `docker-compose.yml` (api uniquement — plus de service routing à héberger).
   Frontend déployé séparément (Vercel ou même compose). `uv` pour gestion deps Python backend.
 
-## Data model (Postgres, schéma `public`, RLS activé par user_id)
+## Data model (Postgres, schéma `public`)
+
+Isolation par utilisateur appliquée en code FastAPI (pas par RLS — voir § Architecture,
+FastAPI utilise `service_role` qui bypass RLS). RLS reste activé en filet de sécurité
+supplémentaire (défense en profondeur) mais n'est pas le mécanisme d'isolation principal.
 
 ```sql
 vehicle_profiles (
   id uuid pk, user_id uuid fk auth.users, nom text,
   conso_l_100km numeric, type_carburant text,  -- gazole|sp95|sp98|e10|e85|gplc
-  adresse_depart text, lat_depart numeric, lon_depart numeric  -- géocodé via Nominatim
+  adresse_depart text, lat_depart numeric, lon_depart numeric  -- géocodé via Mapbox Geocoding
 )
 
 fuel_price_cache (
@@ -75,10 +90,10 @@ clients (
 
 trajets (
   id uuid pk, tournee_id uuid fk, client_id uuid fk clients null,
-  ordre int, adresse text, lat numeric, lon numeric,  -- géocodé via Nominatim (voir Validation adresse)
+  ordre int, adresse text, lat numeric, lon numeric,  -- géocodé via Mapbox (voir Validation adresse)
   duree_chantier_min int,
-  distance_km numeric,      -- calculé (OSRM depuis point précédent, ou départ véhicule)
-  duree_trajet_min numeric, -- calculé (OSRM)
+  distance_km numeric,      -- calculé (Mapbox Directions depuis point précédent, ou départ véhicule)
+  duree_trajet_min numeric, -- calculé (Mapbox Directions, temps "libre" sans trafic temps réel — limite connue)
   cout_essence numeric      -- calculé: distance_km * (conso/100) * prix_carburant
 )
 ```
@@ -129,6 +144,7 @@ même si `client_id` est renseigné plus tard.
 ## Error handling
 - Adresse non géocodable (Mapbox 0 résultat) → message inline, pas de crash calc
 - Mapbox indisponible/quota dépassé → fallback distance à vol d'oiseau (haversine) + indicateur "estimation approx."
+  (quota/usage Mapbox à surveiller manuellement V1 via dashboard Mapbox ; pas d'alerte automatique, à revoir si volume grandit)
 - API gouv carburant indisponible → garder dernier prix en cache (par département) avec badge "prix non à jour"
 
 ## Testing
