@@ -10,7 +10,9 @@ Blog SEO traité en spec séparée (hors scope V1).
 - Prix carburant auto (moyenne glissante 7j, API gouv) + changement manuelle si besoin
 - Ajout trajets du jour un par un, adresse + durée chantier, ordre manuel (drag)
 - Calcul: coût essence/trajet, coût total jour, heure de fin estimée
-- Auth SSO Google/Facebook + email/password
+- Auth SSO Google (priorité V1) + email/password. Facebook repoussé (moins pertinent pour
+  une cible pro/artisan, évite un délai OAuth review supplémentaire) — ajout facile plus
+  tard si demande utilisateur confirmée (Supabase Auth le supporte nativement).
 - UI "mega pro", animée (SaaS-grade)
 
 Hors scope V1: optimisation d'itinéraire, multi-véhicules simultanés, blog.
@@ -52,7 +54,7 @@ ou volume le justifient ; le calcul de coût (§ Logique de calcul) est agnostiq
   l'isolation par utilisateur est appliquée dans les queries FastAPI, pas seulement en DB).
   Endpoints: vehicle profile CRUD, tournée CRUD, calc trajet (géocodage + distance + coût),
   refresh prix carburant.
-- **Auth + DB**: Supabase Cloud (Postgres managé + Auth SSO Google/Facebook/email).
+- **Auth + DB**: Supabase Cloud (Postgres managé + Auth SSO Google + email/password ; Facebook hors V1).
 - **Routing/Géocodage**: Mapbox Geocoding API (autocomplete + validation adresse) +
   Mapbox Directions API (distance/durée), appelés côté backend FastAPI (clé API jamais
   exposée au frontend).
@@ -115,7 +117,7 @@ même si `client_id` est renseigné plus tard.
    si `date_maj` > 24h pour ce département, moyenne glissante sur relevés des 7 derniers jours.
 
 ## UX Flow
-1. Login (Supabase Auth UI hébergée ou composant custom) — Google / Facebook / email
+1. Login (Supabase Auth UI hébergée ou composant custom) — Google / email (Facebook hors V1)
 2. Si aucun `vehicle_profiles` → onboarding modal obligatoire (conso + carburant), champ
    conso pré-rempli avec une valeur par défaut selon le type de véhicule sélectionné
    (ex: camionnette diesel ~8L/100km, citadine essence ~6L/100km) — modifiable, réduit
