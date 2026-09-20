@@ -116,7 +116,10 @@ même si `client_id` est renseigné plus tard.
 
 ## UX Flow
 1. Login (Supabase Auth UI hébergée ou composant custom) — Google / Facebook / email
-2. Si aucun `vehicle_profiles` → onboarding modal obligatoire (conso + carburant)
+2. Si aucun `vehicle_profiles` → onboarding modal obligatoire (conso + carburant), champ
+   conso pré-rempli avec une valeur par défaut selon le type de véhicule sélectionné
+   (ex: camionnette diesel ~8L/100km, citadine essence ~6L/100km) — modifiable, réduit
+   la friction pour un user qui ne connaît pas sa conso exacte au moment de l'inscription
 3. Dashboard "Tournée du jour": heure début éditable, liste trajets (cards, drag-reorder
    via dnd-kit), bouton "+ Ajouter trajet" → modal (autocomplete adresse via Nominatim,
    durée chantier en minutes)
@@ -167,6 +170,18 @@ même si `client_id` est renseigné plus tard.
 - Sitemap.xml + metadata dynamique via Next Metadata API
 - Aucun couplage avec l'app métier (routes indépendantes), déploiement commun (même build Next.js)
 - Events PostHog blog séparés des events app (`blog_article_vu`, etc.) pour analyse distincte
+
+## Secrets & environnements
+- Local dev : `.env` (gitignored) — `MAPBOX_TOKEN`, `SUPABASE_SERVICE_ROLE_KEY`,
+  `SUPABASE_URL`, `POSTHOG_API_KEY`. Jamais de clé en dur dans le code.
+- Prod : variables d'env injectées via la plateforme de déploiement (ex: env vars Vercel
+  pour le frontend, env vars du provider Docker/VPS pour FastAPI) — pas de secret manager
+  dédié en V1 (YAGNI), à réévaluer si l'équipe grandit.
+- `SUPABASE_SERVICE_ROLE_KEY` : clé la plus sensible (bypass RLS total) — connue uniquement
+  du backend FastAPI, jamais exposée au frontend/navigateur. FastAPI n'est appelé que par
+  le frontend (pas d'exposition publique directe nécessaire au-delà de ça).
+- Staging : projet Supabase séparé (ou branching Supabase si dispo sur le plan choisi)
+  pour tester migrations/changements avant prod — évite de migrer direct en prod.
 
 ## Stack récap
 | Composant | Choix |
