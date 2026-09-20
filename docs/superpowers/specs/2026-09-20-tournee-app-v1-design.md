@@ -15,7 +15,11 @@ Blog SEO traité en spec séparée (hors scope V1).
   tard si demande utilisateur confirmée (Supabase Auth le supporte nativement).
 - UI "mega pro", animée (SaaS-grade)
 
-Hors scope V1: optimisation d'itinéraire, multi-véhicules simultanés, blog.
+Hors scope V1: optimisation d'itinéraire, multi-véhicules simultanés, blog,
+multi-utilisateurs/organisation (gestion d'équipe) — cible V1 = artisan indépendant solo,
+un seul profil véhicule actif à la fois. Modèle mono-utilisateur assumé (pas de notion
+d'organisation/rôle dans le data model) ; si la cible réelle inclut des gérants
+multi-employés, ça nécessitera une refonte du data model, pas une simple extension.
 
 ## Métrique de succès V1
 % d'utilisateurs qui créent au moins une tournée complète (≥2 trajets + calcul affiché)
@@ -123,8 +127,9 @@ même si `client_id` est renseigné plus tard.
    (ex: camionnette diesel ~8L/100km, citadine essence ~6L/100km) — modifiable, réduit
    la friction pour un user qui ne connaît pas sa conso exacte au moment de l'inscription
 3. Dashboard "Tournée du jour": heure début éditable, liste trajets (cards, drag-reorder
-   via dnd-kit), bouton "+ Ajouter trajet" → modal (autocomplete adresse via Nominatim,
-   durée chantier en minutes)
+   via dnd-kit + boutons haut/bas en fallback tactile — usage terrain mobile, mains gantées/
+   sales rendent le drag seul peu fiable), bouton "+ Ajouter trajet" → modal (autocomplete
+   adresse via Mapbox Geocoding, durée chantier en minutes)
 4. Panneau récap (sticky, animé — Framer Motion, compteurs numériques qui s'incrémentent) :
    coût par trajet inline sur chaque card, coût total jour + heure fin en gros dans le panneau
 5. Thème dark, accents gradient, micro-interactions sur ajout/suppression/reorder
