@@ -18,24 +18,33 @@ Hors scope V1: optimisation d'itinéraire, multi-véhicules simultanés, blog.
 ## Architecture
 
 ```
-[Next.js frontend] --REST--> [FastAPI backend] --> [OSRM/Nominatim (Docker)]
+[Next.js frontend] --REST--> [FastAPI backend] --> [Mapbox Directions/Geocoding API]
         |                          |
         |                          --> [API gouv prix-carburants]
-        |
-        --> [Supabase Cloud: Auth + Postgres]
+        |                          --> [Supabase Postgres via service_role]
+        --> [Supabase Auth uniquement (JWT)]
 ```
 
-- **Frontend**: Next.js (App Router, TS), Tailwind, Framer Motion. Consomme Supabase Auth
-  directement (session JWT), appelle FastAPI pour logique métier (calc).
-- **Backend**: FastAPI (Python, géré par `uv`). Endpoints: vehicle profile CRUD, tournée
-  CRUD, calc trajet (géocodage + distance + coût), refresh prix carburant.
+**Décision (override règle "open source only"):** Mapbox choisi plutôt qu'OSRM/Nominatim
+self-host pour V1 — build/maintenance du graphe routier OSRM jugés disproportionnés pour le
+volume V1 (quelques trajets/jour). Migration vers OSRM reste possible en V2 si coût Mapbox
+ou volume le justifient ; le calcul de coût (§ Logique de calcul) est agnostique du provider.
+
+- **Frontend**: Next.js (App Router, TS), Tailwind, Framer Motion. Consomme **uniquement**
+  Supabase Auth (session JWT) pour le login. Aucune lecture/écriture directe des tables
+  métier — tout passe par FastAPI (chemin de données unique, plus simple à sécuriser/tester).
+- **Backend**: FastAPI (Python, géré par `uv`). Seul composant à lire/écrire le Postgres
+  Supabase (via `service_role` key). Valide le JWT Supabase reçu du frontend sur chaque
+  requête et vérifie explicitement `user_id` en code (RLS n'est PAS le seul rempart :
+  `service_role` bypass RLS, donc l'isolation par utilisateur est appliquée dans les
+  queries FastAPI, pas seulement en DB). Endpoints: vehicle profile CRUD, tournée CRUD,
+  calc trajet (géocodage + distance + coût), refresh prix carburant.
 - **Auth + DB**: Supabase Cloud (Postgres managé + Auth SSO Google/Facebook/email).
-  Backend FastAPI valide le JWT Supabase sur chaque requête, lit/écrit direct dans
-  le Postgres Supabase (via SQLAlchemy + connection string Supabase).
-- **Routing/Géocodage**: OSRM + Nominatim self-hosted en Docker (docker-compose),
-  appelés par le backend FastAPI. Extrait France (ou région du user) pour limiter la taille.
-- **Infra**: `docker-compose.yml` (osrm, nominatim, api). Frontend déployé séparément
-  (Vercel ou même compose). `uv` pour gestion deps Python du backend.
+- **Routing/Géocodage**: Mapbox Geocoding API (autocomplete + validation adresse) +
+  Mapbox Directions API (distance/durée), appelés côté backend FastAPI (clé API jamais
+  exposée au frontend).
+- **Infra**: `docker-compose.yml` (api uniquement — plus de service routing à héberger).
+  Frontend déployé séparément (Vercel ou même compose). `uv` pour gestion deps Python backend.
 
 ## Data model (Postgres, schéma `public`, RLS activé par user_id)
 
@@ -47,7 +56,10 @@ vehicle_profiles (
 )
 
 fuel_price_cache (
-  type_carburant text pk, prix_moyen_7j numeric, date_maj timestamptz
+  -- clé composite type+département: prix carburant varie fort par zone en France,
+  -- une moyenne nationale seule serait trop imprécise
+  type_carburant text, departement text, prix_moyen_7j numeric, date_maj timestamptz,
+  primary key (type_carburant, departement)
 )
 
 tournees (
@@ -74,13 +86,16 @@ absorber la FK sans migration en V2. `trajets.adresse/lat/lon` restent la source
 même si `client_id` est renseigné plus tard.
 
 ## Logique de calcul
-1. Trigger: ajout/reorder d'un trajet → backend recalcule distance/durée via OSRM
-   entre trajet précédent (ou point de départ) et ce trajet.
-2. `cout_essence = distance_km * (conso_l_100km / 100) * prix_moyen_7j`
-3. `cout_total_jour = somme(cout_essence de tous les trajets)`
-4. `heure_fin = heure_debut + somme(duree_trajet_min + duree_chantier_min) sur tous les trajets`
-5. `fuel_price_cache` rafraîchi via appel API gouv (data.economie.gouv.fr) à la demande
-   si `date_maj` > 24h, moyenne glissante sur relevés des 7 derniers jours.
+1. Trigger: ajout/reorder d'un trajet → backend recalcule distance/durée via Mapbox
+   Directions entre trajet précédent (ou point de départ) et ce trajet. Sur un reorder,
+   le frontend **debounce** l'appel (attend fin du drag, ~500ms) et n'envoie qu'un seul
+   recalcul batch pour les trajets dont l'ordre a changé (pas un appel par étape intermédiaire).
+2. `departement` du calcul carburant dérivé du `adresse_depart` du véhicule (code postal → dept).
+3. `cout_essence = distance_km * (conso_l_100km / 100) * prix_moyen_7j` (prix du département du véhicule)
+4. `cout_total_jour = somme(cout_essence de tous les trajets)`
+5. `heure_fin = heure_debut + somme(duree_trajet_min + duree_chantier_min) sur tous les trajets`
+6. `fuel_price_cache` rafraîchi via appel API gouv (data.economie.gouv.fr) à la demande
+   si `date_maj` > 24h pour ce département, moyenne glissante sur relevés des 7 derniers jours.
 
 ## UX Flow
 1. Login (Supabase Auth UI hébergée ou composant custom) — Google / Facebook / email
@@ -93,7 +108,7 @@ même si `client_id` est renseigné plus tard.
 5. Thème dark, accents gradient, micro-interactions sur ajout/suppression/reorder
 
 ## Validation adresse (départ + trajets)
-- Autocomplete Nominatim (`/search`) au champ adresse : user sélectionne une suggestion →
+- Autocomplete Mapbox Geocoding au champ adresse : user sélectionne une suggestion →
   lat/lon stockés directement, pas de re-géocodage.
 - Si texte libre soumis sans sélection → géocodage backend au submit ; 0 résultat ou score
   de confiance bas → erreur inline "adresse introuvable", sauvegarde bloquée.
@@ -103,18 +118,19 @@ même si `client_id` est renseigné plus tard.
 - **Carnet clients** : table `clients` déjà présente (V1), exposée en UI V2 (sélection au lieu
   de retaper l'adresse)
 - **Créneaux fixes** : ajout `clients.creneau_debut/fin` (nouvelle colonne, pas de migration structurelle)
-- **Optimisation ordre** : nouvel endpoint FastAPI `/tournees/{id}/optimize`, utilise OSRM
-  Trip Service (même instance OSRM que V1, pas de nouvelle infra)
+- **Optimisation ordre** : nouvel endpoint FastAPI `/tournees/{id}/optimize`, utilise Mapbox
+  Optimization API (même provider que V1) ou migration OSRM Trip Service si coût/volume
+  le justifie à ce stade
 - **Réordonnancement manuel post-optim + recalcul live** : réutilise la logique de calcul V1
 - **Export Google Agenda** : intégration Google Calendar API, service indépendant
 
 ## Error handling
-- Adresse non géocodable (Nominatim 0 résultat) → message inline, pas de crash calc
-- OSRM indisponible → fallback distance à vol d'oiseau (haversine) + indicateur "estimation approx."
-- API gouv carburant indisponible → garder dernier prix en cache avec badge "prix non à jour"
+- Adresse non géocodable (Mapbox 0 résultat) → message inline, pas de crash calc
+- Mapbox indisponible/quota dépassé → fallback distance à vol d'oiseau (haversine) + indicateur "estimation approx."
+- API gouv carburant indisponible → garder dernier prix en cache (par département) avec badge "prix non à jour"
 
 ## Testing
-- Backend: pytest — calcul coût/distance/heure fin, mocks OSRM + API gouv, cas erreurs ci-dessus
+- Backend: pytest — calcul coût/distance/heure fin, mocks Mapbox + API gouv, cas erreurs ci-dessus
 - Frontend: vérification manuelle via `run` skill (pas d'E2E en V1)
 
 ## Analytics (PostHog)
@@ -140,7 +156,7 @@ même si `client_id` est renseigné plus tard.
 | Frontend | Next.js + Tailwind + Framer Motion |
 | Backend | FastAPI (Python, uv) |
 | Auth + DB | Supabase Cloud |
-| Routing/Géocodage | OSRM + Nominatim (Docker, self-hosted) |
+| Routing/Géocodage | Mapbox Directions + Geocoding API (override open-source, voir Architecture) |
 | Prix carburant | API prix-carburants.gouv.fr |
 | Analytics | PostHog Cloud EU |
 | Infra | docker-compose + uv |
