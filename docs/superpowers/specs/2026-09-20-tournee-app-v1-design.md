@@ -117,6 +117,23 @@ même si `client_id` est renseigné plus tard.
 - Backend: pytest — calcul coût/distance/heure fin, mocks OSRM + API gouv, cas erreurs ci-dessus
 - Frontend: vérification manuelle via `run` skill (pas d'E2E en V1)
 
+## Analytics (PostHog)
+- PostHog Cloud EU (RGPD), pas de self-host V1
+- Frontend: `posthog-js` init au layout root Next.js, autocapture pageviews +
+  events custom (`vehicle_profile_created`, `trajet_ajoute`, `tournee_calculee`, `signup`)
+- Backend (optionnel V1, utile si events critiques doivent être fiables côté serveur):
+  `posthog-python` dans FastAPI pour events métier (ex: `calc_echoue`)
+- Feature flags PostHog disponibles gratuitement si A/B test nécessaire plus tard
+
+## Blog (architecture seulement — scope détaillé en spec séparée)
+- Même repo Next.js, route group indépendant `app/(blog)/blog/[slug]`
+- Contenu V1: MDX en local (versionné git), migrable vers headless CMS
+  (ex: Payload/Strapi self-host) si volume de contenu grandit
+- SSG via `generateStaticParams` pour SEO max — aucune dépendance FastAPI/Supabase
+- Sitemap.xml + metadata dynamique via Next Metadata API
+- Aucun couplage avec l'app métier (routes indépendantes), déploiement commun (même build Next.js)
+- Events PostHog blog séparés des events app (`blog_article_vu`, etc.) pour analyse distincte
+
 ## Stack récap
 | Composant | Choix |
 |---|---|
@@ -125,4 +142,5 @@ même si `client_id` est renseigné plus tard.
 | Auth + DB | Supabase Cloud |
 | Routing/Géocodage | OSRM + Nominatim (Docker, self-hosted) |
 | Prix carburant | API prix-carburants.gouv.fr |
+| Analytics | PostHog Cloud EU |
 | Infra | docker-compose + uv |
