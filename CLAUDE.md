@@ -4,9 +4,28 @@ Voir spec: [docs/superpowers/specs/2026-09-20-tournee-app-v1-design.md](docs/sup
 
 ## Principes
 
-- **YAGNI** : pas de code pour un besoin hypothétique. Si V2 n'est pas confirmé, ne pas l'anticiper dans le code (la spec documente l'évolutivité, le code livre V1).
-- **KISS** : solution la plus simple qui marche. Pas d'abstraction/couche/config avant qu'un deuxième cas d'usage réel l'exige.
+- **Single Responsibility en priorité** : code organisé en classes, une responsabilité par
+  classe, un seul endroit à modifier si une règle change. Cette contrainte passe AVANT
+  YAGNI/KISS en cas de conflit — voir arbitrage ci-dessous.
+- **YAGNI** : pas de code pour un besoin hypothétique. Si V2 n'est pas confirmé, ne pas
+  l'anticiper dans le code (la spec documente l'évolutivité, le code livre V1).
+- **KISS** : solution la plus simple qui marche, à découpage de responsabilité égal.
+  Pas de couche/config superflue au-delà de ce que SRP impose.
 - Pas de commentaire sauf pour expliquer un POURQUOI non évident (contrainte cachée, workaround). Jamais de commentaire qui répète ce que le code dit déjà.
+
+### Arbitrage SRP vs YAGNI/KISS
+Quand une implémentation "simple" (KISS) mélangerait plusieurs responsabilités dans un
+même endroit (ex: calcul + appel API + persistance dans une seule fonction), découper en
+classes séparées même si ça ajoute des fichiers/lignes. Exemple attendu côté backend:
+- `FuelPriceService` (appel API gouv + cache) — seul endroit à changer si la source de
+  prix carburant change
+- `RoutingClient` (appel Mapbox) — seul endroit à changer si le provider routing change
+  (cf. spec, migration OSRM possible en V2)
+- `TourneeCalculator` (coût essence, coût total, heure fin) — logique pure, testée sans
+  dépendance HTTP/DB
+- Le découpage s'arrête dès qu'une classe a une seule raison de changer : ne pas fragmenter
+  au-delà (une classe par ligne de code n'est pas l'objectif, YAGNI s'applique à la
+  profondeur du découpage, pas à son existence).
 
 ## TDD — obligatoire
 
