@@ -34,11 +34,13 @@ ou volume le justifient ; le calcul de coût (§ Logique de calcul) est agnostiq
   Supabase Auth (session JWT) pour le login. Aucune lecture/écriture directe des tables
   métier — tout passe par FastAPI (chemin de données unique, plus simple à sécuriser/tester).
 - **Backend**: FastAPI (Python, géré par `uv`). Seul composant à lire/écrire le Postgres
-  Supabase (via `service_role` key). Valide le JWT Supabase reçu du frontend sur chaque
-  requête et vérifie explicitement `user_id` en code (RLS n'est PAS le seul rempart :
-  `service_role` bypass RLS, donc l'isolation par utilisateur est appliquée dans les
-  queries FastAPI, pas seulement en DB). Endpoints: vehicle profile CRUD, tournée CRUD,
-  calc trajet (géocodage + distance + coût), refresh prix carburant.
+  Supabase — via `supabase-py` (client officiel, `service_role` key), pas de SQLAlchemy/Alembic
+  à la main : ship plus vite, requêtes typées, migrations gérées via Supabase CLI/dashboard.
+  Valide le JWT Supabase reçu du frontend sur chaque requête et vérifie explicitement
+  `user_id` en code (RLS n'est PAS le seul rempart : `service_role` bypass RLS, donc
+  l'isolation par utilisateur est appliquée dans les queries FastAPI, pas seulement en DB).
+  Endpoints: vehicle profile CRUD, tournée CRUD, calc trajet (géocodage + distance + coût),
+  refresh prix carburant.
 - **Auth + DB**: Supabase Cloud (Postgres managé + Auth SSO Google/Facebook/email).
 - **Routing/Géocodage**: Mapbox Geocoding API (autocomplete + validation adresse) +
   Mapbox Directions API (distance/durée), appelés côté backend FastAPI (clé API jamais
