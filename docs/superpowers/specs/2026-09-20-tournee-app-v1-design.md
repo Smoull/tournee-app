@@ -151,6 +151,15 @@ même si `client_id` est renseigné plus tard.
 - **Réordonnancement manuel post-optim + recalcul live** : réutilise la logique de calcul V1
 - **Export Google Agenda** : intégration Google Calendar API, service indépendant
 
+### Version payante
+- **Rappel SMS automatique au client** : SMS envoyé au client 1 jour avant et 2h avant
+  l'heure de passage prévue du trajet. Nécessite :
+  - `clients.telephone` (nouvelle colonne) — dépend du carnet clients V2
+  - heure de passage par trajet = `heure_debut` + cumul `duree_trajet_min + duree_chantier_min`
+    des trajets précédents (réutilise la logique de calcul V1)
+  - job planifié backend + `SmsSender` (seul endroit à changer si le provider SMS change)
+  - réservé aux comptes payants (feature gating à définir avec le modèle d'abonnement)
+
 ## Error handling
 - Adresse non géocodable (Mapbox 0 résultat) → message inline, pas de crash calc
 - Mapbox indisponible/quota dépassé → fallback distance à vol d'oiseau (haversine) + indicateur "estimation approx."
