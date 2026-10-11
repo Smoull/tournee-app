@@ -12,6 +12,10 @@ Voir spec: [docs/superpowers/specs/2026-09-20-tournee-app-v1-design.md](docs/sup
 - **KISS** : solution la plus simple qui marche, à découpage de responsabilité égal.
   Pas de couche/config superflue au-delà de ce que SRP impose.
 - Pas de commentaire sauf pour expliquer un POURQUOI non évident (contrainte cachée, workaround). Jamais de commentaire qui répète ce que le code dit déjà.
+- **Fail fast, pas de fallback** : si quelque chose échoue (API, config, donnée invalide),
+  ça doit échouer explicitement (exception/erreur remontée). Jamais de valeur par défaut
+  silencieuse, de provider de secours, de `try/except` qui avale l'erreur ou de retour
+  "dégradé" qui masque le problème.
 
 ### Arbitrage SRP vs YAGNI/KISS
 Quand une implémentation "simple" (KISS) mélangerait plusieurs responsabilités dans un
