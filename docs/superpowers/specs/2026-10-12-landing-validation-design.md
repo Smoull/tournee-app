@@ -27,7 +27,7 @@ Contact qualifié = métier + taille + douleur n°1 déclarée + accepte un appe
 ### Règle de décision
 - **Métier gagnant** : meilleur taux de qualifiés, avec ≥ 30 leads sur la variante
   (en dessous, écart non significatif).
-- **Go dev** : un métier ≥ 30 qualifiés ET ≥ 3 "je paierais 29 €/mois" en appel →
+- **Go dev** : un métier ≥ 30 qualifiés ET ≥ 3 "je paierais 49 € HT/mois" en appel →
   nouvelle spec V1 ciblée sur ce métier, remplace la spec V1 actuelle.
 - **Pivot** : < 30 qualifiés au total après 6 semaines → revoir douleur ou cible, pas le design.
 - Repère conversion visite → lead : 1-3 % faible, > 5 % bon.
@@ -51,7 +51,7 @@ Ordre de la page : **Utilité → Faisabilité → Morale → Opportunité → F
 | Utilité | "Ça règle mon problème ?" | Hero = douleur n°1 du métier (ex. laveur : "Un client annule à 7h ? Ta tournée se recalcule, tes clients sont prévenus par SMS."), puis 3 douleurs → solution |
 | Faisabilité | "Je vais y arriver ?" (objection n°1 de la cible) | "On configure pour vous", prise en main 5 min, PDF imprimable, l'humain garde la main |
 | Morale | "Je peux leur faire confiance ?" | Données hébergées en France, pas de revente, temps rendu (famille, patients), clients respectés car prévenus |
-| Opportunité | "Pourquoi maintenant ?" | **29 €/mois**, early access **-50 % à vie (14,50 €) pour les 100 premiers**, compteur de places, coût de l'attente |
+| Opportunité | "Pourquoi maintenant ?" | **49 € HT/mois** (prix affiché HT sur toutes les variantes), early access **-50 % à vie (24,50 € HT/mois) pour les 100 premiers**, compteur de places, coût de l'attente |
 
 Contenu par métier dans `landing/content/<metier>.ts` (un fichier = une variante).
 
