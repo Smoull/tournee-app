@@ -27,7 +27,7 @@ Contact qualifié = métier + taille + douleur n°1 déclarée + accepte un appe
 ### Règle de décision
 - **Métier gagnant** : meilleur taux de qualifiés, avec ≥ 30 leads sur la variante
   (en dessous, écart non significatif).
-- **Go dev** : un métier ≥ 30 qualifiés ET ≥ 3 "je paierais 49 € HT/mois" en appel →
+- **Go dev** : un métier ≥ 30 qualifiés ET ≥ 3 "je paierais 100 € HT/mois" en appel →
   nouvelle spec V1 ciblée sur ce métier, remplace la spec V1 actuelle.
 - **Pivot** : < 30 qualifiés au total après 6 semaines → revoir douleur ou cible, pas le design.
 - Repère conversion visite → lead : 1-3 % faible, > 5 % bon.
@@ -51,14 +51,18 @@ Ordre de la page : **Utilité → Faisabilité → Morale → Opportunité → F
 | Utilité | "Ça règle mon problème ?" | Hero = douleur n°1 du métier (ex. laveur : "Un client annule à 7h ? Ta tournée se recalcule, tes clients sont prévenus par SMS."), puis 3 douleurs → solution |
 | Faisabilité | "Je vais y arriver ?" (objection n°1 de la cible) | "On configure pour vous", prise en main 5 min, PDF imprimable, l'humain garde la main |
 | Morale | "Je peux leur faire confiance ?" | Données hébergées en France, pas de revente, temps rendu (famille, patients), clients respectés car prévenus |
-| Opportunité | "Pourquoi maintenant ?" | **49 € HT/mois** (prix affiché HT sur toutes les variantes), early access **-50 % à vie (24,50 € HT/mois) pour les 100 premiers**, compteur de places, coût de l'attente |
+| Opportunité | "Pourquoi maintenant ?" | **100 € HT/mois** (prix affiché HT sur toutes les variantes), early access **-50 % à vie (50 € HT/mois) pour les N premiers**, compteur de places, coût de l'attente |
 
-Contenu par métier dans `landing/content/<metier>.ts` (un fichier = une variante).
+Nombre de places early access N : **à définir** (arbitrage marketing : global vs par variante).
+Le compteur reste bloqué tant que N n'est pas fixé.
+
+Contenu par métier dans `landing/content/<metier>.py` (un fichier = une variante).
 
 ## Design
 - Skill `design-taste-frontend` (taste-skill, MIT) :
   `npx skills add https://github.com/Leonxlnx/taste-skill --skill "design-taste-frontend"`.
-- Animations avec **Motion** (MIT) à la place de GSAP (licence non open source).
+- Animations avec **Motion** (MIT), version JS vanilla chargée par CDN (pas de npm), à la place
+  de GSAP (licence non open source). Le code produit par taste-skill (React) est adapté en Jinja.
 - Règle taste-skill reprise : pas de tiret cadratin dans les textes UI.
 - Lisibilité prioritaire pour la cible : gros CTA, contraste WCAG AA, mobile first
   (trafic majoritairement mobile depuis réseaux sociaux).
@@ -91,7 +95,7 @@ Rétention : suppression des leads sans suite après 12 mois (cf. politique de c
 
 ## Architecture
 ```
-[Visiteur] --HTTPS--> [Traefik (Let's Encrypt, rate limit)] --> [Next.js landing]
+[Visiteur] --HTTPS--> [Traefik (Let's Encrypt, rate limit)] --> [FastAPI landing]
                                                                     |
                                                         POST /api/leads (server)
                                                                     |
@@ -100,19 +104,22 @@ Rétention : suppression des leads sans suite après 12 mois (cf. politique de c
 [Page merci]  --> [Cal.com]
 ```
 
-- `landing/` à la racine : Next.js (SSG pour les pages, route handler `/api/leads`),
-  Tailwind, Motion. Pas de FastAPI (une seule insertion, YAGNI ; FastAPI arrive avec l'app).
+- `landing/` à la racine : projet **uv** (tout se lance via `uv run`). FastAPI + Jinja2
+  (pages rendues serveur, route `POST /api/leads`), Tailwind via binaire standalone
+  (`pytailwindcss`, pas de npm), Motion en CDN. Même stack Python que la future app.
 - Responsabilités :
-  - `content/<metier>.ts` : textes FUOM d'une variante
-  - `lib/leadSchema.ts` : validation des champs (seul endroit si le formulaire change)
-  - `lib/leadRepository.ts` : insertion Supabase (seul endroit si le stockage change)
-  - `app/api/leads/route.ts` : orchestration HTTP (valide → insère → code retour)
-- Secrets : `.env.local` (gitignoré) en local — `SUPABASE_URL`, `SUPABASE_ANON_KEY`,
-  `POSTHOG_KEY` ; variables d'env du container en prod. Jamais en dur.
+  - `content/<metier>.py` : textes FUOM d'une variante
+  - `lead_schema.py` : validation des champs, Pydantic (seul endroit si le formulaire change)
+  - `lead_repository.py` : insertion Supabase via HTTP (seul endroit si le stockage change)
+  - `routes.py` : orchestration HTTP (valide → insère → code retour)
+- Secrets : `landing/secret.toml` (gitignoré, modèle `secret.toml.example`) lu via `tomllib`.
+  Clé manquante = erreur au démarrage (fail fast). Jamais en dur.
 
-## Hébergement
-OVH VPS, Docker Compose (Traefik + landing). TLS Let's Encrypt (ACME via Traefik),
-redirection HTTP → HTTPS, rate limit Traefik sur `/api/leads`. Domaine dédié.
+## Hébergement (phase 2, après finition de la landing)
+Hors scope de la phase 1 : on finit la landing en local d'abord.
+Cible : repo infra GitLab existant (`~/Documents/infra`, Ansible + Traefik + Let's Encrypt),
+nouvelle app `landing` sur le modèle `dsn-api`, variables GitLab `LANDING_*`,
+tournee-app migré sur GitLab. CSP propre à la landing (PostHog EU autorisé).
 
 ## Analytics
 PostHog Cloud EU, **mode sans cookie** (pas de bannière, cible non perdue).
@@ -130,8 +137,8 @@ Events : `landing_vue`, `form_commence`, `lead_envoye`, propriétés `variante`,
 Pas de file d'attente locale, pas de faux succès, pas de stockage de secours.
 
 ## Tests (TDD)
-Vitest :
-- `leadSchema` : chaque champ requis, format email/tel, consentement obligatoire, honeypot
+pytest (Supabase mocké, aucun appel réseau) :
+- `lead_schema` : chaque champ requis, format email/tel, consentement obligatoire, honeypot
 - route `/api/leads` (repository mocké) : 201 nominal, 400, 409 doublon, 503 Supabase down
 - mapping variante → contenu (chaque route a un contenu FUOM complet)
 
