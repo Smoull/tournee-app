@@ -27,7 +27,7 @@ Contact qualifié = métier + taille + douleur n°1 déclarée + accepte un appe
 ### Règle de décision
 - **Métier gagnant** : meilleur taux de qualifiés, avec ≥ 30 leads sur la variante
   (en dessous, écart non significatif).
-- **Go dev** : un métier ≥ 30 qualifiés ET ≥ 3 "je paierais 100 € HT/mois" en appel →
+- **Go dev** : un métier ≥ 30 qualifiés ET ≥ 3 "je paierais 29 € HT/mois" en appel →
   nouvelle spec V1 ciblée sur ce métier, remplace la spec V1 actuelle.
 - **Pivot** : < 30 qualifiés au total après 6 semaines → revoir douleur ou cible, pas le design.
 - Repère conversion visite → lead : 1-3 % faible, > 5 % bon.
@@ -51,7 +51,7 @@ Ordre de la page : **Utilité → Faisabilité → Morale → Opportunité → F
 | Utilité | "Ça règle mon problème ?" | Hero = douleur n°1 du métier (ex. laveur : "Un client annule à 7h ? Ta tournée se recalcule, tes clients sont prévenus par SMS."), puis 3 douleurs → solution |
 | Faisabilité | "Je vais y arriver ?" (objection n°1 de la cible) | "On configure pour vous", prise en main 5 min, PDF imprimable, l'humain garde la main |
 | Morale | "Je peux leur faire confiance ?" | Données hébergées en France, pas de revente, temps rendu (famille, patients), clients respectés car prévenus |
-| Opportunité | "Pourquoi maintenant ?" | **100 € HT/mois** (prix affiché HT sur toutes les variantes), early access **-50 % à vie (50 € HT/mois) pour les N premiers**, compteur de places, coût de l'attente |
+| Opportunité | "Pourquoi maintenant ?" | **29 € HT/mois** (prix affiché HT sur toutes les variantes), early access **19 € HT/mois à vie pour les N premiers**, affiché "-10 €/mois à vie, soit 120 € HT économisés chaque année", compteur de places, coût de l'attente |
 
 Nombre de places early access N : **à définir** (arbitrage marketing : global vs par variante).
 Le compteur reste bloqué tant que N n'est pas fixé.
@@ -66,6 +66,36 @@ Contenu par métier dans `landing/content/<metier>.py` (un fichier = une variant
 - Règle taste-skill reprise : pas de tiret cadratin dans les textes UI.
 - Lisibilité prioritaire pour la cible : gros CTA, contraste WCAG AA, mobile first
   (trafic majoritairement mobile depuis réseaux sociaux).
+
+## Identité visuelle (DA)
+4 couleurs max, fond sombre/désaturé = signal d'expertise. Tokens Tailwind, nulle part ailleurs.
+
+| Rôle | Couleur | Usage | Contraste vs fond |
+|---|---|---|---|
+| Neutre fond | `#11181C` (ardoise sombre) | fond de page | - |
+| Neutre texte | `#E6EAE8` (blanc cassé) | texte courant | 14,8:1 |
+| Principale | `#3E9C8A` (vert-bleu désaturé, "route") | logo, titres, éléments de marque | 5,4:1 |
+| Accent | `#F2A93B` (ambre, "panneau routier") | CTA, compteur de places, prix early access uniquement | 9,0:1 (texte `#11181C` sur ambre : 9,0:1) |
+
+Palette proposée, ajustable au choix du logo ; tout changement revérifie WCAG AA.
+Variations d'opacité autorisées, aucune 5e teinte.
+
+### Logo et assets
+- Logo retenu : **route en S, 3 arrêts, arrivée ambre avec halo** (tournée bouclée = tranquillité).
+  Source unique : `landing/brand/logo.py`. Régénération : `uv run python -m brand.export`.
+- GIF : la route se trace, puis le halo d'arrivée "respire" en boucle.
+- Assets dérivés du SVG retenu, dans `landing/static/brand/`, générés par un script
+  reproductible (`uv run`, outils open source : `cairosvg`/`Pillow`) :
+
+| Asset | Taille |
+|---|---|
+| `logo.svg` (+ variante monochrome) | vectoriel |
+| `favicon.ico` | 16, 32, 48 |
+| `favicon.svg` | vectoriel |
+| `apple-touch-icon.png` | 180×180 |
+| `icon-192.png`, `icon-512.png` | 192, 512 |
+| `og-image.png` (partage réseaux sociaux) | 1200×630 |
+| `logo.gif` (animé, en boucle) | 250×250 |
 
 ## Formulaire
 Un écran, 5 champs max.
