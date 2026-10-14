@@ -178,3 +178,11 @@ def test_thank_you_page_traces_the_logo(client):
 def test_templates_use_only_manrope():
     for template in TEMPLATES.glob("*.html"):
         assert "font-douleur" not in template.read_text(), template.name
+
+
+@pytest.mark.parametrize("slug", list(VARIANTS))
+def test_tagline_is_shown_above_the_hero_title(client, slug):
+    text = page(client, VARIANTS[slug].path)
+    hero_start = text.index("<h1")
+    assert 'data-tagline' in text[:hero_start]
+    assert TAGLINE in text[:hero_start].split("data-tagline", 1)[1]
