@@ -62,6 +62,9 @@ Ne jamais écrire de code de prod sans test rouge correspondant écrit avant. Si
 
 ## Identité visuelle (validée)
 
+Nom : **Bouclé**. Accroche : **"Votre tournée, sans remous."** Source unique : `landing/brand/identity.py`.
+Logo : route en S, 3 arrêts, arrivée ambre avec halo (`landing/brand/logo.py`).
+
 4 couleurs, aucune 5e teinte (variations d'opacité autorisées). Source unique en code :
 `PALETTE` dans `landing/brand/logo.py`, reprise en tokens Tailwind.
 

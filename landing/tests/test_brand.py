@@ -46,3 +46,12 @@ def test_export_produces_all_assets_at_expected_sizes(tmp_path):
         assert gif.size == (250, 250), name
         assert gif.n_frames > 1, name
         assert gif.info["loop"] == 0, name
+
+
+def test_og_image_shows_name_and_tagline_next_to_logo(tmp_path):
+    export_brand_assets(tmp_path)
+
+    og = Image.open(tmp_path / "og-image.png").convert("RGB")
+    text_area = og.crop((820, 150, 1150, 480))
+    background = tuple(int(PALETTE["fond"][i : i + 2], 16) for i in (1, 3, 5))
+    assert any(pixel != background for pixel in text_area.get_flattened_data())

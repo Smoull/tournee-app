@@ -67,6 +67,13 @@ Contenu par métier dans `landing/content/<metier>.py` (un fichier = une variant
 - Lisibilité prioritaire pour la cible : gros CTA, contraste WCAG AA, mobile first
   (trafic majoritairement mobile depuis réseaux sociaux).
 
+## Nom et accroche
+- Nom : **Bouclé** ("c'est bouclé" : la tournée est réglée). Accroche : **"Votre tournée, sans remous."**
+- Source unique en code : `landing/brand/identity.py`.
+- Domaine : `boucle.com` / `boucle.fr` pris. Libres au 2026-10-14 : `cestboucle.fr`, `cestboucle.com`,
+  `getboucle.com`, `boucle-pro.fr`. Choix à faire avant la phase 2 (hébergement) ; vérifier INPI
+  classes 9 et 42.
+
 ## Identité visuelle (DA)
 4 couleurs max, fond sombre/désaturé = signal d'expertise. Tokens Tailwind, nulle part ailleurs.
 
@@ -99,8 +106,9 @@ courant, prix, formulaire ; 400/700), **Fraunces** (phrase de douleur H1 ; 600),
 | `favicon.svg` | vectoriel |
 | `apple-touch-icon.png` | 180×180 |
 | `icon-192.png`, `icon-512.png` | 192, 512 |
-| `og-image.png` (partage réseaux sociaux) | 1200×630 |
-| `logo.gif` (animé, en boucle) | 250×250 |
+| `og-image.png` (partage réseaux sociaux : logo + nom Manrope + accroche Fraunces) | 1200×630 |
+| `logo.gif` (route qui se trace puis halo qui respire, en boucle) | 250×250 |
+| `logo-halo.gif` (halo seul qui respire, en boucle) | 250×250 |
 
 ## Formulaire
 Un écran, 5 champs max.

@@ -3,14 +3,16 @@ import math
 from pathlib import Path
 
 import cairosvg
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
+from brand.identity import NAME, TAGLINE
 from brand.logo import PALETTE, logo_svg
 
 GIF_SIZE = 250
 GIF_DRAW_FRAMES = 30
 GIF_BREATH_FRAMES = 30
 GIF_FRAME_MS = 50
+FONTS_DIR = Path(__file__).parent / "fonts"
 
 
 def _on_background(svg: str, width: int, height: int, logo_size: int) -> str:
@@ -26,6 +28,25 @@ def _on_background(svg: str, width: int, height: int, logo_size: int) -> str:
 def _render(svg: str, width: int, height: int) -> Image.Image:
     png = cairosvg.svg2png(bytestring=svg.encode(), output_width=width, output_height=height)
     return Image.open(io.BytesIO(png)).convert("RGBA")
+
+
+def _font(file_name: str, size: int, weight: int) -> ImageFont.FreeTypeFont:
+    font = ImageFont.truetype(FONTS_DIR / file_name, size)
+    font.set_variation_by_axes(
+        [weight if axis["name"] in (b"Weight", "Weight") else axis["default"] for axis in font.get_variation_axes()]
+    )
+    return font
+
+
+def _og_image() -> Image.Image:
+    width, height, logo_size = 1200, 630, 300
+    image = Image.new("RGBA", (width, height), PALETTE["fond"])
+    logo = _render(logo_svg(), logo_size, logo_size)
+    image.paste(logo, (110, (height - logo_size) // 2), logo)
+    draw = ImageDraw.Draw(image)
+    draw.text((470, 185), NAME, font=_font("Manrope.ttf", 110, 800), fill=PALETTE["texte"])
+    draw.text((474, 345), TAGLINE, font=_font("Fraunces.ttf", 46, 600), fill=PALETTE["texte"])
+    return image
 
 
 def _breathing_svgs() -> list[str]:
@@ -58,7 +79,7 @@ def export_brand_assets(out_dir: Path) -> None:
     for name, size in (("apple-touch-icon.png", 180), ("icon-192.png", 192), ("icon-512.png", 512)):
         _render(_on_background(logo, size, size, int(size * 0.8)), size, size).save(out_dir / name)
 
-    _render(_on_background(logo, 1200, 630, 360), 1200, 630).save(out_dir / "og-image.png")
+    _og_image().save(out_dir / "og-image.png")
 
     drawing = [logo_svg(progress=(i + 1) / GIF_DRAW_FRAMES) for i in range(GIF_DRAW_FRAMES)]
     _save_gif(drawing + _breathing_svgs(), out_dir / "logo.gif")
