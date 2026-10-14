@@ -57,13 +57,27 @@ def test_invalid_email_is_refused():
 
 
 @pytest.mark.parametrize(
-    "raw", ["0612345678", "06 12 34 56 78", "06.12.34.56.78", "06-12-34-56-78", "+33 6 12 34 56 78", "+33612345678"]
+    "raw",
+    [
+        "0612345678",
+        "06 12 34 56 78",
+        "06.12.34.56.78",
+        "06-12-34-56-78",
+        "06/12/34/56/78",
+        "+33 6 12 34 56 78",
+        "+33612345678",
+        "+33 (0)6 12 34 56 78",
+        "+33 06 12 34 56 78",
+        "0033 6 12 34 56 78",
+    ],
 )
 def test_french_phone_formats_are_normalized(raw):
     assert LeadIn.model_validate({**VALID, "phone": raw}).phone == "+33612345678"
 
 
-@pytest.mark.parametrize("raw", ["06 12 34", "0012345678", "+44 7911 123456", "06 12 34 56 78 90", "téléphone"])
+@pytest.mark.parametrize(
+    "raw", ["06 12 34", "0012345678", "+44 7911 123456", "06 12 34 56 78 90", "téléphone", "06 １２ 34 56 78"]
+)
 def test_invalid_phone_is_refused(raw):
     assert "phone" in errors_for({**VALID, "phone": raw})
 

@@ -80,5 +80,9 @@ INDISPONIBLE = "Une erreur est survenue, réessayez dans un instant. Ou écrivez
 
 MERCI_TITRE = "C'est bouclé."
 MERCI_TEXTE = f"Votre place early access est réservée : {PRIX_EARLY_ACCESS_HT} € HT/mois à vie."
+MERCI_ATTENTE = (
+    "Les places early access sont toutes prises : vous êtes sur la liste d'attente. "
+    "On vous prévient dès qu'une place se libère."
+)
 MERCI_APPEL = "On vous recontacte très vite. Pour aller plus vite, réservez un appel de 15 minutes."
 MERCI_LIEN = "Choisir un créneau"

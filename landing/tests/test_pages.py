@@ -94,3 +94,9 @@ def test_templates_have_no_inline_script():
     for template in TEMPLATES.glob("*.html"):
         source = template.read_text()
         assert "<script>" not in source and "onclick=" not in source, template.name
+
+
+def test_waitlist_thank_you_does_not_promise_early_access_price(client):
+    text = page(client, "/merci?attente=1")
+    assert commun.MERCI_ATTENTE in text
+    assert commun.MERCI_TEXTE not in text

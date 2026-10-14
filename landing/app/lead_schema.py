@@ -8,8 +8,9 @@ Taille = Literal["solo", "2-5", "6+"]
 Douleur = Literal["imprevus", "rentabilite", "planning", "coordination", "autre"]
 Variante = Literal["generique", "laveur-vitres", "infirmier", "services-domicile"]
 
-FRENCH_PHONE = re.compile(r"^(?:\+33|0)([1-9]\d{8})$")
-PHONE_SEPARATORS = re.compile(r"[\s.\-]")
+# Accepte 0X, +33X, +33 0X, +33 (0)X, 0033X ; [0-9] et non \d pour refuser les chiffres Unicode.
+FRENCH_PHONE = re.compile(r"^(?:(?:\+33|0033)0?|0)([1-9][0-9]{8})$")
+PHONE_SEPARATORS = re.compile(r"[\s.\-/()]")
 
 
 class LeadIn(BaseModel):

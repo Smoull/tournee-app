@@ -7,7 +7,7 @@ from app.content import VARIANTS, commun, legal
 from app.content.models import Variant
 from app.lead_repository import DuplicateLeadError, LeadRepository, StorageUnavailableError
 from app.lead_schema import LeadIn, invalid_fields
-from app.offer import places_restantes
+from app.offer import est_en_liste_attente, places_restantes
 from app.settings import Settings
 
 
@@ -29,7 +29,11 @@ def build_router(settings: Settings, repository: LeadRepository, templates: Jinj
             if not fields or "website" in fields:
                 return _invalid_form()
             errors = {field: commun.FIELD_MESSAGES.get(field, commun.FORMULAIRE_INVALIDE) for field in fields}
-            return JSONResponse({"errors": errors}, status_code=400)
+            body: dict = {"errors": errors}
+            # Un champ sans zone d'erreur visible (UTM, variante, champ inconnu) doit quand même s'afficher.
+            if fields - commun.FIELD_MESSAGES.keys():
+                body["message"] = commun.FORMULAIRE_INVALIDE
+            return JSONResponse(body, status_code=400)
 
         try:
             repository.add(lead)
@@ -39,7 +43,8 @@ def build_router(settings: Settings, repository: LeadRepository, templates: Jinj
             message = commun.INDISPONIBLE.format(contact_email=settings.contact_email)
             return JSONResponse({"message": message}, status_code=503)
 
-        return JSONResponse({"redirect": "/merci"}, status_code=201)
+        redirect = "/merci?attente=1" if est_en_liste_attente(repository.count()) else "/merci"
+        return JSONResponse({"redirect": redirect}, status_code=201)
 
     def variant_page(variant: Variant):
         def endpoint(request: Request) -> HTMLResponse:
@@ -61,7 +66,10 @@ def build_router(settings: Settings, repository: LeadRepository, templates: Jinj
 
     @router.get("/merci", response_class=HTMLResponse)
     def thank_you(request: Request) -> HTMLResponse:
-        return templates.TemplateResponse(request, "merci.html", {"calcom_url": settings.calcom_url})
+        en_attente = request.query_params.get("attente") == "1"
+        return templates.TemplateResponse(
+            request, "merci.html", {"calcom_url": settings.calcom_url, "en_attente": en_attente}
+        )
 
     def legal_page(title: str, paragraphs: tuple[str, ...]):
         def endpoint(request: Request) -> HTMLResponse:

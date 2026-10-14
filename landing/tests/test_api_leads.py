@@ -96,3 +96,23 @@ def test_unknown_field_returns_400(client, lead_payload):
 
 def test_memory_store_is_built_from_settings(settings):
     assert isinstance(build_repository(settings), InMemoryLeadRepository)
+
+
+def test_error_on_field_without_visible_slot_comes_with_a_global_message(client, repository, lead_payload):
+    response = client.post("/api/leads", json={**lead_payload, "utm_campaign": "c" * 101})
+
+    assert response.status_code == 400
+    assert response.json()["message"] == commun.FORMULAIRE_INVALIDE
+    assert repository.count() == 0
+
+
+def test_lead_beyond_early_access_places_is_sent_to_waitlist_thank_you(client, lead_payload):
+    from app.offer import PLACES_EARLY_ACCESS
+
+    for index in range(PLACES_EARLY_ACCESS):
+        response = client.post("/api/leads", json={**lead_payload, "email": f"lead{index}@example.com"})
+        assert response.json() == {"redirect": "/merci"}
+
+    response = client.post("/api/leads", json={**lead_payload, "email": "late@example.com"})
+
+    assert response.json() == {"redirect": "/merci?attente=1"}
