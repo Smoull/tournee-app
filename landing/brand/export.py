@@ -7,6 +7,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 from brand.identity import DOMAIN_SUFFIX, NAME, TAGLINE
 from brand.logo import PALETTE, logo_svg
+from brand.theme import theme_css
+from brand.web_fonts import export_web_fonts
 
 GIF_SIZE = 250
 GIF_DRAW_FRAMES = 30
@@ -97,4 +99,8 @@ def export_brand_assets(out_dir: Path) -> None:
 
 
 if __name__ == "__main__":
-    export_brand_assets(Path(__file__).parent.parent / "static" / "brand")
+    landing_dir = Path(__file__).parent.parent
+    export_brand_assets(landing_dir / "static" / "brand")
+    export_web_fonts(landing_dir / "static" / "fonts")
+    (landing_dir / "app" / "static_src").mkdir(parents=True, exist_ok=True)
+    (landing_dir / "app" / "static_src" / "theme.css").write_text(theme_css())
