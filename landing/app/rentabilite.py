@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal
 
 PRIX_LITRE_CARBURANT = Decimal("2")
-CONSOMMATION_LITRES_100_KM = Decimal("7")
+CONSOMMATION_LITRES_100_KM = Decimal("5")
 # Carburant seul, sans usure ni assurance : estimation volontairement prudente.
 COUT_CARBURANT_PAR_KM = PRIX_LITRE_CARBURANT * CONSOMMATION_LITRES_100_KM / 100
 VALEUR_HEURE = Decimal("25")
