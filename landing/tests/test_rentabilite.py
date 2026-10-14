@@ -9,8 +9,8 @@ from app.rentabilite import COUT_CARBURANT_PAR_KM, Hypotheses, gains
 def test_monthly_gains_from_fuel_admin_time_and_no_show():
     result = gains(Hypotheses(km_par_semaine=30, heures_admin_par_mois=2, no_show_par_mois=1, valeur_passage=Decimal("40")))
 
-    assert (result.essence, result.administratif, result.no_show) == (17, 50, 40)
-    assert result.total == 107
+    assert (result.essence, result.administratif, result.no_show) == (17, 60, 40)
+    assert result.total == 117
 
 
 def test_fuel_cost_comes_from_2_euros_per_litre_at_6_5_litres_per_100_km():
@@ -19,7 +19,7 @@ def test_fuel_cost_comes_from_2_euros_per_litre_at_6_5_litres_per_100_km():
 
 @pytest.mark.parametrize(
     "slug,total",
-    [("generique", 107), ("laveur-vitres", 157), ("infirmier", 122), ("services-domicile", 99)],
+    [("generique", 117), ("laveur-vitres", 167), ("infirmier", 137), ("services-domicile", 109)],
 )
 def test_each_persona_has_its_own_estimate(slug, total):
     assert gains(VARIANTS[slug].rentabilite).total == total
@@ -49,4 +49,5 @@ def test_hypothesis_lines_agree_in_number():
 def test_estimate_is_labelled_as_a_theoretical_calculation():
     assert commun.RENTABILITE_MENTION.startswith("Calcul théorique")
     assert "6,5 litres aux 100 km" in commun.RENTABILITE_MENTION
+    assert "votre heure de travail comptée 30 euros" in commun.RENTABILITE_MENTION
     assert commun.RENTABILITE_GAIN == "gagnés par mois (calcul théorique)"

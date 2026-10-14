@@ -5,7 +5,7 @@ PRIX_LITRE_CARBURANT = Decimal("2")
 CONSOMMATION_LITRES_100_KM = Decimal("6.5")
 # Carburant seul, sans usure ni assurance : estimation volontairement prudente.
 COUT_CARBURANT_PAR_KM = PRIX_LITRE_CARBURANT * CONSOMMATION_LITRES_100_KM / 100
-VALEUR_HEURE = Decimal("25")
+VALEUR_HEURE = Decimal("30")
 SEMAINES_PAR_MOIS = Decimal(52) / 12
 
 

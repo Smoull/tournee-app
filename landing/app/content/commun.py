@@ -18,7 +18,7 @@ RENTABILITE_ABONNEMENT = "Votre abonnement en accès anticipé"
 RENTABILITE_CHUTE = "Rentabilisé dès le premier déplacement pour rien évité."
 RENTABILITE_MENTION = (
     "Calcul théorique, à ajuster à votre activité : carburant à 2 euros le litre pour 6,5 litres aux 100 km, "
-    "votre heure de travail comptée 25 euros."
+    "votre heure de travail comptée 30 euros."
 )
 
 
