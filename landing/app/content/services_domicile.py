@@ -30,7 +30,7 @@ VARIANT = Variant(
         debut=time(13, 30),
         positions=((30, 120), (100, 50), (170, 130), (240, 60), (295, 140)),
         incident=Incident(kind="ajout", position=1, label="Demande urgente", icon="lightning"),
-        ajout_xy=(60, 40),
+        ajout_xy=(45, 60),
         sms="Bonjour, votre passage est décalé à {heure}. Bouclé.tech",
     ),
 )

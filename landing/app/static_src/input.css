@@ -37,3 +37,34 @@
   height: 1px;
   overflow: hidden;
 }
+
+.route-stop {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-right: 0.75rem;
+  vertical-align: middle;
+  border: 3px solid var(--color-principale);
+  border-radius: 9999px;
+  background: var(--color-fond);
+  transition: background-color 0.4s ease-out;
+}
+
+.route-stop.is-reached {
+  background: var(--color-principale);
+}
+
+/* Le CTA du formulaire est l'arrivée de la route : même halo qui respire que le logo. */
+@keyframes halo-arrivee {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 45%, transparent); }
+  50% { box-shadow: 0 0 0 12px color-mix(in srgb, var(--color-accent) 0%, transparent); }
+}
+
+.cta-arrivee {
+  animation: halo-arrivee 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-arrivee { animation: none; }
+  .route-stop { transition: none; }
+}

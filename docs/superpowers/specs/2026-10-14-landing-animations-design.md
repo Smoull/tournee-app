@@ -22,7 +22,7 @@ Séquence (≈ 8 s, en boucle) :
 1. 0 → 1,2 s : la route se trace, les arrêts apparaissent.
 2. 1,5 s : l'imprévu arrive (icône Phosphor + étiquette courte) sur l'arrêt concerné.
 3. 2,5 s : retrait = l'arrêt se grise puis disparaît ; ajout = un nouvel arrêt apparaît.
-   La route se redessine vers son nouveau tracé, les heures suivantes changent.
+   La route se redessine vers son nouveau tracé (l'ancienne route s'estompe pendant que la nouvelle se trace : les deux tracés n'ont pas le même nombre de points, un morphing n'est pas possible), les heures suivantes changent.
 4. 4 s : une bulle SMS glisse depuis le bas avec la nouvelle heure.
 5. 5 s : l'arrivée ambre + halo respire. Pause, puis reprise.
 
@@ -74,7 +74,7 @@ section. La route aboutit au formulaire : le CTA est l'arrivée ambre avec halo.
 
 ### Gabarits
 - `templates/_demo.html` : démo rendue **à l'état final** côté serveur + données d'animation
-  (arrêts avant/après, chemins, SMS) dans `<script type="application/json" id="demo-data">`.
+  (arrêts avant/après, chemins, SMS) dans des attributs `data-*` sur chaque arrêt (pas de bloc JSON).
 - Fil de la route : SVG décoratif étiré (`preserveAspectRatio="none"`,
   `vector-effect: non-scaling-stroke`) + un marqueur d'arrêt par section.
 
@@ -84,7 +84,7 @@ section. La route aboutit au formulaire : le CTA est l'arrivée ambre avec halo.
   `integrity` (sha512) publiée par le registre. Licence copiée à côté.
 - `static/js/demo.js` : séquence de la démo, pause hors écran (`inView`), bouton Rejouer.
 - `static/js/route-scroll.js` : fil au défilement (`scroll`), arrêts, prix, compteur.
-- Budget : ≤ 60 Ko de JS minifié au total, chargé en `defer`.
+- Budget : ≤ 60 Ko de JS transférés (gzip) au total ; Motion seul pèse 49 Ko gzip, chargé en `defer`.
 
 ### Icônes Phosphor (MIT)
 Style `regular`, SVG stockés dans `app/static_src/icons/` (+ `LICENSE`), téléchargés par
@@ -103,7 +103,7 @@ pytest :
 - rendu : la page contient la démo à l'état final, le JSON de démo est valide, `demo.js`,
   `route-scroll.js` et `motion.js` sont référencés, aucun script inline exécutable.
 
-Vérification manuelle : captures headless (Chrome/Firefox) à 0 s, 2 s, 5 s et après défilement,
+Vérification manuelle : captures en temps réel (Firefox headless + page enveloppe qui retarde la fin du chargement ; le temps virtuel de Chrome headless ne fait pas avancer les animations JS) à 0 s, 2 s, 5 s et après défilement,
 desktop et 375 px, avec et sans `prefers-reduced-motion` ; puis test humain au clic.
 
 ## Hors scope

@@ -1,5 +1,5 @@
 {% set demo = demo_view(variant.demo) %}
-<figure data-demo class="mt-10 rounded-3xl bg-principale/5 p-4 ring-1 ring-texte/10 sm:p-6">
+<figure data-demo class="mt-10 max-w-2xl rounded-3xl bg-principale/5 p-4 ring-1 ring-texte/10 sm:p-6">
   <figcaption class="flex items-center justify-between gap-3">
     <p data-incident class="inline-flex items-center gap-2 rounded-full bg-fond px-3 py-1.5 text-sm font-bold ring-1 ring-texte/15">
       {{ icon(demo.incident_icon, "size-5 text-accent") }}{{ demo.incident_label }}
@@ -20,7 +20,7 @@
       {% else %}
       <circle cx="{{ marker.x }}" cy="{{ marker.y }}" r="7" fill="var(--color-fond)" stroke="currentColor" stroke-width="3" class="text-principale"/>
       {% endif %}
-      <text data-heure x="{{ marker.x }}" y="{{ marker.y - 15 }}" text-anchor="middle" class="fill-texte text-[11px] font-bold">{{ marker.heure_apres or marker.heure_avant }}</text>
+      <text data-heure x="{{ marker.x }}" y="{{ marker.y - (21 if marker.key == demo.arrivee_key else 15) }}" text-anchor="middle" class="fill-texte text-[13px] font-bold">{{ marker.heure_apres or marker.heure_avant }}</text>
     </g>
     {% endfor %}
   </svg>
