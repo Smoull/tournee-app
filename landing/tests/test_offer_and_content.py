@@ -55,8 +55,8 @@ def test_remaining_places_never_negative(inscrits, attendu):
 
 
 def test_counter_wording():
-    assert commun.compteur(5) == "Plus que 5 places au tarif early access."
-    assert commun.compteur(1) == "Plus qu'une place au tarif early access."
+    assert commun.compteur(5) == "Plus que 5 places en accès anticipé."
+    assert commun.compteur(1) == "Plus qu'une place en accès anticipé."
     assert "0" not in commun.compteur(0)
 
 
@@ -129,3 +129,9 @@ def test_demo_copy_follows_copy_rules():
             assert not TUTOIEMENT.search(text)
     nurse = (VARIANTS["infirmier"].demo.incident.label + sms_text(VARIANTS["infirmier"].demo)).lower()
     assert not [word for word in HEALTH_WORDS if word in nurse]
+
+
+def test_copy_says_acces_anticipe_not_early_access():
+    template_texts = [path.read_text() for path in TEMPLATES.glob("*.html")]
+    for text in all_copy() + template_texts:
+        assert "early access" not in text.lower(), text

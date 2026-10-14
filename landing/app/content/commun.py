@@ -23,7 +23,7 @@ MORALE = (
     ("Du temps rendu.", "Moins de trajets et de coups de fil, plus de soirées pour vous et vos proches.", "clock-countdown"),
 )
 
-OPPORTUNITE_TITRE = "Early access : le prix des premiers, à vie"
+OPPORTUNITE_TITRE = "Accès anticipé : le prix des premiers, à vie"
 PRIX_NORMAL = f"{PRIX} € HT/mois"
 PRIX_EARLY = f"{PRIX_EARLY_ACCESS} € HT/mois à vie"
 ECONOMIE_AVANT = f"-{format_euros(PRIX_HT - PRIX_EARLY_ACCESS_HT)} € HT/mois à vie, soit "
@@ -37,10 +37,10 @@ ATTENTE = (
 
 def compteur(places: int) -> str:
     if places == 0:
-        return "Toutes les places early access sont prises : inscrivez-vous pour la liste d'attente."
+        return "Toutes les places en accès anticipé sont prises : inscrivez-vous pour la liste d'attente."
     if places == 1:
-        return "Plus qu'une place au tarif early access."
-    return f"Plus que {places} places au tarif early access."
+        return "Plus qu'une place en accès anticipé."
+    return f"Plus que {places} places en accès anticipé."
 
 
 FORMULAIRE_TITRE = "Réservez votre place"
@@ -70,7 +70,7 @@ LABELS = {
     "phone": "Votre téléphone",
 }
 ACCEPTE_APPEL = "J'accepte un appel de 15 minutes pour parler de ma tournée."
-CONSENTEMENT = "J'accepte que Bouclé.tech utilise ces informations pour me recontacter au sujet de l'early access."
+CONSENTEMENT = "J'accepte que Bouclé.tech utilise ces informations pour me recontacter au sujet de l'accès anticipé."
 
 FIELD_MESSAGES = {
     "metier": "Choisissez votre métier.",
@@ -85,9 +85,9 @@ DEJA_INSCRIT = "Vous êtes déjà sur la liste. À très vite !"
 INDISPONIBLE = "Une erreur est survenue, réessayez dans un instant. Ou écrivez-nous : {contact_email}"
 
 MERCI_TITRE = "C'est bouclé."
-MERCI_TEXTE = f"Votre place early access est réservée : {PRIX_EARLY_ACCESS} € HT/mois à vie."
+MERCI_TEXTE = f"Votre place en accès anticipé est réservée : {PRIX_EARLY_ACCESS} € HT/mois à vie."
 MERCI_ATTENTE = (
-    "Les places early access sont toutes prises : vous êtes sur la liste d'attente. "
+    "Les places en accès anticipé sont toutes prises : vous êtes sur la liste d'attente. "
     "On vous prévient dès qu'une place se libère."
 )
 MERCI_APPEL = "On vous recontacte très vite. Pour aller plus vite, réservez un appel de 15 minutes."

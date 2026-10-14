@@ -75,7 +75,7 @@ tranquillité) et le nom Bouclé (action finie, récurrente) s'appuient l'un sur
 | Fond | `#F4F7F7` blanc gris clair | fond de page (clair : lisible en extérieur sur mobile) |
 | Texte | `#11181C` ardoise | texte courant, texte des CTA |
 | Principale | `#2A7A6B` vert-bleu profond | logo, titres, marque |
-| Accent | `#C67A10` ambre cuivré | logo (arrivée), CTA, compteur de places, prix early access uniquement |
+| Accent | `#C67A10` ambre cuivré | logo (arrivée), CTA, compteur de places, prix de l'accès anticipé uniquement |
 
 Tout changement de couleur doit passer `test_palette_meets_wcag_aa` puis régénère les assets : `uv run python -m brand.export` (depuis `landing/`).
 

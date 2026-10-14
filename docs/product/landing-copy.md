@@ -2,7 +2,7 @@
 
 Méthode FUOM : **Utilité → Faisabilité → Morale → Opportunité → Formulaire**.
 Règles : vouvoiement, pas de tiret cadratin, prix HT, phrases courtes (cible peu numérique, mobile).
-`{places}` = places early access restantes (N à définir par le marketing).
+`{places}` = places en accès anticipé restantes (N à définir par le marketing).
 
 Les blocs **Faisabilité, Morale, Opportunité, Formulaire** sont communs aux 4 variantes ; seuls
 le **hero** et l'**Utilité** (3 douleurs) changent par métier.
@@ -83,10 +83,10 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
 - **Du temps rendu.** Moins de trajets et de coups de fil, plus de soirées pour vous et vos proches.
 
 ### Opportunité : "Pourquoi maintenant ?"
-- H2 : **Early access : le prix des premiers, à vie**
+- H2 : **Accès anticipé : le prix des premiers, à vie**
 - Prix barré **49 € HT/mois** → **24,50 € HT/mois à vie**
 - **-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année.**
-- Compteur : **Plus que {places} places au tarif early access.**
+- Compteur : **Plus que {places} places en accès anticipé.**
 - Coût de l'attente : Après les {places} premières places, le tarif passe à 49 € HT/mois. Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui.
 
 ### Formulaire
@@ -99,7 +99,7 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
   - Votre email
   - Votre téléphone
   - ☐ J'accepte un appel de 15 minutes pour parler de ma tournée
-  - ☐ J'accepte que Bouclé.tech utilise ces informations pour me recontacter au sujet de l'early access ([politique de confidentialité](/confidentialite))
+  - ☐ J'accepte que Bouclé.tech utilise ces informations pour me recontacter au sujet de l'accès anticipé ([politique de confidentialité](/confidentialite))
 - Bouton : **Je réserve ma place**
 - Erreurs :
   - Champ invalide : message sous le champ (ex. "Ce numéro ne semble pas complet.")
@@ -108,7 +108,7 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
 
 ### Page merci
 - H1 : **C'est bouclé.**
-- Votre place early access est réservée : 24,50 € HT/mois à vie.
+- Votre place en accès anticipé est réservée : 24,50 € HT/mois à vie.
 - On vous recontacte très vite. Pour aller plus vite, réservez un appel de 15 minutes : **[Choisir un créneau]** (Cal.com)
 
 ### Pied de page

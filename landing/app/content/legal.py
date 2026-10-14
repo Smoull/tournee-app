@@ -11,7 +11,7 @@ PAGES = {
     "/confidentialite": (
         "Politique de confidentialité",
         (
-            "Finalité : vous recontacter au sujet de l'early access de Bouclé.tech et, si vous l'acceptez, "
+            "Finalité : vous recontacter au sujet de l'accès anticipé à Bouclé.tech et, si vous l'acceptez, "
             "convenir d'un appel de 15 minutes.",
             "Données collectées : métier, taille d'équipe, principale difficulté, email, téléphone, "
             "source de la visite. Aucune donnée de santé.",

@@ -51,9 +51,9 @@ Ordre de la page : **Utilité → Faisabilité → Morale → Opportunité → F
 | Utilité | "Ça règle mon problème ?" | Hero = douleur n°1 du métier (ex. laveur : "Un client annule à 7h ? Votre tournée se recalcule, vos clients sont prévenus par SMS."), puis 3 douleurs → solution |
 | Faisabilité | "Je vais y arriver ?" (objection n°1 de la cible) | "On configure pour vous", prise en main 5 min, PDF imprimable, l'humain garde la main |
 | Morale | "Je peux leur faire confiance ?" | Données hébergées en France, pas de revente, temps rendu (famille, patients), clients respectés car prévenus |
-| Opportunité | "Pourquoi maintenant ?" | **49 € HT/mois** (prix affiché HT sur toutes les variantes ; coût SMS estimé ≈ 25 € pour 500 SMS/mois), early access **-50 % à vie : 24,50 € HT/mois pour les N premiers**, affiché "-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année", compteur de places, coût de l'attente |
+| Opportunité | "Pourquoi maintenant ?" | **49 € HT/mois** (prix affiché HT sur toutes les variantes ; coût SMS estimé ≈ 25 € pour 500 SMS/mois), accès anticipé **-50 % à vie : 24,50 € HT/mois pour les N premiers**, affiché "-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année", compteur de places, coût de l'attente |
 
-Nombre de places early access N : **à définir** (arbitrage marketing : global vs par variante).
+Nombre de places en accès anticipé N : **à définir** (arbitrage marketing : global vs par variante).
 Le compteur reste bloqué tant que N n'est pas fixé.
 
 Contenu par métier dans `landing/content/<metier>.py` (un fichier = une variante).
@@ -90,7 +90,7 @@ Contrastes vérifiés par `test_palette_meets_wcag_aa`. Tokens Tailwind, nulle p
 | Neutre fond | `#F4F7F7` (blanc gris clair) | fond de page | - |
 | Neutre texte | `#11181C` (ardoise) | texte courant, texte des CTA | 16,6:1 |
 | Principale | `#2A7A6B` (vert-bleu profond, "route") | logo, titres, éléments de marque | 4,8:1 |
-| Accent | `#C67A10` (ambre cuivré, "panneau routier") | logo (arrivée), CTA, compteur de places, prix early access uniquement | 3,2:1 (bouton vs fond, WCAG 1.4.11) ; texte `#11181C` sur ambre : 5,3:1 |
+| Accent | `#C67A10` (ambre cuivré, "panneau routier") | logo (arrivée), CTA, compteur de places, prix de l'accès anticipé uniquement | 3,2:1 (bouton vs fond, WCAG 1.4.11) ; texte `#11181C` sur ambre : 5,3:1 |
 
 Palette proposée, ajustable au choix du logo ; tout changement revérifie WCAG AA.
 Variations d'opacité autorisées, aucune 5e teinte.
@@ -134,7 +134,7 @@ Un écran, 5 champs max.
 | `consentement_rgpd` | checkbox | requis, sinon refus |
 | `website` | honeypot invisible | doit être vide, sinon 400 et rien de stocké |
 
-Après envoi : page merci (confirmation early access) + lien Cal.com pour réserver l'appel.
+Après envoi : page merci (confirmation de l'accès anticipé) + lien Cal.com pour réserver l'appel.
 
 ## Données
 Table Supabase `leads` :
