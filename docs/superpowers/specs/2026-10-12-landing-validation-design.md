@@ -70,10 +70,10 @@ Contenu par métier dans `landing/content/<metier>.py` (un fichier = une variant
 
 ## Nom et accroche
 - Nom : **Bouclé.tech** ("c'est bouclé" : la tournée est réglée). Wordmark : "Bouclé" + ".tech" à 50 %
-  de la taille, même ligne de base (donne du rythme, guide la lecture). Accroche : **"Votre tournée, sans remous."**
+  de la taille, même ligne de base (donne du rythme, guide la lecture). Accroche : **"Votre tournée, sans détour."** (route = cohérent avec le logo ; double sens : trajet direct, parler franc)
 - Source unique en code : `landing/brand/identity.py`.
 - Domaine canonique : **`boucle.tech`** (sans accent), seul domaine écrit dans les liens (SMS, emails, QR).
-  **Validé.** `bouclé.tech` (IDN), `boucler.tech` et `boucler.fr` en redirection 301 uniquement
+  **Validé.** `bouclé.tech` (IDN), `boucler.tech`, `boucler.fr` et `tournee.tech` en redirection 301 uniquement
   (protection, fautes de frappe), jamais communiqués.
   Raison : un IDN peut s'afficher en punycode (`xn--boucl-esa.tech`) dans les SMS/emails, ressemble à du
   phishing et nuit à la délivrabilité des SMS, cœur du produit. Libres au 2026-10-14.

@@ -62,7 +62,7 @@ Ne jamais écrire de code de prod sans test rouge correspondant écrit avant. Si
 
 ## Identité visuelle (validée)
 
-Nom : **Bouclé** + suffixe **.tech** affiché à 50 % de la taille du nom (rythme de lecture). Accroche : **"Votre tournée, sans remous."** Source unique : `landing/brand/identity.py`.
+Nom : **Bouclé** + suffixe **.tech** affiché à 50 % de la taille du nom (rythme de lecture). Accroche : **"Votre tournée, sans détour."** Source unique : `landing/brand/identity.py`.
 Logo site : route en S, arrêts évidés façon plan de métro, arrivée ambre + anneau plein (`landing/brand/logo.py`).
 Logo future app mobile : même tracé dans une pastille vert-bleu (non codé tant que l'app n'existe pas, YAGNI). Le S (parcours simple,
 tranquillité) et le nom Bouclé (action finie, récurrente) s'appuient l'un sur l'autre : ne pas fusionner en B.
