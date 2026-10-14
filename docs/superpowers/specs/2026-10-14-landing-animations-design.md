@@ -18,15 +18,16 @@ tout le texte reste dans le HTML (lisible sans JS, indexable).
 Sous le H1 : mini-carte stylisée (rues abstraites en `principale` à faible opacité), 5 arrêts
 évidés comme le logo, chacun avec son heure ; la route se trace.
 
-Séquence (≈ 8 s, en boucle) :
+Séquence (≈ 4 s, jouée une fois à chaque entrée de la démo à l'écran puis arrêt sur l'état final,
+pas de boucle infinie : WCAG 2.2.2) :
 1. 0 → 1,2 s : la route se trace, les arrêts apparaissent.
 2. 1,5 s : l'imprévu arrive (icône Phosphor + étiquette courte) sur l'arrêt concerné.
 3. 2,5 s : retrait = l'arrêt se grise puis disparaît ; ajout = un nouvel arrêt apparaît.
    La route se redessine vers son nouveau tracé (l'ancienne route s'estompe pendant que la nouvelle se trace : les deux tracés n'ont pas le même nombre de points, un morphing n'est pas possible), les heures suivantes changent.
 4. 4 s : une bulle SMS glisse depuis le bas avec la nouvelle heure.
-5. 5 s : l'arrivée ambre + halo respire. Pause, puis reprise.
+5. Fin : état final affiché (le halo du CTA pulse 2 fois, puis s'arrête).
 
-Pause quand la démo sort de l'écran ; bouton « Rejouer ».
+Bouton « Rejouer » pour relancer à la demande.
 
 | Variante | Type | Imprévu | Texte SMS |
 |---|---|---|---|

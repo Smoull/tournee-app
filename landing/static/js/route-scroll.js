@@ -30,7 +30,7 @@
       for (const item of items) item.style.opacity = "0";
       inView(group, () => {
         animate(items, { opacity: [0, 1], y: [24, 0] }, { delay: stagger(0.12), duration: 0.5 });
-      }, { amount: 0.3 });
+      }, { amount: "some" });
     }
   }
 
@@ -59,7 +59,7 @@
         },
       });
       animate(dots, { scale: [0, 1] }, { delay: stagger(0.05), duration: 0.3 });
-    }, { amount: 0.5 });
+    }, { amount: "some" });
   }
 
   if (Motion && !reduceMotion) {

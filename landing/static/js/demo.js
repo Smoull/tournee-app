@@ -2,7 +2,6 @@
 (() => {
   const Motion = window.Motion;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   function setupDemo(figure) {
     const { animate, inView, stagger } = Motion;
@@ -16,8 +15,6 @@
     const added = markers.filter((marker) => !marker.dataset.heureAvant);
     const initial = markers.filter((marker) => marker.dataset.heureAvant);
     let running = false;
-    let looping = false;
-    let visible = false;
 
     function setTimes(key) {
       for (const marker of markers) {
@@ -59,22 +56,11 @@
       running = false;
     }
 
-    async function loop() {
-      if (looping) return;
-      looping = true;
-      while (visible) {
-        await play();
-        await wait(4000);
-      }
-      looping = false;
-    }
-
+    // Une lecture (~4 s) à chaque entrée à l'écran, puis arrêt sur l'état final : pas de mouvement sans fin
+    // (WCAG 2.2.2). « Rejouer » relance à la demande.
     inView(figure, () => {
-      visible = true;
-      loop();
-      return () => {
-        visible = false;
-      };
+      play();
+      return () => {};
     });
     replay.addEventListener("click", play);
   }

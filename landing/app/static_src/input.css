@@ -16,7 +16,7 @@
   font-display: swap;
 }
 
-/* La route du logo se trace au chargement : seule animation de la page (cf. spec). */
+/* La route du logo se trace au chargement. */
 @keyframes trace-route {
   from { stroke-dashoffset: 180; }
 }
@@ -61,7 +61,7 @@
 }
 
 .cta-arrivee {
-  animation: halo-arrivee 2.4s ease-in-out infinite;
+  animation: halo-arrivee 2.4s ease-in-out 2;
 }
 
 @media (prefers-reduced-motion: reduce) {
