@@ -187,3 +187,9 @@ def test_tagline_sits_with_the_logo_in_the_header(client, path):
     assert "data-tagline" in header
     assert TAGLINE in header.split("data-tagline", 1)[1]
     assert text.count("data-tagline") == 1
+
+
+def test_demo_is_centered_on_wide_screens(client):
+    text = page(client, "/")
+    figure = text.split("<figure data-demo", 1)[1].split(">", 1)[0]
+    assert "sm:mx-auto" in figure
