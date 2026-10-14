@@ -193,3 +193,12 @@ def test_demo_is_centered_on_wide_screens(client):
     text = page(client, "/")
     figure = text.split("<figure data-demo", 1)[1].split(">", 1)[0]
     assert "sm:mx-auto" in figure
+
+
+def test_hero_cta_and_price_line_are_centered_on_all_screens(client):
+    text = page(client, "/")
+    block = text.split("<div data-hero-cta", 1)[1].split("</div>", 1)[0]
+    opening = block.split(">", 1)[0]
+    assert "text-center" in opening and "sm:" not in opening
+    assert commun.CTA in block
+    assert commun.offre("HT").sous_cta in block
