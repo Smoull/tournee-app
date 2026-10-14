@@ -13,11 +13,11 @@ UTILITE_TITRE = "Ce que Bouclé change dans votre journée"
 
 RENTABILITE_TITRE = "Bouclé se rembourse tout seul"
 RENTABILITE_POSTES = (("Moins d'essence", "gas-pump"), ("Moins de paperasse", "files"), ("Moins de déplacements pour rien", "door-open"))
-RENTABILITE_GAIN = "gagnés par mois, en estimation"
+RENTABILITE_GAIN = "gagnés par mois (calcul théorique)"
 RENTABILITE_ABONNEMENT = "Votre abonnement en accès anticipé"
 RENTABILITE_CHUTE = "Rentabilisé dès le premier déplacement pour rien évité."
 RENTABILITE_MENTION = (
-    "Estimation indicative, à ajuster à votre activité : carburant à 2 euros le litre pour 5 litres aux 100 km, "
+    "Calcul théorique, à ajuster à votre activité : carburant à 2 euros le litre pour 6,5 litres aux 100 km, "
     "votre heure de travail comptée 25 euros."
 )
 

@@ -77,14 +77,14 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
 
 | Métier | km évités/sem | Admin/mois | No-show évités/mois | Valeur passage | Gain/mois |
 |---|---|---|---|---|---|
-| Générique | 30 | 2 h | 1 | 40 € | ≈ 103 € |
-| Laveur | 30 | 2 h | 2 | 45 € | ≈ 153 € |
-| Infirmier | 40 | 3 h | 2 | 12 € | ≈ 116 € |
-| Domicile | 25 | 2 h | 1 | 35 € | ≈ 96 € |
+| Générique | 30 | 2 h | 1 | 40 € | ≈ 107 € |
+| Laveur | 30 | 2 h | 2 | 45 € | ≈ 157 € |
+| Infirmier | 40 | 3 h | 2 | 12 € | ≈ 122 € |
+| Domicile | 25 | 2 h | 1 | 35 € | ≈ 99 € |
 
-- Comparaison : « ≈ X € gagnés par mois, en estimation » vs prix de l'accès anticipé (HT ou TTC selon la variante).
+- Comparaison : « ≈ X € gagnés par mois (calcul théorique) » vs prix de l'accès anticipé (HT ou TTC selon la variante).
 - Chute : **Rentabilisé dès le premier déplacement pour rien évité.**
-- Mention : Estimation indicative, à ajuster à votre activité : carburant à 2 euros le litre pour 5 litres aux 100 km, votre heure de travail comptée 25 euros.
+- Mention : Calcul théorique, à ajuster à votre activité : carburant à 2 euros le litre pour 6,5 litres aux 100 km, votre heure de travail comptée 25 euros.
 - Toujours présenté comme une estimation, jamais comme une promesse (pas de clients réels pour l'étayer).
 
 ### Faisabilité : "Je vais y arriver ?"
