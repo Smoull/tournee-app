@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal
 
-# 7 L/100 km à 1,85 €/L : carburant seul, sans usure ni assurance (estimation prudente).
-COUT_CARBURANT_PAR_KM = Decimal("0.13")
+PRIX_LITRE_CARBURANT = Decimal("2")
+CONSOMMATION_LITRES_100_KM = Decimal("7")
+# Carburant seul, sans usure ni assurance : estimation volontairement prudente.
+COUT_CARBURANT_PAR_KM = PRIX_LITRE_CARBURANT * CONSOMMATION_LITRES_100_KM / 100
 VALEUR_HEURE = Decimal("25")
 SEMAINES_PAR_MOIS = Decimal(52) / 12
 

@@ -3,19 +3,23 @@ from decimal import Decimal
 import pytest
 
 from app.content import VARIANTS, commun
-from app.rentabilite import Hypotheses, gains
+from app.rentabilite import COUT_CARBURANT_PAR_KM, Hypotheses, gains
 
 
 def test_monthly_gains_from_fuel_admin_time_and_no_show():
     result = gains(Hypotheses(km_par_semaine=30, heures_admin_par_mois=2, no_show_par_mois=1, valeur_passage=Decimal("40")))
 
-    assert (result.essence, result.administratif, result.no_show) == (17, 50, 40)
-    assert result.total == 107
+    assert (result.essence, result.administratif, result.no_show) == (18, 50, 40)
+    assert result.total == 108
+
+
+def test_fuel_cost_comes_from_2_euros_per_litre_at_7_litres_per_100_km():
+    assert COUT_CARBURANT_PAR_KM == Decimal("0.14")
 
 
 @pytest.mark.parametrize(
     "slug,total",
-    [("generique", 107), ("laveur-vitres", 157), ("infirmier", 122), ("services-domicile", 99)],
+    [("generique", 108), ("laveur-vitres", 158), ("infirmier", 123), ("services-domicile", 100)],
 )
 def test_each_persona_has_its_own_estimate(slug, total):
     assert gains(VARIANTS[slug].rentabilite).total == total
