@@ -1,0 +1,30 @@
+{% set demo = demo_view(variant.demo) %}
+<figure data-demo class="mt-10 rounded-3xl bg-principale/5 p-4 ring-1 ring-texte/10 sm:p-6">
+  <figcaption class="flex items-center justify-between gap-3">
+    <p data-incident class="inline-flex items-center gap-2 rounded-full bg-fond px-3 py-1.5 text-sm font-bold ring-1 ring-texte/15">
+      {{ icon(demo.incident_icon, "size-5 text-accent") }}{{ demo.incident_label }}
+    </p>
+    <button type="button" data-demo-replay class="rounded-full p-2 text-principale ring-1 ring-texte/15" aria-label="{{ commun.REJOUER }}">
+      {{ icon("arrow-counter-clockwise", "size-5") }}
+    </button>
+  </figcaption>
+  <svg viewBox="0 0 320 200" class="mt-3 w-full" role="img" aria-label="{{ demo.incident_label }} : la tournée se recalcule et les clients sont prévenus par SMS.">
+    <path d="M0 40 H320 M0 100 H320 M0 160 H320 M60 0 V200 M140 0 V200 M220 0 V200" fill="none" stroke="currentColor" stroke-width="1" class="text-principale/15"/>
+    <path data-route-before d="{{ demo.path_avant }}" pathLength="1" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" class="text-principale" opacity="0"/>
+    <path data-route-after d="{{ demo.path_apres }}" pathLength="1" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" class="text-principale"/>
+    {% for marker in demo.markers %}
+    <g data-marker="{{ marker.key }}" data-heure-avant="{{ marker.heure_avant or '' }}" data-heure-apres="{{ marker.heure_apres or '' }}"{% if marker.heure_apres is none %} opacity="0"{% endif %}>
+      {% if marker.key == demo.arrivee_key %}
+      <circle cx="{{ marker.x }}" cy="{{ marker.y }}" r="12" fill="none" stroke="currentColor" stroke-width="2" class="text-accent"/>
+      <circle cx="{{ marker.x }}" cy="{{ marker.y }}" r="7" fill="currentColor" class="text-accent"/>
+      {% else %}
+      <circle cx="{{ marker.x }}" cy="{{ marker.y }}" r="7" fill="var(--color-fond)" stroke="currentColor" stroke-width="3" class="text-principale"/>
+      {% endif %}
+      <text data-heure x="{{ marker.x }}" y="{{ marker.y - 15 }}" text-anchor="middle" class="fill-texte text-[11px] font-bold">{{ marker.heure_apres or marker.heure_avant }}</text>
+    </g>
+    {% endfor %}
+  </svg>
+  <p data-sms class="mx-auto mt-3 flex max-w-sm items-start gap-2 rounded-2xl bg-fond p-3 text-sm ring-1 ring-texte/10">
+    {{ icon("chat-text", "size-5 shrink-0 text-principale") }}<span>{{ demo.sms }}</span>
+  </p>
+</figure>

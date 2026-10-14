@@ -7,7 +7,7 @@ from app.content import VARIANTS, commun, legal
 from app.content.models import Variant
 from app.lead_repository import DuplicateLeadError, LeadRepository, StorageUnavailableError
 from app.lead_schema import LeadIn, invalid_fields
-from app.offer import est_en_liste_attente, places_restantes
+from app.offer import PLACES_EARLY_ACCESS, est_en_liste_attente, places_restantes
 from app.settings import Settings
 
 
@@ -54,6 +54,7 @@ def build_router(settings: Settings, repository: LeadRepository, templates: Jinj
                 {
                     "variant": variant,
                     "places": places_restantes(repository.count()),
+                    "places_total": PLACES_EARLY_ACCESS,
                     "utm_source": request.query_params.get("utm_source", ""),
                     "utm_campaign": request.query_params.get("utm_campaign", ""),
                 },

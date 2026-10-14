@@ -4,6 +4,8 @@ from pathlib import Path
 import pytest
 
 from app.content import VARIANTS, commun
+from app.demo.route_geometry import demo_view
+from app.offer import PLACES_EARLY_ACCESS
 from app.lead_repository import InMemoryLeadRepository
 from app.lead_schema import LeadIn
 from brand.export import SUFFIX_RATIO
@@ -100,3 +102,65 @@ def test_waitlist_thank_you_does_not_promise_early_access_price(client):
     text = page(client, "/merci?attente=1")
     assert commun.MERCI_ATTENTE in text
     assert commun.MERCI_TEXTE not in text
+
+
+@pytest.mark.parametrize("slug", list(VARIANTS))
+def test_demo_is_rendered_in_final_state_without_js(client, slug):
+    view = demo_view(VARIANTS[slug].demo)
+    text = page(client, VARIANTS[slug].path)
+
+    assert "data-demo" in text
+    assert f'd="{view.path_apres}"' in text
+    assert view.sms in text
+    assert view.incident_label in text
+    for marker in view.markers:
+        tag = f'data-marker="{marker.key}"'
+        assert tag in text
+        hidden = 'opacity="0"' in text.split(tag, 1)[1].split(">", 1)[0]
+        assert hidden == (marker.heure_apres is None), marker.key
+
+
+def test_scripts_load_motion_first_and_deferred(client):
+    text = page(client, "/")
+    order = [text.index(f'src="/static/js/{name}" defer') for name in ("vendor/motion.js", "demo.js", "route-scroll.js", "lead-form.js")]
+    assert order == sorted(order)
+
+
+def test_route_thread_and_reached_stops_are_visible_without_js(client):
+    text = page(client, "/")
+    assert "data-route-thread" in text
+    assert text.count('data-route-stop class="route-stop is-reached"') == 4
+
+
+def test_each_pain_card_shows_its_icon(client):
+    text = page(client, "/infirmier")
+    assert text.count('<svg class="size-7 text-principale"') >= 3
+
+
+def test_yearly_saving_is_final_without_js(client):
+    assert 'data-count-to="120">120</span>' in page(client, "/")
+
+
+def test_place_dots_show_taken_places(client, repository, lead_payload):
+    repository.add(LeadIn.model_validate(lead_payload))
+    text = page(client, "/")
+    assert text.count("data-place-dot") == PLACES_EARLY_ACCESS
+    assert text.count("data-place-taken") == 1
+
+
+def test_place_dots_are_all_taken_when_full(settings):
+    from fastapi.testclient import TestClient
+
+    from app.factory import create_app
+
+    class FullRepository(InMemoryLeadRepository):
+        def count(self) -> int:
+            return 42
+
+    text = TestClient(create_app(settings, FullRepository())).get("/").text
+    assert text.count("data-place-taken") == PLACES_EARLY_ACCESS
+
+
+def test_thank_you_page_traces_the_logo(client):
+    text = page(client, "/merci")
+    assert 'class="logo mx-auto block size-28"' in text

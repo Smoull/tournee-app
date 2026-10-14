@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app.content import commun
+from app.demo.route_geometry import demo_view
 from app.icons import icon
 from app.lead_repository import InMemoryLeadRepository, LeadRepository
 from app.routes import build_router
@@ -36,6 +37,7 @@ def create_app(settings: Settings, repository: LeadRepository) -> FastAPI:
         commun=commun,
         contact_email=settings.contact_email,
         icon=icon,
+        demo_view=demo_view,
     )
     app.state.templates = templates
     app.include_router(build_router(settings, repository, templates))
