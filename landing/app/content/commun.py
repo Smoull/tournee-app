@@ -1,28 +1,31 @@
 from app.offer import PLACES_EARLY_ACCESS, PRIX_EARLY_ACCESS_HT, PRIX_HT, economie_annuelle_ht
 
 CTA = "Je réserve ma place"
+REJOUER = "Rejouer la démo"
 SOUS_CTA = f"{PRIX_EARLY_ACCESS_HT} € HT/mois à vie pour les {PLACES_EARLY_ACCESS} premiers."
 
 UTILITE_TITRE = "Ce que Bouclé change dans votre journée"
 
 FAISABILITE_TITRE = "On configure tout pour vous"
 FAISABILITE = (
-    ("Prise en main en 5 minutes.", "On importe vos clients avec vous, au téléphone si besoin."),
-    ("Votre tournée sur papier.", "Un PDF clair, imprimable chaque matin."),
-    ("Vous gardez la main.", "Bouclé propose, vous validez ou vous modifiez. Toujours."),
+    ("Prise en main en 5 minutes.", "On importe vos clients avec vous, au téléphone si besoin.", "clock-countdown"),
+    ("Votre tournée sur papier.", "Un PDF clair, imprimable chaque matin.", "printer"),
+    ("Vous gardez la main.", "Bouclé propose, vous validez ou vous modifiez. Toujours.", "hand-heart"),
 )
 
 MORALE_TITRE = "Vos données restent les vôtres"
 MORALE = (
-    ("Hébergées en France.", "Jamais revendues, jamais partagées."),
-    ("Vos clients respectés.", "Prévenus avant, jamais surpris par un retard."),
-    ("Du temps rendu.", "Moins de trajets et de coups de fil, plus de soirées pour vous et vos proches."),
+    ("Hébergées en France.", "Jamais revendues, jamais partagées.", "shield-check"),
+    ("Vos clients respectés.", "Prévenus avant, jamais surpris par un retard.", "chat-text"),
+    ("Du temps rendu.", "Moins de trajets et de coups de fil, plus de soirées pour vous et vos proches.", "clock-countdown"),
 )
 
 OPPORTUNITE_TITRE = "Early access : le prix des premiers, à vie"
 PRIX_NORMAL = f"{PRIX_HT} € HT/mois"
 PRIX_EARLY = f"{PRIX_EARLY_ACCESS_HT} € HT/mois à vie"
-ECONOMIE = f"-{PRIX_HT - PRIX_EARLY_ACCESS_HT} € HT/mois à vie, soit {economie_annuelle_ht()} € HT économisés chaque année."
+ECONOMIE_AVANT = f"-{PRIX_HT - PRIX_EARLY_ACCESS_HT} € HT/mois à vie, soit "
+ECONOMIE_MONTANT = economie_annuelle_ht()
+ECONOMIE_APRES = " € HT économisés chaque année."
 ATTENTE = (
     f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {PRIX_HT} € HT/mois. "
     "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."

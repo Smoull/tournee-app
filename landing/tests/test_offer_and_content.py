@@ -7,7 +7,9 @@ import pytest
 
 from app import offer
 from app.content import VARIANTS, commun, legal
+from app.demo.route_geometry import sms_text
 from app.lead_schema import Douleur, Metier, Taille, Variante
+from tools.vendor_assets import ICONS
 
 TEMPLATES = Path(__file__).parent.parent / "app" / "templates"
 TUTOIEMENT = re.compile(r"\b(tu|ton|ta|tes|toi|t'as)\b", re.IGNORECASE)
@@ -81,3 +83,38 @@ def test_prices_are_always_ht():
     for text in all_copy():
         for match in re.finditer(r"\d+ €", text):
             assert text[match.end() : match.end() + 3] == " HT", text
+
+
+EXPECTED_SMS = {
+    "generique": "Bonjour, votre passage est décalé à 10h15. Bouclé.tech",
+    "laveur-vitres": "Bonjour, nous pouvons passer plus tôt : 7h00. Bouclé.tech",
+    "infirmier": "Bonjour, mon passage chez vous est avancé à 9h00. Bouclé.tech",
+    "services-domicile": "Bonjour, votre passage est décalé à 15h00. Bouclé.tech",
+}
+
+
+@pytest.mark.parametrize("slug", list(EXPECTED_SMS))
+def test_each_variant_demo_sends_the_expected_sms(slug):
+    assert sms_text(VARIANTS[slug].demo) == EXPECTED_SMS[slug]
+
+
+def test_every_icon_used_in_content_is_vendored():
+    used = [pain.icone for variant in VARIANTS.values() for pain in variant.douleurs]
+    used += [item[2] for item in commun.FAISABILITE + commun.MORALE]
+    assert set(used) <= set(ICONS)
+
+
+def test_yearly_saving_is_split_for_the_counter_animation():
+    assert commun.ECONOMIE_MONTANT == offer.economie_annuelle_ht()
+    assert commun.ECONOMIE_AVANT + str(commun.ECONOMIE_MONTANT) + commun.ECONOMIE_APRES == (
+        "-10 € HT/mois à vie, soit 120 € HT économisés chaque année."
+    )
+
+
+def test_demo_copy_follows_copy_rules():
+    for variant in VARIANTS.values():
+        for text in (variant.demo.incident.label, sms_text(variant.demo)):
+            assert "—" not in text
+            assert not TUTOIEMENT.search(text)
+    nurse = (VARIANTS["infirmier"].demo.incident.label + sms_text(VARIANTS["infirmier"].demo)).lower()
+    assert not [word for word in HEALTH_WORDS if word in nurse]
