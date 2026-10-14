@@ -18,8 +18,11 @@
 <body class="bg-fond font-sans text-texte antialiased">
   <header class="mx-auto flex max-w-5xl items-center px-4 py-5">
     <a href="/" class="flex items-center gap-3" aria-label="{{ name }}{{ domain_suffix }}, accueil">
-      <span class="logo block size-10" aria-hidden="true">{{ logo_svg | safe }}</span>
-      <span class="text-2xl font-extrabold tracking-tight">{{ name }}<span class="text-[0.5em] font-bold">{{ domain_suffix }}</span></span>
+      <span class="logo block size-12 shrink-0" aria-hidden="true">{{ logo_svg | safe }}</span>
+      <span class="flex flex-col">
+        <span class="text-2xl leading-none font-extrabold tracking-tight">{{ name }}<span class="text-[0.5em] font-bold">{{ domain_suffix }}</span></span>
+        <span data-tagline class="mt-1 text-sm font-bold text-principale">{{ tagline }}</span>
+      </span>
     </a>
   </header>
   <main>{% block main %}{% endblock %}</main>

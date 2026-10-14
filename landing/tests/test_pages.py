@@ -180,9 +180,10 @@ def test_templates_use_only_manrope():
         assert "font-douleur" not in template.read_text(), template.name
 
 
-@pytest.mark.parametrize("slug", list(VARIANTS))
-def test_tagline_is_shown_above_the_hero_title(client, slug):
-    text = page(client, VARIANTS[slug].path)
-    hero_start = text.index("<h1")
-    assert 'data-tagline' in text[:hero_start]
-    assert TAGLINE in text[:hero_start].split("data-tagline", 1)[1]
+@pytest.mark.parametrize("path", [variant.path for variant in VARIANTS.values()] + ["/merci", "/confidentialite"])
+def test_tagline_sits_with_the_logo_in_the_header(client, path):
+    text = page(client, path)
+    header = text[text.index("<header") : text.index("</header>")]
+    assert "data-tagline" in header
+    assert TAGLINE in header.split("data-tagline", 1)[1]
+    assert text.count("data-tagline") == 1
