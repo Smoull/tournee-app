@@ -7,6 +7,7 @@ VARIANT = Variant(
     slug="services-domicile",
     path="/services-domicile",
     metier_prefill=None,
+    taxe="HT",
     h1="Trois clients à caser, un seul après-midi ?",
     sous_titre="Bouclé trouve le bon ordre de passage et prévient vos clients par SMS. Vous arrivez à l'heure, sans courir.",
     douleurs=(

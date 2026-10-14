@@ -55,6 +55,7 @@ def build_router(settings: Settings, repository: LeadRepository, templates: Jinj
                     "variant": variant,
                     "places": places_restantes(repository.count()),
                     "places_total": PLACES_EARLY_ACCESS,
+                    "offre": commun.offre(variant.taxe),
                     "utm_source": request.query_params.get("utm_source", ""),
                     "utm_campaign": request.query_params.get("utm_campaign", ""),
                 },

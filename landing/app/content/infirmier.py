@@ -8,6 +8,7 @@ VARIANT = Variant(
     slug="infirmier",
     path="/infirmier",
     metier_prefill="infirmier",
+    taxe="TTC",
     h1="Un passage ajouté en dernière minute, et toute la tournée glisse ?",
     sous_titre=(
         "Bouclé réorganise votre tournée en respectant vos horaires fixes, "

@@ -7,7 +7,7 @@
     <p class="mt-5 max-w-2xl text-lg sm:text-xl">{{ variant.sous_titre }}</p>
     {% include "_demo.html" %}
     <a href="#formulaire" class="mt-8 inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">{{ commun.CTA }}</a>
-    <p class="mt-3 font-bold">{{ commun.SOUS_CTA }}</p>
+    <p class="mt-3 font-bold">{{ offre.sous_cta }}</p>
   </section>
 
   <section class="bg-principale/5 py-16">
@@ -44,17 +44,18 @@
     <div data-offer class="mx-auto max-w-5xl px-4">
       <h2 class="text-3xl font-bold text-principale"><span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>{{ commun.OPPORTUNITE_TITRE }}</h2>
       <p class="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
-        <s class="relative text-xl text-texte/60 [text-decoration:none]">{{ commun.PRIX_NORMAL }}<span data-strike-line class="absolute inset-x-0 top-1/2 h-0.5 origin-left bg-texte/60" aria-hidden="true"></span></s>
-        <span data-price-early class="inline-block text-4xl font-extrabold text-accent">{{ commun.PRIX_EARLY }}</span>
+        <s class="relative text-xl text-texte/60 [text-decoration:none]">{{ offre.prix_normal }}<span data-strike-line class="absolute inset-x-0 top-1/2 h-0.5 origin-left bg-texte/60" aria-hidden="true"></span></s>
+        <span data-price-early class="inline-block text-4xl font-extrabold text-accent">{{ offre.prix_early }}</span>
       </p>
-      <p class="mt-3 text-lg font-bold">{{ commun.ECONOMIE_AVANT }}<span data-count-to="{{ commun.ECONOMIE_MONTANT }}">{{ commun.ECONOMIE_MONTANT }}</span>{{ commun.ECONOMIE_APRES }}</p>
+      <p class="mt-3 text-lg font-bold">{{ offre.economie_avant }}<span data-count-to="{{ offre.economie_nombre }}" data-count-final="{{ offre.economie_montant }}">{{ offre.economie_montant }}</span>{{ offre.economie_apres }}</p>
+      {% if offre.mention_taxe %}<p class="mt-2 text-sm">{{ offre.mention_taxe }}</p>{% endif %}
       <div class="mt-6 flex flex-wrap gap-2" aria-hidden="true">
         {% for index in range(places_total) %}
         <span data-place-dot{% if index < places_total - places %} data-place-taken{% endif %} class="size-4 rounded-full {{ 'bg-accent' if index < places_total - places else 'ring-2 ring-accent' }}"></span>
         {% endfor %}
       </div>
       <p class="mt-3 text-xl font-bold text-accent">{{ commun.compteur(places) }}</p>
-      <p class="mt-3 max-w-2xl">{{ commun.ATTENTE }}</p>
+      <p class="mt-3 max-w-2xl">{{ offre.attente }}</p>
     </div>
   </section>
 

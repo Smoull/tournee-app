@@ -1,11 +1,12 @@
-from app.offer import PLACES_EARLY_ACCESS, PRIX_EARLY_ACCESS_HT, PRIX_HT, economie_annuelle_ht, format_euros
+from dataclasses import dataclass
+from typing import Literal
 
-PRIX = format_euros(PRIX_HT)
-PRIX_EARLY_ACCESS = format_euros(PRIX_EARLY_ACCESS_HT)
+from app.offer import PLACES_EARLY_ACCESS, PRIX_EARLY_ACCESS_HT, PRIX_HT, avec_tva, economie_annuelle_ht, format_euros
+
+Taxe = Literal["HT", "TTC"]
 
 CTA = "Je réserve ma place"
 REJOUER = "Rejouer la démo"
-SOUS_CTA = f"{PRIX_EARLY_ACCESS} € HT/mois à vie pour les {PLACES_EARLY_ACCESS} premiers."
 
 UTILITE_TITRE = "Ce que Bouclé change dans votre journée"
 
@@ -24,15 +25,42 @@ MORALE = (
 )
 
 OPPORTUNITE_TITRE = "Accès anticipé : le prix des premiers, à vie"
-PRIX_NORMAL = f"{PRIX} € HT/mois"
-PRIX_EARLY = f"{PRIX_EARLY_ACCESS} € HT/mois à vie"
-ECONOMIE_AVANT = f"-{format_euros(PRIX_HT - PRIX_EARLY_ACCESS_HT)} € HT/mois à vie, soit "
-ECONOMIE_MONTANT = format_euros(economie_annuelle_ht())
-ECONOMIE_APRES = " € HT économisés chaque année."
-ATTENTE = (
-    f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {PRIX} € HT/mois. "
-    "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."
-)
+
+
+@dataclass(frozen=True)
+class Offre:
+    sous_cta: str
+    prix_normal: str
+    prix_early: str
+    economie_avant: str
+    economie_montant: str
+    economie_nombre: str
+    economie_apres: str
+    attente: str
+    mention_taxe: str | None
+
+
+def offre(taxe: Taxe) -> Offre:
+    def montant(valeur_ht):
+        return valeur_ht if taxe == "HT" else avec_tva(valeur_ht)
+
+    normal = format_euros(montant(PRIX_HT))
+    early = format_euros(montant(PRIX_EARLY_ACCESS_HT))
+    economie = montant(economie_annuelle_ht())
+    return Offre(
+        sous_cta=f"{early} € {taxe}/mois à vie pour les {PLACES_EARLY_ACCESS} premiers.",
+        prix_normal=f"{normal} € {taxe}/mois",
+        prix_early=f"{early} € {taxe}/mois à vie",
+        economie_avant=f"-{format_euros(montant(PRIX_HT - PRIX_EARLY_ACCESS_HT))} € {taxe}/mois à vie, soit ",
+        economie_montant=format_euros(economie),
+        economie_nombre=format_euros(economie).replace(",", "."),
+        economie_apres=f" € {taxe} économisés chaque année.",
+        attente=(
+            f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {normal} € {taxe}/mois. "
+            "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."
+        ),
+        mention_taxe=None if taxe == "HT" else "Prix TTC : votre activité est exonérée de TVA, vous ne la récupérez pas.",
+    )
 
 
 def compteur(places: int) -> str:
@@ -69,8 +97,8 @@ LABELS = {
     "email": "Votre email",
     "phone": "Votre téléphone",
 }
-ACCEPTE_APPEL = "J'accepte un appel de 15 minutes pour parler de ma tournée."
-CONSENTEMENT = "J'accepte que Bouclé.tech utilise ces informations pour me recontacter au sujet de l'accès anticipé."
+ACCEPTE_APPEL = "Oui, appelez-moi 15 minutes pour parler de ma tournée (facultatif)."
+CONSENTEMENT = "J'accepte que Bouclé.tech conserve ces informations pour me prévenir de l'ouverture de l'accès anticipé."
 
 FIELD_MESSAGES = {
     "metier": "Choisissez votre métier.",
@@ -85,7 +113,7 @@ DEJA_INSCRIT = "Vous êtes déjà sur la liste. À très vite !"
 INDISPONIBLE = "Une erreur est survenue, réessayez dans un instant. Ou écrivez-nous : {contact_email}"
 
 MERCI_TITRE = "C'est bouclé."
-MERCI_TEXTE = f"Votre place en accès anticipé est réservée : {PRIX_EARLY_ACCESS} € HT/mois à vie."
+MERCI_TEXTE = "Votre place en accès anticipé est réservée : -50 % à vie."
 MERCI_ATTENTE = (
     "Les places en accès anticipé sont toutes prises : vous êtes sur la liste d'attente. "
     "On vous prévient dès qu'une place se libère."

@@ -32,7 +32,13 @@ def collect_strings(value) -> list[str]:
 def all_copy() -> list[str]:
     modules = [commun, legal]
     module_values = [value for module in modules for name, value in vars(module).items() if name.isupper()]
-    return collect_strings(module_values) + collect_strings(list(VARIANTS.values())) + [commun.compteur(n) for n in (0, 1, 5)]
+    offres = [commun.offre("HT"), commun.offre("TTC")]
+    return (
+        collect_strings(module_values)
+        + collect_strings(list(VARIANTS.values()))
+        + collect_strings(offres)
+        + [commun.compteur(n) for n in (0, 1, 5)]
+    )
 
 
 def test_price_is_49_with_lifetime_half_price_early_access():
@@ -90,10 +96,27 @@ def test_nurse_variant_mentions_no_health_data():
     assert not [word for word in HEALTH_WORDS if word in texts]
 
 
-def test_prices_are_always_ht():
+def test_prices_always_state_ht_or_ttc():
     for text in all_copy():
         for match in re.finditer(r"\d+ €", text):
-            assert text[match.end() : match.end() + 3] == " HT", text
+            following = text[match.end() : match.end() + 4]
+            assert following.startswith(" HT") or following == " TTC", text
+
+
+def test_vat_inclusive_prices_add_20_percent():
+    assert offer.avec_tva(Decimal("49")) == Decimal("58.80")
+    assert offer.avec_tva(Decimal("24.50")) == Decimal("29.40")
+    assert offer.avec_tva(offer.economie_annuelle_ht()) == Decimal("352.80")
+
+
+def test_only_nurses_see_ttc_prices():
+    # Les actes infirmiers sont exonérés de TVA (art. 261-4-1° CGI) : ils ne la récupèrent pas, le TTC est leur vrai coût.
+    assert {slug: variant.taxe for slug, variant in VARIANTS.items()} == {
+        "generique": "HT",
+        "laveur-vitres": "HT",
+        "infirmier": "TTC",
+        "services-domicile": "HT",
+    }
 
 
 EXPECTED_SMS = {
@@ -115,10 +138,26 @@ def test_every_icon_used_in_content_is_vendored():
     assert set(used) <= set(ICONS)
 
 
-def test_yearly_saving_is_split_for_the_counter_animation():
-    assert commun.ECONOMIE_MONTANT == offer.format_euros(offer.economie_annuelle_ht())
-    assert commun.ECONOMIE_AVANT + commun.ECONOMIE_MONTANT + commun.ECONOMIE_APRES == (
-        "-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année."
+@pytest.mark.parametrize(
+    "taxe,prix_normal,prix_early,economie,nombre",
+    [
+        ("HT", "49 € HT/mois", "24,50 € HT/mois à vie", "-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année.", "294"),
+        ("TTC", "58,80 € TTC/mois", "29,40 € TTC/mois à vie", "-29,40 € TTC/mois à vie, soit 352,80 € TTC économisés chaque année.", "352.80"),
+    ],
+)
+def test_offer_texts_follow_the_tax_display(taxe, prix_normal, prix_early, economie, nombre):
+    texts = commun.offre(taxe)
+    assert texts.prix_normal == prix_normal
+    assert texts.prix_early == prix_early
+    assert texts.economie_avant + texts.economie_montant + texts.economie_apres == economie
+    assert texts.economie_nombre == nombre
+    assert (texts.mention_taxe is None) == (taxe == "HT")
+
+
+def test_checkboxes_say_clearly_what_each_one_allows():
+    assert commun.ACCEPTE_APPEL == "Oui, appelez-moi 15 minutes pour parler de ma tournée (facultatif)."
+    assert commun.CONSENTEMENT == (
+        "J'accepte que Bouclé.tech conserve ces informations pour me prévenir de l'ouverture de l'accès anticipé."
     )
 
 

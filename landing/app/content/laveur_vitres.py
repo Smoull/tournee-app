@@ -7,6 +7,7 @@ VARIANT = Variant(
     slug="laveur-vitres",
     path="/laveur-vitres",
     metier_prefill="laveur-vitres",
+    taxe="HT",
     h1="Un client annule à 7h ?",
     sous_titre="Votre tournée se recalcule, vos clients sont prévenus par SMS. Vous gardez votre matinée.",
     douleurs=(

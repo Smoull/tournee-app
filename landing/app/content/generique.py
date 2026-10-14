@@ -7,6 +7,7 @@ VARIANT = Variant(
     slug="generique",
     path="/",
     metier_prefill=None,
+    taxe="HT",
     h1="Un imprévu à 7h, et toute la journée déraille ?",
     sous_titre="Bouclé recalcule votre tournée et prévient vos clients par SMS. Vous, vous conduisez.",
     douleurs=(

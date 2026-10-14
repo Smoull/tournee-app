@@ -51,7 +51,7 @@ Ordre de la page : **Utilité → Faisabilité → Morale → Opportunité → F
 | Utilité | "Ça règle mon problème ?" | Hero = douleur n°1 du métier (ex. laveur : "Un client annule à 7h ? Votre tournée se recalcule, vos clients sont prévenus par SMS."), puis 3 douleurs → solution |
 | Faisabilité | "Je vais y arriver ?" (objection n°1 de la cible) | "On configure pour vous", prise en main 5 min, PDF imprimable, l'humain garde la main |
 | Morale | "Je peux leur faire confiance ?" | Données hébergées en France, pas de revente, temps rendu (famille, patients), clients respectés car prévenus |
-| Opportunité | "Pourquoi maintenant ?" | **49 € HT/mois** (prix affiché HT sur toutes les variantes ; coût SMS estimé ≈ 25 € pour 500 SMS/mois), accès anticipé **-50 % à vie : 24,50 € HT/mois pour les N premiers**, affiché "-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année", compteur de places, coût de l'attente |
+| Opportunité | "Pourquoi maintenant ?" | **49 € HT/mois** (prix affiché HT, **sauf `/infirmier` en TTC** : actes infirmiers exonérés de TVA, art. 261-4-1° CGI, ils ne la récupèrent pas → 58,80 € TTC, accès anticipé 29,40 € TTC ; coût SMS estimé ≈ 25 € pour 500 SMS/mois), accès anticipé **-50 % à vie : 24,50 € HT/mois pour les N premiers**, affiché "-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année", compteur de places, coût de l'attente |
 
 Nombre de places en accès anticipé N : **à définir** (arbitrage marketing : global vs par variante).
 Le compteur reste bloqué tant que N n'est pas fixé.

@@ -44,6 +44,8 @@
         onUpdate: (value) => {
           amount.textContent = String(Math.round(value));
         },
+      }).then(() => {
+        amount.textContent = amount.dataset.countFinal;
       });
       animate(dots, { scale: [0, 1] }, { delay: stagger(0.05), duration: 0.3 });
     }, { amount: "some" });

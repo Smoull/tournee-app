@@ -1,7 +1,7 @@
 # Textes de la landing Bouclé.tech (premier jet)
 
 Méthode FUOM : **Utilité → Faisabilité → Morale → Opportunité → Formulaire**.
-Règles : vouvoiement, pas de tiret cadratin, prix HT, phrases courtes (cible peu numérique, mobile).
+Règles : vouvoiement, pas de tiret cadratin, prix HT (TTC pour la variante infirmier, exonérée de TVA), phrases courtes (cible peu numérique, mobile).
 `{places}` = places en accès anticipé restantes (N à définir par le marketing).
 
 Les blocs **Faisabilité, Morale, Opportunité, Formulaire** sont communs aux 4 variantes ; seuls
@@ -98,8 +98,8 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
   - Ce qui vous pèse le plus : Les imprévus / La rentabilité / Le planning / La coordination / Autre chose
   - Votre email
   - Votre téléphone
-  - ☐ J'accepte un appel de 15 minutes pour parler de ma tournée
-  - ☐ J'accepte que Bouclé.tech utilise ces informations pour me recontacter au sujet de l'accès anticipé ([politique de confidentialité](/confidentialite))
+  - ☐ Oui, appelez-moi 15 minutes pour parler de ma tournée (facultatif)
+  - ☐ J'accepte que Bouclé.tech conserve ces informations pour me prévenir de l'ouverture de l'accès anticipé ([politique de confidentialité](/confidentialite))
 - Bouton : **Je réserve ma place**
 - Erreurs :
   - Champ invalide : message sous le champ (ex. "Ce numéro ne semble pas complet.")
@@ -108,7 +108,7 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
 
 ### Page merci
 - H1 : **C'est bouclé.**
-- Votre place en accès anticipé est réservée : 24,50 € HT/mois à vie.
+- Votre place en accès anticipé est réservée : -50 % à vie.
 - On vous recontacte très vite. Pour aller plus vite, réservez un appel de 15 minutes : **[Choisir un créneau]** (Cal.com)
 
 ### Pied de page

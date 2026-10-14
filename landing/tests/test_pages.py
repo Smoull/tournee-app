@@ -138,7 +138,16 @@ def test_each_pain_card_shows_its_icon(client):
 
 
 def test_yearly_saving_is_final_without_js(client):
-    assert 'data-count-to="294">294</span>' in page(client, "/")
+    assert 'data-count-to="294" data-count-final="294">294</span>' in page(client, "/")
+    assert 'data-count-to="352.80" data-count-final="352,80">352,80</span>' in page(client, "/infirmier")
+
+
+def test_nurse_page_shows_ttc_prices_only(client):
+    nurse = commun.offre("TTC")
+    text = page(client, "/infirmier")
+    assert nurse.prix_early in text and nurse.mention_taxe in text
+    assert " € HT" not in text
+    assert commun.offre("HT").prix_early in page(client, "/laveur-vitres")
 
 
 def test_place_dots_show_taken_places(client, repository, lead_payload):
