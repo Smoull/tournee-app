@@ -73,12 +73,17 @@ Contenu par métier dans `landing/content/<metier>.py` (un fichier = une variant
 | Rôle | Couleur | Usage | Contraste vs fond |
 |---|---|---|---|
 | Neutre fond | `#11181C` (ardoise sombre) | fond de page | - |
-| Neutre texte | `#E6EAE8` (blanc cassé) | texte courant | 14,8:1 |
+| Neutre texte | `#E6EAEA` (blanc cassé) | texte courant | 14,8:1 |
 | Principale | `#3E9C8A` (vert-bleu désaturé, "route") | logo, titres, éléments de marque | 5,4:1 |
 | Accent | `#F2A93B` (ambre, "panneau routier") | CTA, compteur de places, prix early access uniquement | 9,0:1 (texte `#11181C` sur ambre : 9,0:1) |
 
 Palette proposée, ajustable au choix du logo ; tout changement revérifie WCAG AA.
 Variations d'opacité autorisées, aucune 5e teinte.
+
+### Typographie
+3 familles OFL, une par rôle (guide la lecture) : **Manrope** (nom, titres de section, texte
+courant, prix, formulaire ; 400/700), **Fraunces** (phrase de douleur H1 ; 600),
+**Bricolage Grotesque** (CTA ; 700). woff2 auto-hébergés, subset latin, pas de CDN (RGPD).
 
 ### Logo et assets
 - Logo retenu : **route en S, 3 arrêts, arrivée ambre avec halo** (tournée bouclée = tranquillité).

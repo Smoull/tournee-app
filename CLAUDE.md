@@ -59,3 +59,28 @@ Ne jamais écrire de code de prod sans test rouge correspondant écrit avant. Si
 - Tests écrits avant le code, tous verts
 - Vérification manuelle dans le navigateur pour tout changement UI (skill `run`)
 - Rien d'ajouté qui n'est pas dans la spec V1 (YAGNI)
+
+## Identité visuelle (validée)
+
+4 couleurs, aucune 5e teinte (variations d'opacité autorisées). Source unique en code :
+`PALETTE` dans `landing/brand/logo.py`, reprise en tokens Tailwind.
+
+| Rôle | Couleur | Usage |
+|---|---|---|
+| Fond | `#11181C` ardoise sombre | fond de page (sombre = expertise) |
+| Texte | `#E6EAEA` blanc cassé | texte courant |
+| Principale | `#3E9C8A` vert-bleu | logo, titres, marque |
+| Accent | `#F2A93B` ambre | CTA, compteur de places, prix early access uniquement |
+
+Tout changement de couleur revérifie WCAG AA puis régénère les assets : `uv run python -m brand.export` (depuis `landing/`).
+
+### Typographie (validée)
+
+3 familles, chacune a un rôle : elles guident la lecture et structurent la page. Aucune autre police.
+Toutes sous licence SIL OFL 1.1, auto-hébergées en woff2 (subset latin), jamais via CDN (RGPD).
+
+| Police | Rôle | Graisses |
+|---|---|---|
+| Manrope | nom à côté du logo, titres de section (H2/H3), texte courant, prix, formulaire | 400, 700 |
+| Fraunces | phrase de douleur (H1 hero, accroches douleur) uniquement | 600 |
+| Bricolage Grotesque | CTA uniquement | 700 |

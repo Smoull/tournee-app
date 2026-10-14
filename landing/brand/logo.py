@@ -1,6 +1,6 @@
 PALETTE = {
     "fond": "#11181C",
-    "texte": "#E6EAE8",
+    "texte": "#E6EAEA",
     "principale": "#3E9C8A",
     "accent": "#F2A93B",
 }

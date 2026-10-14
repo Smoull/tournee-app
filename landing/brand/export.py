@@ -28,18 +28,21 @@ def _render(svg: str, width: int, height: int) -> Image.Image:
     return Image.open(io.BytesIO(png)).convert("RGBA")
 
 
-def _gif_frames() -> list[Image.Image]:
-    drawing = [logo_svg(progress=(i + 1) / GIF_DRAW_FRAMES) for i in range(GIF_DRAW_FRAMES)]
+def _breathing_svgs() -> list[str]:
     # Halo qui "respire" lentement à l'arrivée : l'image de tranquillité une fois la tournée bouclée.
-    breathing = [
+    return [
         logo_svg(halo_opacity=0.2 + 0.5 * (1 - math.cos(2 * math.pi * i / GIF_BREATH_FRAMES)) / 2)
         for i in range(GIF_BREATH_FRAMES)
     ]
+
+
+def _save_gif(svgs: list[str], path: Path) -> None:
     logo_size = int(GIF_SIZE * 0.8)
-    return [
+    first, *rest = [
         _render(_on_background(svg, GIF_SIZE, GIF_SIZE, logo_size), GIF_SIZE, GIF_SIZE).convert("RGB")
-        for svg in drawing + breathing
+        for svg in svgs
     ]
+    first.save(path, save_all=True, append_images=rest, duration=GIF_FRAME_MS, loop=0, optimize=True)
 
 
 def export_brand_assets(out_dir: Path) -> None:
@@ -57,10 +60,9 @@ def export_brand_assets(out_dir: Path) -> None:
 
     _render(_on_background(logo, 1200, 630, 360), 1200, 630).save(out_dir / "og-image.png")
 
-    first, *rest = _gif_frames()
-    first.save(
-        out_dir / "logo.gif", save_all=True, append_images=rest, duration=GIF_FRAME_MS, loop=0, optimize=True
-    )
+    drawing = [logo_svg(progress=(i + 1) / GIF_DRAW_FRAMES) for i in range(GIF_DRAW_FRAMES)]
+    _save_gif(drawing + _breathing_svgs(), out_dir / "logo.gif")
+    _save_gif(_breathing_svgs(), out_dir / "logo-halo.gif")
 
 
 if __name__ == "__main__":

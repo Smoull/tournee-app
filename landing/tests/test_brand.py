@@ -41,7 +41,8 @@ def test_export_produces_all_assets_at_expected_sizes(tmp_path):
     ico = Image.open(tmp_path / "favicon.ico")
     assert {(16, 16), (32, 32), (48, 48)} <= set(ico.info["sizes"])
 
-    gif = Image.open(tmp_path / "logo.gif")
-    assert gif.size == (250, 250)
-    assert gif.n_frames > 1
-    assert gif.info["loop"] == 0
+    for name in ("logo.gif", "logo-halo.gif"):
+        gif = Image.open(tmp_path / name)
+        assert gif.size == (250, 250), name
+        assert gif.n_frames > 1, name
+        assert gif.info["loop"] == 0, name
