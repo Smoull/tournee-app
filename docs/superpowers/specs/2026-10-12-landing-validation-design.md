@@ -44,7 +44,9 @@ Infirmier : la landing ne collecte aucune donnée de santé. Si ce métier gagne
 devra traiter la question HDS (hébergement données de santé) avant tout dev.
 
 ## Persuasion — FUOM
-Ordre de la page : **Utilité → Faisabilité → Morale → Opportunité → Formulaire**.
+Ordre de la page : **Utilité → Rentabilité → Faisabilité → Morale → Opportunité → Formulaire**.
+Rentabilité : gain mensuel estimé par métier (essence, temps administratif, no-show) face au prix,
+logique dans `app/rentabilite.py`, hypothèses dans `content/<metier>.py`, toujours présenté comme estimation.
 
 | Pilier | Objection traitée | Contenu |
 |---|---|---|

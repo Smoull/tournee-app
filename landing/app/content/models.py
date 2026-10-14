@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 from app.demo.scenario import DemoScenario
+from app.rentabilite import Hypotheses
 
 
 @dataclass(frozen=True)
@@ -21,3 +22,4 @@ class Variant:
     sous_titre: str
     douleurs: tuple[Pain, Pain, Pain]
     demo: DemoScenario
+    rentabilite: Hypotheses

@@ -32,6 +32,9 @@ ICONS = (
     "map-pin",
     "arrow-counter-clockwise",
     "cloud-rain",
+    "gas-pump",
+    "files",
+    "door-open",
 )
 
 

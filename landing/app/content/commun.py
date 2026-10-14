@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Literal
 
+from app.rentabilite import Hypotheses
 from app.offer import PLACES_EARLY_ACCESS, PRIX_HT, PRIX_TTC, economie_annuelle, format_euros, prix_acces_anticipe
 
 Taxe = Literal["HT", "TTC"]
@@ -9,6 +10,27 @@ CTA = "Je réserve ma place"
 REJOUER = "Rejouer la démo"
 
 UTILITE_TITRE = "Ce que Bouclé change dans votre journée"
+
+RENTABILITE_TITRE = "Bouclé se rembourse tout seul"
+RENTABILITE_POSTES = (("Moins d'essence", "gas-pump"), ("Moins de paperasse", "files"), ("Moins de déplacements pour rien", "door-open"))
+RENTABILITE_GAIN = "gagnés par mois, en estimation"
+RENTABILITE_ABONNEMENT = "Votre abonnement en accès anticipé"
+RENTABILITE_CHUTE = "Rentabilisé dès le premier déplacement pour rien évité."
+RENTABILITE_MENTION = (
+    "Estimation indicative, à ajuster à votre activité : 13 centimes de carburant par km, "
+    "votre heure de travail comptée 25 euros."
+)
+
+
+def lignes_rentabilite(hypotheses: Hypotheses) -> tuple[str, str, str]:
+    no_show = hypotheses.no_show_par_mois
+    deplacements = "1 déplacement pour rien évité" if no_show == 1 else f"{no_show} déplacements pour rien évités"
+    return (
+        f"{hypotheses.km_par_semaine} km évités par semaine grâce au bon ordre de passage",
+        f"{hypotheses.heures_admin_par_mois} h de coups de fil et de planning en moins par mois",
+        f"{deplacements} par mois, grâce au SMS de confirmation la veille",
+    )
+
 
 FAISABILITE_TITRE = "On configure tout pour vous"
 FAISABILITE = (

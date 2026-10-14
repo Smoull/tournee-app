@@ -1,7 +1,9 @@
 from datetime import time
+from decimal import Decimal
 
 from app.content.models import Pain, Variant
 from app.demo.scenario import DemoScenario, Incident
+from app.rentabilite import Hypotheses
 
 VARIANT = Variant(
     slug="laveur-vitres",
@@ -33,4 +35,5 @@ VARIANT = Variant(
         incident=Incident(kind="retrait", position=0, label="Annulation à 7h", icon="x-circle"),
         sms="Bonjour, nous pouvons passer plus tôt : {heure}. Bouclé.tech",
     ),
+    rentabilite=Hypotheses(km_par_semaine=30, heures_admin_par_mois=2, no_show_par_mois=2, valeur_passage=Decimal("45")),
 )

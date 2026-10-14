@@ -1,7 +1,9 @@
 from datetime import time
+from decimal import Decimal
 
 from app.content.models import Pain, Variant
 from app.demo.scenario import DemoScenario, Incident
+from app.rentabilite import Hypotheses
 
 # Aucune donnée ni mention de santé : on parle de tournée, d'horaires et de trajets (cf. spec, HDS).
 VARIANT = Variant(
@@ -37,4 +39,5 @@ VARIANT = Variant(
         incident=Incident(kind="retrait", position=2, label="Patient absent", icon="user-minus"),
         sms="Bonjour, mon passage chez vous est avancé à {heure}. Bouclé.tech",
     ),
+    rentabilite=Hypotheses(km_par_semaine=40, heures_admin_par_mois=3, no_show_par_mois=2, valeur_passage=Decimal("12")),
 )

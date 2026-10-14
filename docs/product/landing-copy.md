@@ -70,6 +70,23 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
 
 ## Blocs communs
 
+### Rentabilité : "Ça me coûte, ça me rapporte quoi ?" (après les douleurs)
+- H2 : **Bouclé se rembourse tout seul**
+- 3 postes : Moins d'essence / Moins de paperasse / Moins de déplacements pour rien, montant ≈ par mois.
+- Hypothèses par métier (`rentabilite=Hypotheses(...)` dans `content/<metier>.py`) :
+
+| Métier | km évités/sem | Admin/mois | No-show évités/mois | Valeur passage | Gain/mois |
+|---|---|---|---|---|---|
+| Générique | 30 | 2 h | 1 | 40 € | ≈ 107 € |
+| Laveur | 30 | 2 h | 2 | 45 € | ≈ 157 € |
+| Infirmier | 40 | 3 h | 2 | 12 € | ≈ 122 € |
+| Domicile | 25 | 2 h | 1 | 35 € | ≈ 99 € |
+
+- Comparaison : « ≈ X € gagnés par mois, en estimation » vs prix de l'accès anticipé (HT ou TTC selon la variante).
+- Chute : **Rentabilisé dès le premier déplacement pour rien évité.**
+- Mention : Estimation indicative, à ajuster à votre activité : 13 centimes de carburant par km, votre heure de travail comptée 25 euros.
+- Toujours présenté comme une estimation, jamais comme une promesse (pas de clients réels pour l'étayer).
+
 ### Faisabilité : "Je vais y arriver ?"
 - H2 (Manrope) : **On configure tout pour vous**
 - **Prise en main en 5 minutes.** On importe vos clients avec vous, au téléphone si besoin.

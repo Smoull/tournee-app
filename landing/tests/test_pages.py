@@ -129,7 +129,7 @@ def test_scripts_load_motion_first_and_deferred(client):
 def test_reached_stops_are_visible_without_js_and_no_side_thread(client):
     text = page(client, "/")
     assert "data-route-thread" not in text
-    assert text.count('data-route-stop class="route-stop is-reached"') == 4
+    assert text.count('data-route-stop class="route-stop is-reached"') == 5
 
 
 def test_each_pain_card_shows_its_icon(client):
@@ -202,3 +202,17 @@ def test_hero_cta_and_price_line_are_centered_on_all_screens(client):
     assert "text-center" in opening and "sm:" not in opening
     assert commun.CTA in block
     assert commun.offre("HT").sous_cta in block
+
+
+@pytest.mark.parametrize("slug", list(VARIANTS))
+def test_profitability_section_shows_persona_estimate_against_price(client, slug):
+    from app.rentabilite import gains
+
+    variant = VARIANTS[slug]
+    text = page(client, variant.path)
+    section = text.split("data-rentabilite", 1)[1].split("</section>", 1)[0]
+    estimate = gains(variant.rentabilite)
+    assert f"{estimate.total} €" in section
+    assert commun.offre(variant.taxe).prix_early in section
+    assert commun.RENTABILITE_MENTION in section
+    assert text.index("data-rentabilite") < text.index(commun.FAISABILITE_TITRE)
