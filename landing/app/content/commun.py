@@ -1,8 +1,11 @@
-from app.offer import PLACES_EARLY_ACCESS, PRIX_EARLY_ACCESS_HT, PRIX_HT, economie_annuelle_ht
+from app.offer import PLACES_EARLY_ACCESS, PRIX_EARLY_ACCESS_HT, PRIX_HT, economie_annuelle_ht, format_euros
+
+PRIX = format_euros(PRIX_HT)
+PRIX_EARLY_ACCESS = format_euros(PRIX_EARLY_ACCESS_HT)
 
 CTA = "Je réserve ma place"
 REJOUER = "Rejouer la démo"
-SOUS_CTA = f"{PRIX_EARLY_ACCESS_HT} € HT/mois à vie pour les {PLACES_EARLY_ACCESS} premiers."
+SOUS_CTA = f"{PRIX_EARLY_ACCESS} € HT/mois à vie pour les {PLACES_EARLY_ACCESS} premiers."
 
 UTILITE_TITRE = "Ce que Bouclé change dans votre journée"
 
@@ -21,13 +24,13 @@ MORALE = (
 )
 
 OPPORTUNITE_TITRE = "Early access : le prix des premiers, à vie"
-PRIX_NORMAL = f"{PRIX_HT} € HT/mois"
-PRIX_EARLY = f"{PRIX_EARLY_ACCESS_HT} € HT/mois à vie"
-ECONOMIE_AVANT = f"-{PRIX_HT - PRIX_EARLY_ACCESS_HT} € HT/mois à vie, soit "
-ECONOMIE_MONTANT = economie_annuelle_ht()
+PRIX_NORMAL = f"{PRIX} € HT/mois"
+PRIX_EARLY = f"{PRIX_EARLY_ACCESS} € HT/mois à vie"
+ECONOMIE_AVANT = f"-{format_euros(PRIX_HT - PRIX_EARLY_ACCESS_HT)} € HT/mois à vie, soit "
+ECONOMIE_MONTANT = format_euros(economie_annuelle_ht())
 ECONOMIE_APRES = " € HT économisés chaque année."
 ATTENTE = (
-    f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {PRIX_HT} € HT/mois. "
+    f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {PRIX} € HT/mois. "
     "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."
 )
 
@@ -82,7 +85,7 @@ DEJA_INSCRIT = "Vous êtes déjà sur la liste. À très vite !"
 INDISPONIBLE = "Une erreur est survenue, réessayez dans un instant. Ou écrivez-nous : {contact_email}"
 
 MERCI_TITRE = "C'est bouclé."
-MERCI_TEXTE = f"Votre place early access est réservée : {PRIX_EARLY_ACCESS_HT} € HT/mois à vie."
+MERCI_TEXTE = f"Votre place early access est réservée : {PRIX_EARLY_ACCESS} € HT/mois à vie."
 MERCI_ATTENTE = (
     "Les places early access sont toutes prises : vous êtes sur la liste d'attente. "
     "On vous prévient dès qu'une place se libère."

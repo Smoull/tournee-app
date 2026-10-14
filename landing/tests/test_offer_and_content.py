@@ -1,5 +1,6 @@
 import re
 from dataclasses import fields, is_dataclass
+from decimal import Decimal
 from pathlib import Path
 from typing import get_args
 
@@ -34,8 +35,18 @@ def all_copy() -> list[str]:
     return collect_strings(module_values) + collect_strings(list(VARIANTS.values())) + [commun.compteur(n) for n in (0, 1, 5)]
 
 
-def test_yearly_saving_is_120():
-    assert offer.economie_annuelle_ht() == 120
+def test_price_is_49_with_lifetime_half_price_early_access():
+    assert offer.PRIX_HT == Decimal("49")
+    assert offer.PRIX_EARLY_ACCESS_HT == Decimal("24.50")
+
+
+def test_yearly_saving_is_294():
+    assert offer.economie_annuelle_ht() == Decimal("294")
+
+
+@pytest.mark.parametrize("montant,attendu", [(Decimal("49"), "49"), (Decimal("24.50"), "24,50"), (Decimal("294"), "294")])
+def test_euros_are_written_the_french_way(montant, attendu):
+    assert offer.format_euros(montant) == attendu
 
 
 @pytest.mark.parametrize("inscrits,attendu", [(0, 10), (3, 7), (10, 0), (25, 0)])
@@ -105,9 +116,9 @@ def test_every_icon_used_in_content_is_vendored():
 
 
 def test_yearly_saving_is_split_for_the_counter_animation():
-    assert commun.ECONOMIE_MONTANT == offer.economie_annuelle_ht()
-    assert commun.ECONOMIE_AVANT + str(commun.ECONOMIE_MONTANT) + commun.ECONOMIE_APRES == (
-        "-10 € HT/mois à vie, soit 120 € HT économisés chaque année."
+    assert commun.ECONOMIE_MONTANT == offer.format_euros(offer.economie_annuelle_ht())
+    assert commun.ECONOMIE_AVANT + commun.ECONOMIE_MONTANT + commun.ECONOMIE_APRES == (
+        "-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année."
     )
 
 

@@ -81,13 +81,12 @@ Tout changement de couleur doit passer `test_palette_meets_wcag_aa` puis régén
 
 ### Typographie (validée)
 
-2 familles, chacune a un rôle : elles guident la lecture et structurent la page. Aucune autre police.
+Une seule famille, **Manrope** : la hiérarchie se fait par la taille et la graisse. Aucune autre police.
 Toutes sous licence SIL OFL 1.1, auto-hébergées en woff2 (subset latin), jamais via CDN (RGPD).
 
 | Police | Rôle | Graisses |
 |---|---|---|
-| Manrope | nom à côté du logo, titres de section (H2/H3), texte courant, prix, formulaire, CTA | 400, 700, 800 (CTA) |
-| Fraunces | phrase de douleur (H1 hero, accroches douleur) uniquement | 600 |
+| Manrope | tout : H1, titres, texte courant, prix, formulaire, CTA | 400, 600, 700, 800 (H1, CTA) |
 
 ## Commandes landing (depuis `landing/`)
 

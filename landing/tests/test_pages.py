@@ -126,9 +126,9 @@ def test_scripts_load_motion_first_and_deferred(client):
     assert order == sorted(order)
 
 
-def test_route_thread_and_reached_stops_are_visible_without_js(client):
+def test_reached_stops_are_visible_without_js_and_no_side_thread(client):
     text = page(client, "/")
-    assert "data-route-thread" in text
+    assert "data-route-thread" not in text
     assert text.count('data-route-stop class="route-stop is-reached"') == 4
 
 
@@ -138,7 +138,7 @@ def test_each_pain_card_shows_its_icon(client):
 
 
 def test_yearly_saving_is_final_without_js(client):
-    assert 'data-count-to="120">120</span>' in page(client, "/")
+    assert 'data-count-to="294">294</span>' in page(client, "/")
 
 
 def test_place_dots_show_taken_places(client, repository, lead_payload):
@@ -164,3 +164,8 @@ def test_place_dots_are_all_taken_when_full(settings):
 def test_thank_you_page_traces_the_logo(client):
     text = page(client, "/merci")
     assert 'class="logo mx-auto block size-28"' in text
+
+
+def test_templates_use_only_manrope():
+    for template in TEMPLATES.glob("*.html"):
+        assert "font-douleur" not in template.read_text(), template.name

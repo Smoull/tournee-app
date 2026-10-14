@@ -27,7 +27,7 @@ Contact qualifié = métier + taille + douleur n°1 déclarée + accepte un appe
 ### Règle de décision
 - **Métier gagnant** : meilleur taux de qualifiés, avec ≥ 30 leads sur la variante
   (en dessous, écart non significatif).
-- **Go dev** : un métier ≥ 30 qualifiés ET ≥ 3 "je paierais 29 € HT/mois" en appel →
+- **Go dev** : un métier ≥ 30 qualifiés ET ≥ 3 "je paierais 49 € HT/mois" en appel →
   nouvelle spec V1 ciblée sur ce métier, remplace la spec V1 actuelle.
 - **Pivot** : < 30 qualifiés au total après 6 semaines → revoir douleur ou cible, pas le design.
 - Repère conversion visite → lead : 1-3 % faible, > 5 % bon.
@@ -51,7 +51,7 @@ Ordre de la page : **Utilité → Faisabilité → Morale → Opportunité → F
 | Utilité | "Ça règle mon problème ?" | Hero = douleur n°1 du métier (ex. laveur : "Un client annule à 7h ? Votre tournée se recalcule, vos clients sont prévenus par SMS."), puis 3 douleurs → solution |
 | Faisabilité | "Je vais y arriver ?" (objection n°1 de la cible) | "On configure pour vous", prise en main 5 min, PDF imprimable, l'humain garde la main |
 | Morale | "Je peux leur faire confiance ?" | Données hébergées en France, pas de revente, temps rendu (famille, patients), clients respectés car prévenus |
-| Opportunité | "Pourquoi maintenant ?" | **29 € HT/mois** (prix affiché HT sur toutes les variantes), early access **19 € HT/mois à vie pour les N premiers**, affiché "-10 €/mois à vie, soit 120 € HT économisés chaque année", compteur de places, coût de l'attente |
+| Opportunité | "Pourquoi maintenant ?" | **49 € HT/mois** (prix affiché HT sur toutes les variantes ; coût SMS estimé ≈ 25 € pour 500 SMS/mois), early access **-50 % à vie : 24,50 € HT/mois pour les N premiers**, affiché "-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année", compteur de places, coût de l'attente |
 
 Nombre de places early access N : **à définir** (arbitrage marketing : global vs par variante).
 Le compteur reste bloqué tant que N n'est pas fixé.
@@ -96,8 +96,8 @@ Palette proposée, ajustable au choix du logo ; tout changement revérifie WCAG 
 Variations d'opacité autorisées, aucune 5e teinte.
 
 ### Typographie
-2 familles OFL, une par rôle (guide la lecture) : **Manrope** (nom, titres de section, texte
-courant, prix, formulaire, CTA ; 400/700/800), **Fraunces** (phrase de douleur H1 ; 600).
+Une seule famille OFL : **Manrope** (400/600/700/800) pour tout, H1 compris ; la hiérarchie se fait
+par la taille et la graisse.
 woff2 auto-hébergés, subset latin, pas de CDN (RGPD).
 
 ### Logo et assets
@@ -116,7 +116,7 @@ woff2 auto-hébergés, subset latin, pas de CDN (RGPD).
 | `favicon.svg` | vectoriel |
 | `apple-touch-icon.png` | 180×180 |
 | `icon-192.png`, `icon-512.png` | 192, 512 |
-| `og-image.png` (partage réseaux sociaux : logo + nom Manrope + accroche Fraunces) | 1200×630 |
+| `og-image.png` (partage réseaux sociaux : logo + nom et accroche en Manrope) | 1200×630 |
 | `logo.gif` (route qui se trace puis halo qui respire, en boucle) | 250×250 |
 | `logo-halo.gif` (halo seul qui respire, en boucle) | 250×250 |
 

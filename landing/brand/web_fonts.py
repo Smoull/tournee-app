@@ -12,7 +12,6 @@ LATIN_UNICODES = (
 # None = axe figé à sa valeur par défaut.
 WEB_FONTS = {
     "manrope.woff2": ("Manrope.ttf", {"wght": (400, 800)}),
-    "fraunces.woff2": ("Fraunces.ttf", {"wght": 600, "opsz": None, "SOFT": None, "WONK": None}),
 }
 
 

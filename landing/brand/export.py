@@ -57,7 +57,7 @@ def _og_image() -> Image.Image:
     draw.text((470, baseline), NAME, font=name_font, fill=PALETTE["texte"], anchor="ls")
     suffix_x = 470 + draw.textlength(NAME, font=name_font) + 4
     draw.text((suffix_x, baseline), DOMAIN_SUFFIX, font=_font("Manrope.ttf", suffix_size, 700), fill=PALETTE["texte"], anchor="ls")
-    draw.text((474, baseline + 75), TAGLINE, font=_font("Fraunces.ttf", 46, 600), fill=PALETTE["texte"], anchor="ls")
+    draw.text((474, baseline + 75), TAGLINE, font=_font("Manrope.ttf", 46, 600), fill=PALETTE["texte"], anchor="ls")
     return image
 
 

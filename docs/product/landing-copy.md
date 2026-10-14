@@ -12,10 +12,10 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
 ## Variante `/` : générique "pros en tournée"
 
 **Hero**
-- H1 (Fraunces) : **Un imprévu à 7h, et toute la journée déraille ?**
+- H1 : **Un imprévu à 7h, et toute la journée déraille ?**
 - Sous-titre : Bouclé recalcule votre tournée et prévient vos clients par SMS. Vous, vous conduisez.
 - CTA : **Je réserve ma place**
-- Sous le CTA : 19 € HT/mois à vie pour les {places} premiers.
+- Sous le CTA : 24,50 € HT/mois à vie pour les {places} premiers.
 
 **Utilité : 3 douleurs → solution**
 1. **Un client annule, un autre ajoute un passage.** → Votre tournée se réorganise en un geste. Les clients concernés reçoivent leur nouvel horaire par SMS.
@@ -84,10 +84,10 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
 
 ### Opportunité : "Pourquoi maintenant ?"
 - H2 : **Early access : le prix des premiers, à vie**
-- Prix barré **29 € HT/mois** → **19 € HT/mois à vie**
-- **-10 €/mois à vie, soit 120 € HT économisés chaque année.**
+- Prix barré **49 € HT/mois** → **24,50 € HT/mois à vie**
+- **-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année.**
 - Compteur : **Plus que {places} places au tarif early access.**
-- Coût de l'attente : Après les {places} premières places, le tarif passe à 29 € HT/mois. Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui.
+- Coût de l'attente : Après les {places} premières places, le tarif passe à 49 € HT/mois. Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui.
 
 ### Formulaire
 - H2 : **Réservez votre place**
@@ -107,8 +107,8 @@ le **hero** et l'**Utilité** (3 douleurs) changent par métier.
   - Indisponible (503) : **Une erreur est survenue, réessayez dans un instant.** Ou écrivez-nous : {contact_email}
 
 ### Page merci
-- H1 (Fraunces) : **C'est bouclé.**
-- Votre place early access est réservée : 19 € HT/mois à vie.
+- H1 : **C'est bouclé.**
+- Votre place early access est réservée : 24,50 € HT/mois à vie.
 - On vous recontacte très vite. Pour aller plus vite, réservez un appel de 15 minutes : **[Choisir un créneau]** (Cal.com)
 
 ### Pied de page

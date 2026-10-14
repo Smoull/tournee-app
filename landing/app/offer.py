@@ -1,10 +1,18 @@
-PRIX_HT = 29
-PRIX_EARLY_ACCESS_HT = 19
+from decimal import Decimal
+
+PRIX_HT = Decimal("49")
+PRIX_EARLY_ACCESS_HT = PRIX_HT / 2
 # Valeur mock : N sera fixé par l'arbitrage marketing (cf. spec, section Opportunité).
 PLACES_EARLY_ACCESS = 10
 
 
-def economie_annuelle_ht() -> int:
+def format_euros(montant: Decimal) -> str:
+    if montant == montant.to_integral_value():
+        return str(int(montant))
+    return f"{montant:.2f}".replace(".", ",")
+
+
+def economie_annuelle_ht() -> Decimal:
     return (PRIX_HT - PRIX_EARLY_ACCESS_HT) * 12
 
 

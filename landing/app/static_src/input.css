@@ -9,13 +9,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: "Fraunces";
-  src: url("/static/fonts/fraunces.woff2") format("woff2");
-  font-weight: 600;
-  font-display: swap;
-}
-
 /* La route du logo se trace au chargement. */
 @keyframes trace-route {
   from { stroke-dashoffset: 180; }

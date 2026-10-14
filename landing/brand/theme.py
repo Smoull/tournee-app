@@ -9,6 +9,5 @@ def theme_css() -> str:
         "  --color-*: initial;\n"
         f"{colors}\n"
         '  --font-sans: "Manrope", system-ui, sans-serif;\n'
-        '  --font-douleur: "Fraunces", Georgia, serif;\n'
         "}\n"
     )

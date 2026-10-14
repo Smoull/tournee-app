@@ -1,7 +1,7 @@
 # Landing Bouclé.tech : animations et démo vivante (design)
 
 Complète `2026-10-12-landing-validation-design.md` (phase 1 livrée). Textes, DA (4 couleurs,
-Manrope + Fraunces, logo), formulaire et API inchangés.
+Manrope seule, logo), formulaire et API inchangés.
 
 ## Objectif
 La v1 est propre mais banale. Rendre la page vendeuse et mémorable : en moins de 5 secondes,
@@ -41,14 +41,14 @@ toutes les 45 min. Retrait : les arrêts suivants avancent de 45 min. Ajout : le
 de 45 min. `{heure}` = nouvelle heure du **premier arrêt existant dont l'heure change**, au format
 `10h30` (sans zéro initial : `7h00`). Aucun nom de client, aucune donnée de santé.
 
-### 2. Fil de la route
-Une ligne `principale` qui serpente dans la marge se dessine au défilement. Chaque section
-(Douleurs, On configure, Vos données, Prix) a un arrêt évidé qui se remplit à l'entrée de la
-section. La route aboutit au formulaire : le CTA est l'arrivée ambre avec halo.
+### 2. Arrêts de section
+Chaque section (Douleurs, On configure, Vos données, Prix) a un arrêt évidé qui se remplit à
+l'entrée de la section. Le CTA du formulaire est l'arrivée ambre avec halo. La ligne qui
+serpentait dans la marge a été retirée (jugée parasite, 2026-10-14).
 
 ### 3. Petits moments
 - Cartes de douleur : entrée décalée, une icône Phosphor par carte.
-- Prix : 29 € se raye, 19 € apparaît, « 120 € HT économisés » défile de 0 à 120.
+- Prix : 49 € se raye, 24,50 € apparaît, « 294 € HT économisés » défile de 0 à 294.
 - Compteur : 10 pastilles, les places prises pleines.
 - Page merci : la route se boucle, puis « C'est bouclé. ».
 

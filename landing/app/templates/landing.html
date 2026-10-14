@@ -2,14 +2,8 @@
 {% block description %}{{ variant.sous_titre }}{% endblock %}
 {% block main %}
 <div class="relative">
-  <div data-route-thread class="pointer-events-none absolute inset-y-0 left-1 w-3 sm:left-4" aria-hidden="true">
-    <svg class="h-full w-full" viewBox="0 0 12 1000" preserveAspectRatio="none">
-      <path d="M6 0 C12 125 0 250 6 375 C12 500 0 625 6 750 C12 875 0 950 6 1000" pathLength="1" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke" class="text-principale/40"/>
-    </svg>
-  </div>
-
   <section class="mx-auto max-w-5xl px-4 pt-6 pb-16">
-    <h1 class="font-douleur text-4xl leading-tight font-semibold sm:text-6xl">{{ variant.h1 }}</h1>
+    <h1 class="text-4xl leading-tight font-extrabold tracking-tight sm:text-6xl">{{ variant.h1 }}</h1>
     <p class="mt-5 max-w-2xl text-lg sm:text-xl">{{ variant.sous_titre }}</p>
     {% include "_demo.html" %}
     <a href="#formulaire" class="mt-8 inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">{{ commun.CTA }}</a>

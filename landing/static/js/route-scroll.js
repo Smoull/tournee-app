@@ -3,19 +3,6 @@
   const Motion = window.Motion;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function setupThread() {
-    const { animate, scroll } = Motion;
-    const thread = document.querySelector("[data-route-thread] path");
-    const main = document.querySelector("main");
-    if (!thread || !main) return;
-    thread.style.strokeDasharray = "1";
-    thread.style.strokeDashoffset = "1";
-    scroll(animate(thread, { strokeDashoffset: [1, 0] }, { ease: "linear" }), {
-      target: main,
-      offset: ["start start", "end end"],
-    });
-  }
-
   function setupStops() {
     for (const stop of document.querySelectorAll("[data-route-stop]")) {
       stop.classList.remove("is-reached");
@@ -63,7 +50,6 @@
   }
 
   if (Motion && !reduceMotion) {
-    setupThread();
     setupStops();
     setupReveals();
     setupOffer();
