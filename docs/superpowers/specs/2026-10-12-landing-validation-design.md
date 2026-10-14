@@ -48,7 +48,7 @@ Ordre de la page : **Utilité → Faisabilité → Morale → Opportunité → F
 
 | Pilier | Objection traitée | Contenu |
 |---|---|---|
-| Utilité | "Ça règle mon problème ?" | Hero = douleur n°1 du métier (ex. laveur : "Un client annule à 7h ? Ta tournée se recalcule, tes clients sont prévenus par SMS."), puis 3 douleurs → solution |
+| Utilité | "Ça règle mon problème ?" | Hero = douleur n°1 du métier (ex. laveur : "Un client annule à 7h ? Votre tournée se recalcule, vos clients sont prévenus par SMS."), puis 3 douleurs → solution |
 | Faisabilité | "Je vais y arriver ?" (objection n°1 de la cible) | "On configure pour vous", prise en main 5 min, PDF imprimable, l'humain garde la main |
 | Morale | "Je peux leur faire confiance ?" | Données hébergées en France, pas de revente, temps rendu (famille, patients), clients respectés car prévenus |
 | Opportunité | "Pourquoi maintenant ?" | **29 € HT/mois** (prix affiché HT sur toutes les variantes), early access **19 € HT/mois à vie pour les N premiers**, affiché "-10 €/mois à vie, soit 120 € HT économisés chaque année", compteur de places, coût de l'attente |
@@ -61,39 +61,49 @@ Contenu par métier dans `landing/content/<metier>.py` (un fichier = une variant
 ## Design
 - Skill `design-taste-frontend` (taste-skill, MIT) :
   `npx skills add https://github.com/Leonxlnx/taste-skill --skill "design-taste-frontend"`.
-- Animations avec **Motion** (MIT), version JS vanilla chargée par CDN (pas de npm), à la place
+- Animations avec **Motion** (MIT), version JS vanilla **auto-hébergée** (fichier copié dans `static/`, pas de CDN : RGPD, pas de npm), à la place
   de GSAP (licence non open source). Le code produit par taste-skill (React) est adapté en Jinja.
 - Règle taste-skill reprise : pas de tiret cadratin dans les textes UI.
+- **Vouvoiement partout** (accroche, hero, formulaire, SMS d'exemple).
 - Lisibilité prioritaire pour la cible : gros CTA, contraste WCAG AA, mobile first
   (trafic majoritairement mobile depuis réseaux sociaux).
 
 ## Nom et accroche
-- Nom : **Bouclé** ("c'est bouclé" : la tournée est réglée). Accroche : **"Votre tournée, sans remous."**
+- Nom : **Bouclé.tech** ("c'est bouclé" : la tournée est réglée). Wordmark : "Bouclé" + ".tech" à 50 %
+  de la taille, même ligne de base (donne du rythme, guide la lecture). Accroche : **"Votre tournée, sans remous."**
 - Source unique en code : `landing/brand/identity.py`.
-- Domaine : `boucle.com` / `boucle.fr` pris. Libres au 2026-10-14 : `cestboucle.fr`, `cestboucle.com`,
+- Domaine canonique : **`boucle.tech`** (sans accent), seul domaine écrit dans les liens (SMS, emails, QR).
+  **Validé.** `bouclé.tech` (IDN), `boucler.tech` et `boucler.fr` en redirection 301 uniquement
+  (protection, fautes de frappe), jamais communiqués.
+  Raison : un IDN peut s'afficher en punycode (`xn--boucl-esa.tech`) dans les SMS/emails, ressemble à du
+  phishing et nuit à la délivrabilité des SMS, cœur du produit. Libres au 2026-10-14.
+  Pour mémoire : `boucle.com` / `boucle.fr` pris. Libres au 2026-10-14 : `cestboucle.fr`, `cestboucle.com`,
   `getboucle.com`, `boucle-pro.fr`. Choix à faire avant la phase 2 (hébergement) ; vérifier INPI
   classes 9 et 42.
 
 ## Identité visuelle (DA)
-4 couleurs max, fond sombre/désaturé = signal d'expertise. Tokens Tailwind, nulle part ailleurs.
+4 couleurs max, **fond clair** : lisible en extérieur sur mobile (reflets), moins "appli tech" pour la cible.
+Contrastes vérifiés par `test_palette_meets_wcag_aa`. Tokens Tailwind, nulle part ailleurs.
 
 | Rôle | Couleur | Usage | Contraste vs fond |
 |---|---|---|---|
-| Neutre fond | `#11181C` (ardoise sombre) | fond de page | - |
-| Neutre texte | `#E6EAEA` (blanc cassé) | texte courant | 14,8:1 |
-| Principale | `#3E9C8A` (vert-bleu désaturé, "route") | logo, titres, éléments de marque | 5,4:1 |
-| Accent | `#F2A93B` (ambre, "panneau routier") | CTA, compteur de places, prix early access uniquement | 9,0:1 (texte `#11181C` sur ambre : 9,0:1) |
+| Neutre fond | `#F4F7F7` (blanc gris clair) | fond de page | - |
+| Neutre texte | `#11181C` (ardoise) | texte courant, texte des CTA | 16,6:1 |
+| Principale | `#2A7A6B` (vert-bleu profond, "route") | logo, titres, éléments de marque | 4,8:1 |
+| Accent | `#C67A10` (ambre cuivré, "panneau routier") | logo (arrivée), CTA, compteur de places, prix early access uniquement | 3,2:1 (bouton vs fond, WCAG 1.4.11) ; texte `#11181C` sur ambre : 5,3:1 |
 
 Palette proposée, ajustable au choix du logo ; tout changement revérifie WCAG AA.
 Variations d'opacité autorisées, aucune 5e teinte.
 
 ### Typographie
-3 familles OFL, une par rôle (guide la lecture) : **Manrope** (nom, titres de section, texte
-courant, prix, formulaire ; 400/700), **Fraunces** (phrase de douleur H1 ; 600),
-**Bricolage Grotesque** (CTA ; 700). woff2 auto-hébergés, subset latin, pas de CDN (RGPD).
+2 familles OFL, une par rôle (guide la lecture) : **Manrope** (nom, titres de section, texte
+courant, prix, formulaire, CTA ; 400/700/800), **Fraunces** (phrase de douleur H1 ; 600).
+woff2 auto-hébergés, subset latin, pas de CDN (RGPD).
 
 ### Logo et assets
-- Logo retenu : **route en S, 3 arrêts, arrivée ambre avec halo** (tournée bouclée = tranquillité).
+- Logo site retenu : **route en S, arrêts évidés façon plan de métro, arrivée ambre + anneau plein**
+  (tournée bouclée = tranquillité). Logo future app : même tracé dans une pastille vert-bleu (hors scope landing).
+  Le S (parcours simple, tranquillité) et le nom Bouclé (action finie, récurrente) se complètent.
   Source unique : `landing/brand/logo.py`. Régénération : `uv run python -m brand.export`.
 - GIF : la route se trace, puis le halo d'arrivée "respire" en boucle.
 - Assets dérivés du SVG retenu, dans `landing/static/brand/`, générés par un script
@@ -149,7 +159,7 @@ Rétention : suppression des leads sans suite après 12 mois (cf. politique de c
 
 - `landing/` à la racine : projet **uv** (tout se lance via `uv run`). FastAPI + Jinja2
   (pages rendues serveur, route `POST /api/leads`), Tailwind via binaire standalone
-  (`pytailwindcss`, pas de npm), Motion en CDN. Même stack Python que la future app.
+  (`pytailwindcss`, pas de npm), Motion auto-hébergé. Même stack Python que la future app.
 - Responsabilités :
   - `content/<metier>.py` : textes FUOM d'une variante
   - `lead_schema.py` : validation des champs, Pydantic (seul endroit si le formulaire change)

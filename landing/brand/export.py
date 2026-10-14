@@ -5,7 +5,7 @@ from pathlib import Path
 import cairosvg
 from PIL import Image, ImageDraw, ImageFont
 
-from brand.identity import NAME, TAGLINE
+from brand.identity import DOMAIN_SUFFIX, NAME, TAGLINE
 from brand.logo import PALETTE, logo_svg
 
 GIF_SIZE = 250
@@ -13,6 +13,7 @@ GIF_DRAW_FRAMES = 30
 GIF_BREATH_FRAMES = 30
 GIF_FRAME_MS = 50
 FONTS_DIR = Path(__file__).parent / "fonts"
+SUFFIX_RATIO = 0.5
 
 
 def _on_background(svg: str, width: int, height: int, logo_size: int) -> str:
@@ -38,14 +39,23 @@ def _font(file_name: str, size: int, weight: int) -> ImageFont.FreeTypeFont:
     return font
 
 
+def wordmark_sizes(name_size: int) -> tuple[int, int]:
+    return name_size, round(name_size * SUFFIX_RATIO)
+
+
 def _og_image() -> Image.Image:
     width, height, logo_size = 1200, 630, 300
     image = Image.new("RGBA", (width, height), PALETTE["fond"])
     logo = _render(logo_svg(), logo_size, logo_size)
     image.paste(logo, (110, (height - logo_size) // 2), logo)
     draw = ImageDraw.Draw(image)
-    draw.text((470, 185), NAME, font=_font("Manrope.ttf", 110, 800), fill=PALETTE["texte"])
-    draw.text((474, 345), TAGLINE, font=_font("Fraunces.ttf", 46, 600), fill=PALETTE["texte"])
+    name_size, suffix_size = wordmark_sizes(110)
+    name_font = _font("Manrope.ttf", name_size, 800)
+    baseline = 300
+    draw.text((470, baseline), NAME, font=name_font, fill=PALETTE["texte"], anchor="ls")
+    suffix_x = 470 + draw.textlength(NAME, font=name_font) + 4
+    draw.text((suffix_x, baseline), DOMAIN_SUFFIX, font=_font("Manrope.ttf", suffix_size, 700), fill=PALETTE["texte"], anchor="ls")
+    draw.text((474, baseline + 75), TAGLINE, font=_font("Fraunces.ttf", 46, 600), fill=PALETTE["texte"], anchor="ls")
     return image
 
 
