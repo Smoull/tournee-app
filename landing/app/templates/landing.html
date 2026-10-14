@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block description %}{{ variant.sous_titre }}{% endblock %}
+{% block main %}
+<section class="mx-auto max-w-5xl px-4 pt-6 pb-16">
+  <h1 class="font-douleur text-4xl leading-tight font-semibold sm:text-6xl">{{ variant.h1 }}</h1>
+  <p class="mt-5 max-w-2xl text-lg sm:text-xl">{{ variant.sous_titre }}</p>
+  <a href="#formulaire" class="mt-8 inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">{{ commun.CTA }}</a>
+  <p class="mt-3 font-bold">{{ commun.SOUS_CTA }}</p>
+</section>
+
+<section class="bg-principale/5 py-16">
+  <div class="mx-auto max-w-5xl px-4">
+    <h2 class="text-3xl font-bold text-principale">{{ commun.UTILITE_TITRE }}</h2>
+    <ul class="mt-8 grid gap-5 sm:grid-cols-3">
+      {% for pain in variant.douleurs %}
+      <li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10">
+        <p class="text-lg font-bold">{{ pain.probleme }}</p>
+        <p class="mt-3">{{ pain.solution }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% for title, items in [(commun.FAISABILITE_TITRE, commun.FAISABILITE), (commun.MORALE_TITRE, commun.MORALE)] %}
+<section class="mx-auto max-w-5xl px-4 py-16">
+  <h2 class="text-3xl font-bold text-principale">{{ title }}</h2>
+  <ul class="mt-8 grid gap-6 sm:grid-cols-3">
+    {% for item_title, item_text in items %}
+    <li><p class="text-lg font-bold">{{ item_title }}</p><p class="mt-2">{{ item_text }}</p></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endfor %}
+
+<section class="bg-principale/5 py-16">
+  <div class="mx-auto max-w-5xl px-4">
+    <h2 class="text-3xl font-bold text-principale">{{ commun.OPPORTUNITE_TITRE }}</h2>
+    <p class="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+      <s class="text-xl text-texte/60">{{ commun.PRIX_NORMAL }}</s>
+      <span class="text-4xl font-extrabold text-accent">{{ commun.PRIX_EARLY }}</span>
+    </p>
+    <p class="mt-3 text-lg font-bold">{{ commun.ECONOMIE }}</p>
+    <p class="mt-6 text-xl font-bold text-accent">{{ commun.compteur(places) }}</p>
+    <p class="mt-3 max-w-2xl">{{ commun.ATTENTE }}</p>
+  </div>
+</section>
+
+<section id="formulaire" class="mx-auto max-w-xl px-4 py-16">
+  <h2 class="text-3xl font-bold text-principale">{{ commun.FORMULAIRE_TITRE }}</h2>
+  <p class="mt-2">{{ commun.FORMULAIRE_INTRO }}</p>
+  <form data-lead-form data-network-error="{{ commun.INDISPONIBLE.format(contact_email=contact_email) }}" class="mt-8 space-y-6" novalidate>
+    <input type="hidden" name="variante" value="{{ variant.slug }}">
+    <input type="hidden" name="utm_source" value="{{ utm_source }}">
+    <input type="hidden" name="utm_campaign" value="{{ utm_campaign }}">
+
+    <label class="block">
+      <span class="font-bold">{{ commun.LABELS.metier }}</span>
+      <select name="metier" required class="mt-2 block w-full rounded-xl bg-fond p-3 text-lg ring-1 ring-texte/30">
+        <option value="" disabled{% if not variant.metier_prefill %} selected{% endif %}>Choisissez</option>
+        {% for value, label in commun.METIERS %}
+        <option value="{{ value }}"{% if value == variant.metier_prefill %} selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <span data-error-for="metier" class="mt-1 block font-bold"></span>
+    </label>
+
+    {% for field, options in [("taille", commun.TAILLES), ("douleur", commun.DOULEURS)] %}
+    <fieldset>
+      <legend class="font-bold">{{ commun.LABELS[field] }}</legend>
+      <div class="mt-2 grid gap-2">
+        {% for value, label in options %}
+        <label class="flex items-center gap-3 rounded-xl p-3 text-lg ring-1 ring-texte/20">
+          <input type="radio" name="{{ field }}" value="{{ value }}" required class="size-5 accent-principale"> {{ label }}
+        </label>
+        {% endfor %}
+      </div>
+      <span data-error-for="{{ field }}" class="mt-1 block font-bold"></span>
+    </fieldset>
+    {% endfor %}
+
+    {% for field, type, autocomplete in [("email", "email", "email"), ("phone", "tel", "tel")] %}
+    <label class="block">
+      <span class="font-bold">{{ commun.LABELS[field] }}</span>
+      <input type="{{ type }}" name="{{ field }}" autocomplete="{{ autocomplete }}" required class="mt-2 block w-full rounded-xl bg-fond p-3 text-lg ring-1 ring-texte/30">
+      <span data-error-for="{{ field }}" class="mt-1 block font-bold"></span>
+    </label>
+    {% endfor %}
+
+    <label class="flex items-start gap-3">
+      <input type="checkbox" name="accepte_appel" class="mt-1 size-5 shrink-0 accent-principale">
+      <span>{{ commun.ACCEPTE_APPEL }}</span>
+    </label>
+    <div>
+      <label class="flex items-start gap-3">
+        <input type="checkbox" name="consentement_rgpd" required class="mt-1 size-5 shrink-0 accent-principale">
+        <span>{{ commun.CONSENTEMENT }} <a class="underline" href="/confidentialite">Politique de confidentialité</a></span>
+      </label>
+      <span data-error-for="consentement_rgpd" class="mt-1 block font-bold"></span>
+    </div>
+
+    <div class="honeypot" aria-hidden="true">
+      <label>Site web <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+    </div>
+
+    <button type="submit" class="w-full rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte disabled:opacity-60">{{ commun.CTA }}</button>
+    <p data-form-status role="status" class="font-bold"></p>
+  </form>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/static/js/lead-form.js" defer></script>{% endblock %}

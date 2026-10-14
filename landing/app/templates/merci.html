@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="mx-auto max-w-2xl px-4 py-20">
+  <h1 class="font-douleur text-5xl font-semibold">{{ commun.MERCI_TITRE }}</h1>
+  <p class="mt-6 text-xl font-bold">{{ commun.MERCI_ATTENTE if en_attente else commun.MERCI_TEXTE }}</p>
+  <p class="mt-4 text-lg">{{ commun.MERCI_APPEL }}</p>
+  <a href="{{ calcom_url }}" class="mt-8 inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">{{ commun.MERCI_LIEN }}</a>
+</section>
+{% endblock %}

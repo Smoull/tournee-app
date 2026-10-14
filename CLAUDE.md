@@ -88,3 +88,10 @@ Toutes sous licence SIL OFL 1.1, auto-hébergées en woff2 (subset latin), jamai
 |---|---|---|
 | Manrope | nom à côté du logo, titres de section (H2/H3), texte courant, prix, formulaire, CTA | 400, 700, 800 (CTA) |
 | Fraunces | phrase de douleur (H1 hero, accroches douleur) uniquement | 600 |
+
+## Commandes landing (depuis `landing/`)
+
+- Tests : `uv run pytest -q`
+- Assets de marque + polices + tokens : `uv run python -m brand.export`
+- CSS : `TAILWINDCSS_VERSION=v4.1.11 uv run tailwindcss -i app/static_src/input.css -o static/css/app.css --minify`
+- Serveur : `uv run uvicorn app.main:app --reload`

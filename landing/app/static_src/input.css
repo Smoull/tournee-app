@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import "./theme.css";
+@source "../templates";
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/static/fonts/manrope.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/static/fonts/fraunces.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* La route du logo se trace au chargement : seule animation de la page (cf. spec). */
+@keyframes trace-route {
+  from { stroke-dashoffset: 180; }
+}
+
+.logo path {
+  animation: trace-route 1.2s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo path { animation: none; }
+}
+
+/* Honeypot hors écran plutôt que display:none, que certains robots savent ignorer. */
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

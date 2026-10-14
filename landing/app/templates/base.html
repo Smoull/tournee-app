@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ name }}{{ domain_suffix }} · {{ tagline }}</title>
+  <meta name="description" content="{% block description %}{{ tagline }}{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ name }}{{ domain_suffix }} · {{ tagline }}">
+  <meta property="og:description" content="{{ self.description() }}">
+  <meta property="og:image" content="{{ request.base_url }}static/brand/og-image.png">
+  <link rel="icon" href="/static/brand/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/static/brand/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/static/brand/apple-touch-icon.png">
+  <link rel="preload" href="/static/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/static/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body class="bg-fond font-sans text-texte antialiased">
+  <header class="mx-auto flex max-w-5xl items-center px-4 py-5">
+    <a href="/" class="flex items-center gap-3" aria-label="{{ name }}{{ domain_suffix }}, accueil">
+      <span class="logo block size-10" aria-hidden="true">{{ logo_svg | safe }}</span>
+      <span class="text-2xl font-extrabold tracking-tight">{{ name }}<span class="text-[0.5em] font-bold">{{ domain_suffix }}</span></span>
+    </a>
+  </header>
+  <main>{% block main %}{% endblock %}</main>
+  <footer class="mx-auto max-w-5xl px-4 py-10 text-sm text-texte/70">
+    <p>{{ name }}{{ domain_suffix }} · {{ tagline }}</p>
+    <nav class="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+      <a class="underline" href="/mentions-legales">Mentions légales</a>
+      <a class="underline" href="/confidentialite">Confidentialité</a>
+      <a class="underline" href="mailto:{{ contact_email }}?subject=Désinscription">Se désinscrire</a>
+    </nav>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
