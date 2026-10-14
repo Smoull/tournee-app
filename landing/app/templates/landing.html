@@ -88,12 +88,12 @@
     {% endfor %}
 
     <label class="flex items-start gap-3">
-      <input type="checkbox" name="accepte_appel" class="mt-1 size-5 accent-principale">
+      <input type="checkbox" name="accepte_appel" class="mt-1 size-5 shrink-0 accent-principale">
       <span>{{ commun.ACCEPTE_APPEL }}</span>
     </label>
     <div>
       <label class="flex items-start gap-3">
-        <input type="checkbox" name="consentement_rgpd" required class="mt-1 size-5 accent-principale">
+        <input type="checkbox" name="consentement_rgpd" required class="mt-1 size-5 shrink-0 accent-principale">
         <span>{{ commun.CONSENTEMENT }} <a class="underline" href="/confidentialite">Politique de confidentialité</a></span>
       </label>
       <span data-error-for="consentement_rgpd" class="mt-1 block font-bold"></span>
