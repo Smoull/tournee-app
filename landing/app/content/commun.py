@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Literal
 
-from app.offer import PLACES_EARLY_ACCESS, PRIX_EARLY_ACCESS_HT, PRIX_HT, avec_tva, economie_annuelle_ht, format_euros
+from app.offer import PLACES_EARLY_ACCESS, PRIX_HT, PRIX_TTC, economie_annuelle, format_euros, prix_acces_anticipe
 
 Taxe = Literal["HT", "TTC"]
 
@@ -41,17 +41,16 @@ class Offre:
 
 
 def offre(taxe: Taxe) -> Offre:
-    def montant(valeur_ht):
-        return valeur_ht if taxe == "HT" else avec_tva(valeur_ht)
-
-    normal = format_euros(montant(PRIX_HT))
-    early = format_euros(montant(PRIX_EARLY_ACCESS_HT))
-    economie = montant(economie_annuelle_ht())
+    prix = PRIX_HT if taxe == "HT" else PRIX_TTC
+    remise = prix - prix_acces_anticipe(prix)
+    normal = format_euros(prix)
+    early = format_euros(prix_acces_anticipe(prix))
+    economie = economie_annuelle(prix)
     return Offre(
         sous_cta=f"{early} € {taxe}/mois à vie pour les {PLACES_EARLY_ACCESS} premiers.",
         prix_normal=f"{normal} € {taxe}/mois",
         prix_early=f"{early} € {taxe}/mois à vie",
-        economie_avant=f"-{format_euros(montant(PRIX_HT - PRIX_EARLY_ACCESS_HT))} € {taxe}/mois à vie, soit ",
+        economie_avant=f"-{format_euros(remise)} € {taxe}/mois à vie, soit ",
         economie_montant=format_euros(economie),
         economie_nombre=format_euros(economie).replace(",", "."),
         economie_apres=f" € {taxe} économisés chaque année.",

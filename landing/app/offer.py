@@ -1,8 +1,9 @@
 from decimal import Decimal
 
 PRIX_HT = Decimal("49")
-TAUX_TVA = Decimal("0.20")
-PRIX_EARLY_ACCESS_HT = PRIX_HT / 2
+# Infirmiers exonérés de TVA : prix TTC arrondi plutôt que 49 € HT x 1,2 = 58,80 €.
+PRIX_TTC = Decimal("59")
+REMISE_ACCES_ANTICIPE = Decimal("0.5")
 # Valeur mock : N sera fixé par l'arbitrage marketing (cf. spec, section Opportunité).
 PLACES_EARLY_ACCESS = 10
 
@@ -13,12 +14,19 @@ def format_euros(montant: Decimal) -> str:
     return f"{montant:.2f}".replace(".", ",")
 
 
-def avec_tva(montant_ht: Decimal) -> Decimal:
-    return (montant_ht * (1 + TAUX_TVA)).quantize(Decimal("0.01"))
+def prix_acces_anticipe(prix: Decimal) -> Decimal:
+    return prix * (1 - REMISE_ACCES_ANTICIPE)
+
+
+def economie_annuelle(prix: Decimal) -> Decimal:
+    return (prix - prix_acces_anticipe(prix)) * 12
+
+
+PRIX_EARLY_ACCESS_HT = prix_acces_anticipe(PRIX_HT)
 
 
 def economie_annuelle_ht() -> Decimal:
-    return (PRIX_HT - PRIX_EARLY_ACCESS_HT) * 12
+    return economie_annuelle(PRIX_HT)
 
 
 def est_en_liste_attente(rang_inscription: int) -> bool:

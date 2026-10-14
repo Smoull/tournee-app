@@ -103,10 +103,8 @@ def test_prices_always_state_ht_or_ttc():
             assert following.startswith(" HT") or following == " TTC", text
 
 
-def test_vat_inclusive_prices_add_20_percent():
-    assert offer.avec_tva(Decimal("49")) == Decimal("58.80")
-    assert offer.avec_tva(Decimal("24.50")) == Decimal("29.40")
-    assert offer.avec_tva(offer.economie_annuelle_ht()) == Decimal("352.80")
+def test_nurse_price_is_a_round_59_ttc():
+    assert offer.PRIX_TTC == Decimal("59")
 
 
 def test_only_nurses_see_ttc_prices():
@@ -142,7 +140,7 @@ def test_every_icon_used_in_content_is_vendored():
     "taxe,prix_normal,prix_early,economie,nombre",
     [
         ("HT", "49 € HT/mois", "24,50 € HT/mois à vie", "-24,50 € HT/mois à vie, soit 294 € HT économisés chaque année.", "294"),
-        ("TTC", "58,80 € TTC/mois", "29,40 € TTC/mois à vie", "-29,40 € TTC/mois à vie, soit 352,80 € TTC économisés chaque année.", "352.80"),
+        ("TTC", "59 € TTC/mois", "29,50 € TTC/mois à vie", "-29,50 € TTC/mois à vie, soit 354 € TTC économisés chaque année.", "354"),
     ],
 )
 def test_offer_texts_follow_the_tax_display(taxe, prix_normal, prix_early, economie, nombre):
