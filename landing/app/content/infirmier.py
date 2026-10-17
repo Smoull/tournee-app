@@ -11,25 +11,27 @@ VARIANT = Variant(
     path="/infirmier",
     metier_prefill="infirmier",
     taxe="TTC",
-    h1="Un passage ajouté en dernière minute, et toute la tournée glisse ?",
+    h1="7h12, le cabinet ajoute un passage. 7h13, toute votre tournée a glissé.",
     sous_titre=(
-        "Bouclé réorganise votre tournée en respectant vos horaires fixes, "
-        "et prévient vos patients de l'heure de passage."
+        "Bouclé.tech recale la tournée autour de vos horaires fixes et prévient vos patients "
+        "de l'heure de passage. Vous gardez le volant, il garde le planning."
     ),
     douleurs=(
         Pain(
-            "Des passages à heure fixe à tenir coûte que coûte.",
-            "Vous les verrouillez : Bouclé organise le reste de la tournée autour.",
+            "Le passage de 8h pile, celui qu'on ne décale pas, même pour un café.",
+            "Vous le verrouillez une fois. Bouclé.tech construit le reste autour, sans discuter.",
             "clock-countdown",
         ),
         Pain(
-            "Un patient absent ou un remplacement imprévu.",
-            "La tournée se recalcule, les patients suivants reçoivent leur nouvel horaire par SMS.",
+            "Vous sonnez, personne. Le patient est parti chez sa fille depuis hier.",
+            "Un clic, la tournée se recalcule et les suivants reçoivent leur nouvel horaire par SMS. "
+            "Fini les dix appels depuis la voiture.",
             "user-minus",
         ),
         Pain(
-            "Les kilomètres du cabinet, mal répartis.",
-            "Une vue claire des trajets de la journée, imprimable, partageable avec vos collègues ou votre remplaçante.",
+            "Votre collègue fait 12 km de plus que vous, et vous le rappelle à chaque relève.",
+            "Tous les trajets de la journée sur une seule vue, à imprimer ou partager avec le cabinet "
+            "ou votre remplaçante. Les comptes sont vite faits.",
             "map-pin",
         ),
     ),

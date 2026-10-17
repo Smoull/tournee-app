@@ -10,22 +10,28 @@ VARIANT = Variant(
     path="/",
     metier_prefill=None,
     taxe="HT",
-    h1="Un imprévu à 7h, et toute la journée déraille ?",
-    sous_titre="Bouclé recalcule votre tournée et prévient vos clients par SMS. Vous, vous conduisez.",
+    h1="7h05, un client annule. 7h06, votre journée entière est à refaire.",
+    sous_titre=(
+        "Bouclé.tech recalcule la tournée et prévient vos clients par SMS. "
+        "Vous conduisez, le téléphone reste dans la poche."
+    ),
     douleurs=(
         Pain(
-            "Un client annule, un autre ajoute un passage.",
-            "Votre tournée se réorganise en un geste. Les clients concernés reçoivent leur nouvel horaire par SMS.",
+            "Un client annule, un autre veut passer « juste avant midi, si possible ».",
+            "Un geste, la tournée se réorganise. Les clients concernés reçoivent leur nouvel horaire par SMS, "
+            "sans que vous décrochiez.",
             "calendar-check",
         ),
         Pain(
-            "Des kilomètres en trop, sans s'en rendre compte.",
-            "Bouclé ordonne vos arrêts et chiffre le coût de chaque journée : carburant, temps, rentabilité.",
+            "Le soir, le compteur affiche 40 km de plus que prévu. Personne ne sait où ils sont passés.",
+            "Bouclé.tech ordonne vos arrêts et chiffre chaque journée : carburant, temps, rentabilité. "
+            "Les kilomètres fantômes disparaissent.",
             "map-pin",
         ),
         Pain(
-            "Le planning de la semaine tient dans votre tête.",
-            "Il tient sur une page : imprimable chaque matin, partageable avec vos collègues.",
+            "Le planning de la semaine tient dans votre tête. Jusqu'au jour où un client passe à la trappe.",
+            "Il tient sur une page, imprimable chaque matin et partageable avec vos collègues. "
+            "Votre mémoire peut souffler.",
             "printer",
         ),
     ),

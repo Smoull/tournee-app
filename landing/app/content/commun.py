@@ -9,9 +9,9 @@ Taxe = Literal["HT", "TTC"]
 CTA = "Je réserve ma place"
 REJOUER = "Rejouer la démo"
 
-UTILITE_TITRE = "Ce que Bouclé change dans votre journée"
+UTILITE_TITRE = "Ce que Bouclé.tech change dans votre journée"
 
-RENTABILITE_TITRE = "Bouclé se rembourse tout seul"
+RENTABILITE_TITRE = "Bouclé.tech se rembourse tout seul"
 RENTABILITE_POSTES = (("Moins d'essence", "gas-pump"), ("Moins de paperasse", "files"), ("Moins de déplacements pour rien", "door-open"))
 RENTABILITE_GAIN = "gagnés par mois (calcul théorique)"
 RENTABILITE_ABONNEMENT = "Votre abonnement en accès anticipé"
@@ -36,7 +36,7 @@ FAISABILITE_TITRE = "On configure tout pour vous"
 FAISABILITE = (
     ("Prise en main en 5 minutes.", "On importe vos clients avec vous, au téléphone si besoin.", "clock-countdown"),
     ("Votre tournée sur papier.", "Un PDF clair, imprimable chaque matin.", "printer"),
-    ("Vous gardez la main.", "Bouclé propose, vous validez ou vous modifiez. Toujours.", "hand-heart"),
+    ("Vous gardez la main.", "Bouclé.tech propose, vous validez ou vous modifiez. Toujours.", "hand-heart"),
 )
 
 MORALE_TITRE = "Vos données restent les vôtres"

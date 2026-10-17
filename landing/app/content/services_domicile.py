@@ -10,22 +10,27 @@ VARIANT = Variant(
     path="/services-domicile",
     metier_prefill=None,
     taxe="HT",
-    h1="Trois clients à caser, un seul après-midi ?",
-    sous_titre="Bouclé trouve le bon ordre de passage et prévient vos clients par SMS. Vous arrivez à l'heure, sans courir.",
+    h1="Trois clients à caser, un seul après-midi, et le téléphone qui sonne encore.",
+    sous_titre=(
+        "Bouclé.tech trouve le bon ordre de passage et prévient vos clients par SMS. "
+        "Vous arrivez à l'heure, sans courir entre deux portails."
+    ),
     douleurs=(
         Pain(
-            "Les demandes arrivent en vrac, au téléphone.",
-            "Ajoutez-les en quelques secondes : Bouclé leur trouve une place dans la semaine.",
+            "Les demandes arrivent en vrac, au téléphone, pendant que vous avez les mains dans la haie.",
+            "Ajoutez-les en quelques secondes : Bouclé.tech leur trouve une place dans la semaine. "
+            "Fini les post-it sur le tableau de bord.",
             "plus-circle",
         ),
         Pain(
-            "Les pics de saison (taille, ramonage, entretien) débordent.",
-            "Bouclé répartit les passages sur plusieurs semaines, sans oublier personne.",
+            "En saison (taille, ramonage, entretien), tout le monde veut passer « avant la fin du mois ».",
+            "Bouclé.tech répartit les passages sur plusieurs semaines, sans oublier personne. "
+            "Pas même celui qui a appelé trois fois.",
             "calendar-check",
         ),
         Pain(
-            "Plusieurs intervenants, qui va où ?",
-            "Chacun reçoit sa tournée, vous gardez la vue d'ensemble.",
+            "Trois intervenants, deux camionnettes, une seule question : qui va où ?",
+            "Chacun reçoit sa tournée, vous gardez la vue d'ensemble. Fini le briefing à 7h sur le parking.",
             "map-pin",
         ),
     ),

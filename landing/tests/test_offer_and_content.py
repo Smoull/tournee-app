@@ -91,6 +91,11 @@ def test_copy_uses_vouvoiement_and_no_em_dash():
         assert not TUTOIEMENT.search(text), text
 
 
+def test_copy_names_the_product_boucle_tech():
+    for text in all_copy():
+        assert not re.search(r"Bouclé(?!\.tech)", text), text
+
+
 def test_nurse_variant_mentions_no_health_data():
     texts = " ".join(collect_strings(VARIANTS["infirmier"])).lower()
     assert not [word for word in HEALTH_WORDS if word in texts]
