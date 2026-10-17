@@ -177,3 +177,14 @@ def test_copy_says_acces_anticipe_not_early_access():
     template_texts = [path.read_text() for path in TEMPLATES.glob("*.html")]
     for text in all_copy() + template_texts:
         assert "early access" not in text.lower(), text
+
+
+def test_feasibility_promises_expert_onboarding_and_paper_or_calendar():
+    assert commun.FAISABILITE[0][:2] == (
+        "Prise en main accompagnée par un expert.",
+        "On importe vos clients avec vous, au téléphone. 5 minutes et c'est parti.",
+    )
+    assert commun.FAISABILITE[1][:2] == (
+        "Votre tournée sur papier ou dans votre agenda.",
+        "Un PDF clair chaque matin, ou directement dans votre agenda numérique.",
+    )

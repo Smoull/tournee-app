@@ -34,8 +34,16 @@ def lignes_rentabilite(hypotheses: Hypotheses) -> tuple[str, str, str]:
 
 FAISABILITE_TITRE = "On configure tout pour vous"
 FAISABILITE = (
-    ("Prise en main en 5 minutes.", "On importe vos clients avec vous, au téléphone si besoin.", "clock-countdown"),
-    ("Votre tournée sur papier.", "Un PDF clair, imprimable chaque matin.", "printer"),
+    (
+        "Prise en main accompagnée par un expert.",
+        "On importe vos clients avec vous, au téléphone. 5 minutes et c'est parti.",
+        "clock-countdown",
+    ),
+    (
+        "Votre tournée sur papier ou dans votre agenda.",
+        "Un PDF clair chaque matin, ou directement dans votre agenda numérique.",
+        "printer",
+    ),
     ("Vous gardez la main.", "Bouclé.tech propose, vous validez ou vous modifiez. Toujours.", "hand-heart"),
 )
 
