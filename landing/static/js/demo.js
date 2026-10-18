@@ -4,7 +4,7 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function setupDemo(figure) {
-    const { animate, inView, stagger } = Motion;
+    const { inView, stagger } = Motion;
     const before = figure.querySelector("[data-route-before]");
     const after = figure.querySelector("[data-route-after]");
     const markers = [...figure.querySelectorAll("[data-marker]")];
@@ -15,6 +15,14 @@
     const added = markers.filter((marker) => !marker.dataset.heureAvant);
     const initial = markers.filter((marker) => marker.dataset.heureAvant);
     let running = false;
+    const active = new Set();
+
+    function animate(target, keyframes, options) {
+      const controls = Motion.animate(target, keyframes, options);
+      active.add(controls);
+      controls.finished.then(() => active.delete(controls));
+      return controls;
+    }
 
     function setTimes(key) {
       for (const marker of markers) {
@@ -57,10 +65,11 @@
     }
 
     // Une lecture (~4 s) à chaque entrée à l'écran, puis arrêt sur l'état final : pas de mouvement sans fin
-    // (WCAG 2.2.2). « Rejouer » relance à la demande.
+    // (WCAG 2.2.2). Pause hors écran : qui défile vite retrouve la démo là où il l'a quittée.
     inView(figure, () => {
-      play();
-      return () => {};
+      if (running) active.forEach((controls) => controls.play());
+      else play();
+      return () => active.forEach((controls) => controls.pause());
     });
     replay.addEventListener("click", play);
   }

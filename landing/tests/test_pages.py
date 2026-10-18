@@ -191,10 +191,10 @@ def test_tagline_sits_with_the_logo_in_the_header(client, path):
     assert text.count("data-tagline") == 1
 
 
-def test_demo_is_centered_on_wide_screens(client):
+def test_demo_is_left_aligned_with_the_h1(client):
     text = page(client, "/")
     figure = text.split("<figure data-demo", 1)[1].split(">", 1)[0]
-    assert "sm:mx-auto" in figure
+    assert "mx-auto" not in figure
 
 
 def test_hero_cta_and_price_line_are_centered_on_all_screens(client):

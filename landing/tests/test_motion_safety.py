@@ -20,3 +20,8 @@ def test_demo_plays_once_per_entry_instead_of_looping_forever():
 
 def test_no_infinite_css_animation():
     assert "infinite" not in CSS
+
+
+def test_demo_pauses_off_screen_so_fast_scrollers_see_it_whole_on_return():
+    assert ".pause()" in DEMO
+    assert ".play()" in DEMO
