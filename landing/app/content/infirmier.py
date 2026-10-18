@@ -1,5 +1,6 @@
 from datetime import time
 
+from app.content.commun import TEST_GRATUIT
 from app.content.models import Pain, Variant
 from app.demo.scenario import DemoScenario, Incident
 from app.rentabilite import Hypotheses
@@ -46,4 +47,5 @@ VARIANT = Variant(
         "calendar-check",
     ),
     conformite="Leurs données sont traitées dans le respect du RGPD, chez un hébergeur certifié HDS.",
+    cadrage=TEST_GRATUIT,
 )

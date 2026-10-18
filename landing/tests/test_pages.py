@@ -31,11 +31,11 @@ def test_each_variant_renders_its_fuom_content(client, slug):
         assert pain.probleme in text and pain.solution in text
     for item_title, item_text, _ in commun.faisabilite(variant.support_tournee):
         assert item_title in text and item_text in text
-    for block in (commun.FAISABILITE_TITRE, commun.MORALE_TITRE, commun.OPPORTUNITE_TITRE, commun.FORMULAIRE_TITRE):
+    for block in (commun.FAISABILITE_TITRE, commun.MORALE_TITRE, variant.cadrage.titre, variant.cadrage.formulaire_titre):
         assert block in text
     assert f'name="variante" value="{slug}"' in text
     assert TAGLINE in text
-    assert text.index(commun.OPPORTUNITE_TITRE) < text.index(commun.SANS_ENGAGEMENT) < text.index(commun.offre(variant.taxe).attente)
+    assert text.index(variant.cadrage.titre) < text.index(variant.cadrage.sans_engagement) < text.index(commun.offre(variant.taxe).attente)
     assert "/static/brand/og-image.png" in text
 
 
@@ -142,13 +142,12 @@ def test_each_pain_card_shows_its_icon(client):
 
 def test_yearly_saving_is_final_without_js(client):
     assert 'data-count-to="294" data-count-final="294">294</span>' in page(client, "/")
-    assert 'data-count-to="354" data-count-final="354">354</span>' in page(client, "/infirmier")
 
 
 def test_nurse_page_shows_ttc_prices_only(client):
     nurse = commun.offre("TTC")
     text = page(client, "/infirmier")
-    assert nurse.prix_early in text and nurse.mention_taxe in text
+    assert nurse.prix_early in text
     assert " € HT" not in text
     assert commun.offre("HT").prix_early in page(client, "/laveur-vitres")
 
@@ -204,7 +203,7 @@ def test_hero_cta_and_price_line_are_centered_on_all_screens(client):
     opening = block.split(">", 1)[0]
     assert "text-center" in opening and "sm:" not in opening
     assert commun.HERO_CTA in block
-    assert commun.offre("HT").sous_cta in block
+    assert "24,50 € HT/mois à vie pour les 10 premiers." in block
 
 
 @pytest.mark.parametrize("slug", list(VARIANTS))
@@ -247,11 +246,27 @@ def test_no_show_item_names_the_people_each_trade_visits(client, path, libelle):
 
 def test_profitability_cards_share_rows_so_figures_align(client):
     section = page(client, "/infirmier").split("data-rentabilite", 1)[1].split("</section>", 1)[0]
-    assert section.count('<li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:row-span-3 sm:grid sm:grid-rows-subgrid sm:gap-y-0">') == 3
+    assert section.count(f'<li class="{CARTE} sm:row-span-3">') == 3
 
 
 RGPD = "Leurs données sont traitées dans le respect du RGPD."
 RGPD_HDS = "Leurs données sont traitées dans le respect du RGPD, chez un hébergeur certifié HDS."
+
+
+CARTE = "rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:grid sm:grid-rows-subgrid sm:gap-y-0"
+
+
+@pytest.mark.parametrize("slug", list(VARIANTS))
+@pytest.mark.parametrize("titre", [commun.FAISABILITE_TITRE, commun.MORALE_TITRE])
+def test_benefit_sections_use_the_same_bordered_cards_as_profitability(client, slug, titre):
+    section = page(client, VARIANTS[slug].path).split(titre, 1)[1].split("</section>", 1)[0]
+    assert section.count(f'<li class="{CARTE} sm:row-span-3">') == 3
+    assert "<li>" not in section
+
+
+@pytest.mark.parametrize("slug", list(VARIANTS))
+def test_pain_cards_share_the_card_style(client, slug):
+    assert page(client, VARIANTS[slug].path).count(f'<li class="{CARTE} sm:row-span-4">') == 3
 
 
 @pytest.mark.parametrize(
@@ -272,3 +287,37 @@ def test_data_section_promises_gdpr_and_export(client, path, clientele, conformi
     assert "Du temps rendu." not in text
     assert "Exportables à tout moment." in text
     assert "Vous partez quand vous voulez, avec toutes vos données." in text
+
+
+def test_nurse_page_frames_early_access_as_a_free_test_with_transparent_price(client):
+    text = page(client, "/infirmier")
+    for attendu in (
+        "Test gratuit, puis 29,50 € TTC/mois à vie si vous l'adoptez.",
+        "Testez Bouclé.tech avec nous",
+        "Bouclé.tech est en construction. Nous cherchons 10 cabinets pour le tester et l'améliorer avec nous.",
+        "Sans engagement : vous testez gratuitement, puis vous décidez si vous continuez.",
+        "Si vous l'adoptez :",
+        "Devenez testeur",
+        "30 secondes. Aucun paiement, aucune carte bancaire.",
+        "Je veux tester",
+    ):
+        assert attendu in text
+    assert "Je réserve ma place" not in text
+    assert "Accès anticipé : rien à payer aujourd'hui" not in text
+
+
+@pytest.mark.parametrize("path", ["/", "/laveur-vitres", "/services-domicile"])
+def test_other_trades_keep_the_early_access_framing(client, path):
+    text = page(client, path)
+    assert "Accès anticipé : rien à payer aujourd'hui" in text
+    assert "Je réserve ma place" in text
+    assert "Réservez votre place" in text
+    assert "Je veux tester" not in text
+    assert "Si vous l'adoptez" not in text
+
+
+def test_nurse_offer_shows_no_yearly_saving_nor_vat_note(client):
+    text = page(client, "/infirmier")
+    assert "économisés chaque année" not in text
+    assert "data-count-to" not in text
+    assert "exonérée de TVA" not in text

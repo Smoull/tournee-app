@@ -6,7 +6,6 @@ from app.offer import PLACES_EARLY_ACCESS, PRIX_HT, PRIX_TTC, economie_annuelle,
 
 Taxe = Literal["HT", "TTC"]
 
-CTA = "Je réserve ma place"
 HERO_CTA = "Lancer ma tournée"
 REJOUER = "Rejouer la démo"
 
@@ -66,13 +65,51 @@ def morale(clientele: str, conformite: str) -> tuple[tuple[str, str, str], ...]:
 
 
 
-OPPORTUNITE_TITRE = "Accès anticipé : rien à payer aujourd'hui"
-SANS_ENGAGEMENT = "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."
+
+
+@dataclass(frozen=True)
+class Cadrage:
+    sous_cta: str
+    titre: str
+    intro: str | None
+    sans_engagement: str
+    prefixe_prix: str | None
+    economie_annuelle: bool
+    cta: str
+    formulaire_titre: str
+    formulaire_intro: str
+
+
+ACCES_ANTICIPE = Cadrage(
+    sous_cta=f"{{prix}} pour les {PLACES_EARLY_ACCESS} premiers.",
+    titre="Accès anticipé : rien à payer aujourd'hui",
+    intro=None,
+    sans_engagement="Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui.",
+    prefixe_prix=None,
+    economie_annuelle=True,
+    cta="Je réserve ma place",
+    formulaire_titre="Réservez votre place",
+    formulaire_intro="30 secondes. Aucun paiement aujourd'hui.",
+)
+
+TEST_GRATUIT = Cadrage(
+    sous_cta="Test gratuit, puis {prix} si vous l'adoptez.",
+    titre="Testez Bouclé.tech avec nous",
+    intro=(
+        f"Bouclé.tech est en construction. Nous cherchons {PLACES_EARLY_ACCESS} cabinets "
+        "pour le tester et l'améliorer avec nous."
+    ),
+    sans_engagement="Sans engagement : vous testez gratuitement, puis vous décidez si vous continuez.",
+    prefixe_prix="Si vous l'adoptez :",
+    economie_annuelle=False,
+    cta="Je veux tester",
+    formulaire_titre="Devenez testeur",
+    formulaire_intro="30 secondes. Aucun paiement, aucune carte bancaire.",
+)
 
 
 @dataclass(frozen=True)
 class Offre:
-    sous_cta: str
     prix_normal: str
     prix_early: str
     economie_avant: str
@@ -80,7 +117,6 @@ class Offre:
     economie_nombre: str
     economie_apres: str
     attente: str
-    mention_taxe: str | None
 
 
 def offre(taxe: Taxe) -> Offre:
@@ -90,7 +126,6 @@ def offre(taxe: Taxe) -> Offre:
     early = format_euros(prix_acces_anticipe(prix))
     economie = economie_annuelle(prix)
     return Offre(
-        sous_cta=f"{early} € {taxe}/mois à vie pour les {PLACES_EARLY_ACCESS} premiers.",
         prix_normal=f"{normal} € {taxe}/mois",
         prix_early=f"{early} € {taxe}/mois à vie",
         economie_avant=f"-{format_euros(remise)} € {taxe}/mois à vie, soit ",
@@ -98,7 +133,6 @@ def offre(taxe: Taxe) -> Offre:
         economie_nombre=format_euros(economie).replace(",", "."),
         economie_apres=f" € {taxe} économisés chaque année.",
         attente=f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {normal} € {taxe}/mois.",
-        mention_taxe=None if taxe == "HT" else "Prix TTC : votre activité est exonérée de TVA, vous ne la récupérez pas.",
     )
 
 
@@ -110,8 +144,6 @@ def compteur(places: int) -> str:
     return f"Plus que {places} places en accès anticipé."
 
 
-FORMULAIRE_TITRE = "Réservez votre place"
-FORMULAIRE_INTRO = "30 secondes. Aucun paiement aujourd'hui."
 
 METIERS = (
     ("laveur-vitres", "Laveur de vitres"),
@@ -152,7 +184,7 @@ DEJA_INSCRIT = "Vous êtes déjà sur la liste. À très vite !"
 INDISPONIBLE = "Une erreur est survenue, réessayez dans un instant. Ou écrivez-nous : {contact_email}"
 
 MERCI_TITRE = "C'est bouclé."
-MERCI_TEXTE = "Votre place en accès anticipé est réservée : -50 % à vie."
+MERCI_TEXTE = "Votre demande est enregistrée. Si vous adoptez Bouclé.tech : -50 % à vie."
 MERCI_ATTENTE = (
     "Les places en accès anticipé sont toutes prises : vous êtes sur la liste d'attente. "
     "On vous prévient dès qu'une place se libère."

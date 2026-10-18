@@ -155,7 +155,6 @@ def test_offer_texts_follow_the_tax_display(taxe, prix_normal, prix_early, econo
     assert texts.prix_early == prix_early
     assert texts.economie_avant + texts.economie_montant + texts.economie_apres == economie
     assert texts.economie_nombre == nombre
-    assert (texts.mention_taxe is None) == (taxe == "HT")
 
 
 def test_checkboxes_say_clearly_what_each_one_allows():
@@ -220,9 +219,13 @@ def test_feasibility_keeps_the_user_in_control():
 
 
 def test_offer_title_says_nothing_to_pay_today():
-    assert commun.OPPORTUNITE_TITRE == "Accès anticipé : rien à payer aujourd'hui"
+    assert commun.ACCES_ANTICIPE.titre == "Accès anticipé : rien à payer aujourd'hui"
 
 
 def test_no_commitment_is_stated_once_as_its_own_line():
-    assert commun.SANS_ENGAGEMENT == "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."
+    assert commun.ACCES_ANTICIPE.sans_engagement == "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."
     assert "Sans engagement" not in commun.offre("HT").attente
+
+
+def test_thank_you_fits_both_test_and_early_access_framings():
+    assert commun.MERCI_TEXTE == "Votre demande est enregistrée. Si vous adoptez Bouclé.tech : -50 % à vie."

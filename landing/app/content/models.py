@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Literal
 
-from app.content.commun import CONFORMITE_RGPD, SUPPORT_TOURNEE
+from app.content.commun import ACCES_ANTICIPE, CONFORMITE_RGPD, SUPPORT_TOURNEE, Cadrage
 from app.demo.scenario import DemoScenario
 from app.rentabilite import Hypotheses
 
@@ -27,3 +27,4 @@ class Variant:
     rentabilite: Hypotheses
     support_tournee: tuple[str, str, str] = SUPPORT_TOURNEE
     conformite: str = CONFORMITE_RGPD
+    cadrage: Cadrage = ACCES_ANTICIPE

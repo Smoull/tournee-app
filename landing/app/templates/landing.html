@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block description %}{{ variant.sous_titre }}{% endblock %}
 {% block main %}
+{% set CARTE = "rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:grid sm:grid-rows-subgrid sm:gap-y-0" %}
 <div class="relative">
   <section class="mx-auto max-w-5xl px-4 pt-6 pb-16">
     <h1 class="text-4xl leading-tight font-extrabold tracking-tight sm:text-6xl">{{ variant.h1 }}</h1>
@@ -8,7 +9,7 @@
     {% include "_demo.html" %}
     <div data-hero-cta class="mt-8 text-center">
       <a href="#formulaire" class="inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">{{ commun.HERO_CTA }}</a>
-      <p class="mt-3 font-bold">{{ offre.sous_cta }}</p>
+      <p class="mt-3 font-bold">{{ variant.cadrage.sous_cta.format(prix=offre.prix_early) }}</p>
     </div>
   </section>
 
@@ -17,7 +18,7 @@
       <h2 class="text-3xl font-bold text-principale"><span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>{{ commun.UTILITE_TITRE }}</h2>
       <ul data-reveal-group class="mt-8 grid gap-5 sm:grid-cols-3">
         {% for pain in variant.douleurs %}
-        <li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:row-span-4 sm:grid sm:grid-rows-subgrid sm:gap-y-0">
+        <li class="{{ CARTE }} sm:row-span-4">
           {{ icon(pain.icone, "size-7 text-principale") }}
           <p class="mt-4 text-lg font-bold">{{ pain.probleme }}</p>
           <p class="mt-3">{{ pain.solution }}</p>
@@ -31,7 +32,7 @@
     <h2 class="text-3xl font-bold text-principale"><span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>{{ commun.RENTABILITE_TITRE }}</h2>
     <ul data-reveal-group class="mt-8 grid gap-5 sm:grid-cols-3">
       {% for titre, detail, icone in postes_rentabilite %}
-      <li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:row-span-3 sm:grid sm:grid-rows-subgrid sm:gap-y-0">
+      <li class="{{ CARTE }} sm:row-span-3">
         {{ icon(icone, "size-7 text-principale") }}
         <p class="mt-4 text-lg font-bold">{{ titre }}</p>
         <p class="mt-2 text-sm">{{ detail }}</p>
@@ -50,11 +51,11 @@
   {% for title, items in [(commun.FAISABILITE_TITRE, faisabilite), (commun.MORALE_TITRE, morale)] %}
   <section class="mx-auto max-w-5xl px-4 py-16">
     <h2 class="text-3xl font-bold text-principale"><span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>{{ title }}</h2>
-    <ul data-reveal-group class="mt-8 grid gap-6 sm:grid-cols-3">
+    <ul data-reveal-group class="mt-8 grid gap-5 sm:grid-cols-3">
       {% for item_title, item_text, item_icon in items %}
-      <li>
+      <li class="{{ CARTE }} sm:row-span-3">
         {{ icon(item_icon, "size-7 text-principale") }}
-        <p class="mt-3 text-lg font-bold">{{ item_title }}</p>
+        <p class="mt-4 text-lg font-bold">{{ item_title }}</p>
         <p class="mt-2">{{ item_text }}</p>
       </li>
       {% endfor %}
@@ -64,14 +65,15 @@
 
   <section class="bg-principale/5 py-16">
     <div data-offer class="mx-auto max-w-5xl px-4">
-      <h2 class="text-3xl font-bold text-principale"><span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>{{ commun.OPPORTUNITE_TITRE }}</h2>
-      <p class="mt-3 text-xl font-bold">{{ commun.SANS_ENGAGEMENT }}</p>
+      <h2 class="text-3xl font-bold text-principale"><span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>{{ variant.cadrage.titre }}</h2>
+      {% if variant.cadrage.intro %}<p class="mt-3 text-lg">{{ variant.cadrage.intro }}</p>{% endif %}
+      <p class="mt-3 text-xl font-bold">{{ variant.cadrage.sans_engagement }}</p>
       <p class="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+        {% if variant.cadrage.prefixe_prix %}<span class="text-xl font-bold">{{ variant.cadrage.prefixe_prix }}</span>{% endif %}
         <s class="relative text-xl text-texte/60 [text-decoration:none]">{{ offre.prix_normal }}<span data-strike-line class="absolute inset-x-0 top-1/2 h-0.5 origin-left bg-texte/60" aria-hidden="true"></span></s>
         <span data-price-early class="inline-block text-4xl font-extrabold text-accent">{{ offre.prix_early }}</span>
       </p>
-      <p class="mt-3 text-lg font-bold">{{ offre.economie_avant }}<span data-count-to="{{ offre.economie_nombre }}" data-count-final="{{ offre.economie_montant }}">{{ offre.economie_montant }}</span>{{ offre.economie_apres }}</p>
-      {% if offre.mention_taxe %}<p class="mt-2 text-sm">{{ offre.mention_taxe }}</p>{% endif %}
+      {% if variant.cadrage.economie_annuelle %}<p class="mt-3 text-lg font-bold">{{ offre.economie_avant }}<span data-count-to="{{ offre.economie_nombre }}" data-count-final="{{ offre.economie_montant }}">{{ offre.economie_montant }}</span>{{ offre.economie_apres }}</p>{% endif %}
       <div class="mt-6 flex flex-wrap gap-2" aria-hidden="true">
         {% for index in range(places_total) %}
         <span data-place-dot{% if index < places_total - places %} data-place-taken{% endif %} class="size-4 rounded-full {{ 'bg-accent' if index < places_total - places else 'ring-2 ring-accent' }}"></span>
@@ -83,8 +85,8 @@
   </section>
 
   <section id="formulaire" class="mx-auto max-w-xl px-4 py-16">
-    <h2 class="text-3xl font-bold text-principale">{{ commun.FORMULAIRE_TITRE }}</h2>
-    <p class="mt-2">{{ commun.FORMULAIRE_INTRO }}</p>
+    <h2 class="text-3xl font-bold text-principale">{{ variant.cadrage.formulaire_titre }}</h2>
+    <p class="mt-2">{{ variant.cadrage.formulaire_intro }}</p>
     <form data-lead-form data-network-error="{{ commun.INDISPONIBLE.format(contact_email=contact_email) }}" class="mt-8 space-y-6" novalidate>
       <input type="hidden" name="variante" value="{{ variant.slug }}">
       <input type="hidden" name="utm_source" value="{{ utm_source }}">
@@ -139,7 +141,7 @@
         <label>Site web <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
       </div>
 
-      <button type="submit" class="cta-arrivee w-full rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte disabled:opacity-60">{{ commun.CTA }}</button>
+      <button type="submit" class="cta-arrivee w-full rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte disabled:opacity-60">{{ variant.cadrage.cta }}</button>
       <p data-form-status role="status" class="font-bold"></p>
     </form>
   </section>

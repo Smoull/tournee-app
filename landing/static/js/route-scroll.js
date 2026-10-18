@@ -29,24 +29,25 @@
     const early = offer.querySelector("[data-price-early]");
     const amount = offer.querySelector("[data-count-to]");
     const dots = [...offer.querySelectorAll("[data-place-dot]")];
-    const target = Number(amount.dataset.countTo);
     strike.style.transform = "scaleX(0)";
     early.style.opacity = "0";
-    amount.textContent = "0";
+    if (amount) amount.textContent = "0";
     for (const dot of dots) dot.style.transform = "scale(0)";
 
     inView(offer, async () => {
       await animate(strike, { scaleX: [0, 1] }, { duration: 0.5, ease: "easeOut" });
       animate(early, { opacity: [0, 1], scale: [0.9, 1] }, { duration: 0.4 });
-      animate(0, target, {
-        duration: 1.2,
-        ease: "easeOut",
-        onUpdate: (value) => {
-          amount.textContent = String(Math.round(value));
-        },
-      }).then(() => {
-        amount.textContent = amount.dataset.countFinal;
-      });
+      if (amount) {
+        animate(0, Number(amount.dataset.countTo), {
+          duration: 1.2,
+          ease: "easeOut",
+          onUpdate: (value) => {
+            amount.textContent = String(Math.round(value));
+          },
+        }).then(() => {
+          amount.textContent = amount.dataset.countFinal;
+        });
+      }
       animate(dots, { scale: [0, 1] }, { delay: stagger(0.05), duration: 0.3 });
     }, { amount: "some" });
   }
