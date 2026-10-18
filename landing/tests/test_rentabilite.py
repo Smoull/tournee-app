@@ -16,7 +16,7 @@ def test_every_persona_saves_two_hours_per_week(slug):
 @pytest.mark.parametrize("slug", list(VARIANTS))
 def test_time_saved_alone_covers_the_full_price(slug):
     variant = VARIANTS[slug]
-    prix_plein = commun.offre(variant.taxe).prix_normal
+    prix_plein = commun.offre(variant.taxe, variant.tarif_par).prix_normal
     assert gain_temps_par_mois(variant.rentabilite) > int(prix_plein.split(" ")[0].split(",")[0])
 
 

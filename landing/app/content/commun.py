@@ -98,7 +98,7 @@ TEST_GRATUIT = Cadrage(
     sous_cta="Test gratuit, puis {prix} si vous l'adoptez.",
     titre="Testez Bouclé.tech avec nous",
     intro=(
-        f"Bouclé.tech est en construction. Nous cherchons {PLACES_EARLY_ACCESS} cabinets "
+        f"Bouclé.tech est en construction. Nous cherchons {PLACES_EARLY_ACCESS} infirmiers et infirmières libéraux "
         "pour le tester et l'améliorer avec nous."
     ),
     sans_engagement="Sans engagement : vous testez gratuitement, puis vous décidez si vous continuez.",
@@ -121,20 +121,22 @@ class Offre:
     attente: str
 
 
-def offre(taxe: Taxe) -> Offre:
+def offre(taxe: Taxe, par: str | None = None) -> Offre:
+    unite = f"{taxe}/mois"
+    unite_early = f"{unite} par {par}" if par else f"{unite} à vie"
     prix = PRIX_HT if taxe == "HT" else PRIX_TTC
     remise = prix - prix_acces_anticipe(prix)
     normal = format_euros(prix)
     early = format_euros(prix_acces_anticipe(prix))
     economie = economie_annuelle(prix)
     return Offre(
-        prix_normal=f"{normal} € {taxe}/mois",
-        prix_early=f"{early} € {taxe}/mois à vie",
+        prix_normal=f"{normal} € {unite}",
+        prix_early=f"{early} € {unite_early}",
         economie_avant=f"-{format_euros(remise)} € {taxe}/mois à vie, soit ",
         economie_montant=format_euros(economie),
         economie_nombre=format_euros(economie).replace(",", "."),
         economie_apres=f" € {taxe} économisés chaque année.",
-        attente=f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {normal} € {taxe}/mois.",
+        attente=f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {normal} € {unite}.",
     )
 
 

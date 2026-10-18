@@ -28,3 +28,4 @@ class Variant:
     support_tournee: tuple[str, str, str] = SUPPORT_TOURNEE
     conformite: str = CONFORMITE_RGPD
     cadrage: Cadrage = ACCES_ANTICIPE
+    tarif_par: str | None = None

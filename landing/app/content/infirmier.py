@@ -49,4 +49,5 @@ VARIANT = Variant(
     ),
     conformite="Leurs données sont traitées dans le respect du RGPD, chez un hébergeur certifié HDS.",
     cadrage=TEST_GRATUIT,
+    tarif_par="infirmier",
 )

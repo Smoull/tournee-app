@@ -239,3 +239,11 @@ def test_thank_you_fits_both_test_and_early_access_framings():
 @pytest.mark.parametrize("slug", list(VARIANTS))
 def test_h1_has_no_comma_before_et(slug):
     assert ", et " not in VARIANTS[slug].h1
+
+
+def test_nurse_price_is_per_nurse_not_per_cabinet():
+    assert VARIANTS["infirmier"].tarif_par == "infirmier"
+    texts = commun.offre("TTC", par="infirmier")
+    assert texts.prix_normal == "59 € TTC/mois"
+    assert texts.prix_early == "29,50 € TTC/mois par infirmier"
+    assert texts.attente == "Après les 10 premières places, le tarif passe à 59 € TTC/mois."

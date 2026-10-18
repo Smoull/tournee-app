@@ -35,7 +35,7 @@ def test_each_variant_renders_its_fuom_content(client, slug):
         assert block in text
     assert f'name="variante" value="{slug}"' in text
     assert TAGLINE in text
-    assert text.index(variant.cadrage.titre) < text.index(variant.cadrage.sans_engagement) < text.index(commun.offre(variant.taxe).attente)
+    assert text.index(variant.cadrage.titre) < text.index(variant.cadrage.sans_engagement) < text.index(commun.offre(variant.taxe, variant.tarif_par).attente)
     assert "/static/brand/og-image.png" in text
 
 
@@ -145,7 +145,7 @@ def test_yearly_saving_is_final_without_js(client):
 
 
 def test_nurse_page_shows_ttc_prices_only(client):
-    nurse = commun.offre("TTC")
+    nurse = commun.offre("TTC", par="infirmier")
     text = page(client, "/infirmier")
     assert nurse.prix_early in text
     assert " € HT" not in text
@@ -215,7 +215,7 @@ def test_profitability_section_shows_persona_estimate_against_price(client, slug
     for titre, detail, _ in commun.postes_rentabilite(variant.clientele):
         assert titre in section and detail in section
     assert " km" not in section and "≈" not in section
-    assert commun.offre(variant.taxe).prix_early in section
+    assert commun.offre(variant.taxe, variant.tarif_par).prix_early in section
     assert commun.RENTABILITE_MENTION in section
     assert f'>{commun.RENTABILITE_LIAISON}</p>' in section and ">vs<" not in section
     assert text.index("data-rentabilite") < text.index(commun.FAISABILITE_TITRE)
@@ -298,9 +298,9 @@ def test_data_section_promises_gdpr_and_export(client, path, clientele, conformi
 def test_nurse_page_frames_early_access_as_a_free_test_with_transparent_price(client):
     text = page(client, "/infirmier")
     for attendu in (
-        "Test gratuit, puis 29,50 € TTC/mois à vie si vous l'adoptez.",
+        "Test gratuit, puis 29,50 € TTC/mois par infirmier si vous l'adoptez.",
         "Testez Bouclé.tech avec nous",
-        "Bouclé.tech est en construction. Nous cherchons 10 cabinets pour le tester et l'améliorer avec nous.",
+        "Bouclé.tech est en construction. Nous cherchons 10 infirmiers et infirmières libéraux pour le tester et l'améliorer avec nous.",
         "Sans engagement : vous testez gratuitement, puis vous décidez si vous continuez.",
         "Si vous l'adoptez :",
         "Devenez testeur",
