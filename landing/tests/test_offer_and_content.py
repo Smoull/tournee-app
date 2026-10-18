@@ -125,9 +125,14 @@ def test_only_nurses_see_ttc_prices():
 EXPECTED_SMS = {
     "generique": "Bonjour, votre passage est décalé à 10h15. Bouclé.tech",
     "laveur-vitres": "Bonjour, nous pouvons passer plus tôt : 7h00. Bouclé.tech",
-    "infirmier": "Bonjour M. Martin, mon passage chez vous est avancé à 9h00. Votre infirmière, Florence.",
+    "infirmier": "Bonjour M. Martin, mon passage chez vous est décalé à 9h45. Votre infirmière, Florence.",
     "services-domicile": "Bonjour, votre passage est décalé à 15h00. Bouclé.tech",
 }
+
+
+@pytest.mark.parametrize("slug", [slug for slug, variant in VARIANTS.items() if "ajouté" in variant.h1])
+def test_demo_shows_the_added_visit_promised_by_the_h1(slug):
+    assert VARIANTS[slug].demo.incident.kind == "ajout"
 
 
 @pytest.mark.parametrize("slug", list(EXPECTED_SMS))
