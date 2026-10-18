@@ -106,7 +106,7 @@ TEST_GRATUIT = Cadrage(
     economie_annuelle=False,
     cta="Je veux tester",
     formulaire_titre="Devenez testeur",
-    formulaire_intro="30 secondes. Aucun paiement, aucune carte bancaire.",
+    formulaire_intro="Aucun paiement, aucune carte bancaire.",
 )
 
 

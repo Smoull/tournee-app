@@ -304,7 +304,7 @@ def test_nurse_page_frames_early_access_as_a_free_test_with_transparent_price(cl
         "Sans engagement : vous testez gratuitement, puis vous décidez si vous continuez.",
         "Si vous l'adoptez :",
         "Devenez testeur",
-        "30 secondes. Aucun paiement, aucune carte bancaire.",
+        ">Aucun paiement, aucune carte bancaire.<",
         "Je veux tester",
     ):
         assert attendu in text
