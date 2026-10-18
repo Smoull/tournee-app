@@ -29,10 +29,13 @@ def test_each_variant_renders_its_fuom_content(client, slug):
     assert variant.sous_titre in text
     for pain in variant.douleurs:
         assert pain.probleme in text and pain.solution in text
+    for item_title, item_text, _ in commun.faisabilite(variant.support_tournee):
+        assert item_title in text and item_text in text
     for block in (commun.FAISABILITE_TITRE, commun.MORALE_TITRE, commun.OPPORTUNITE_TITRE, commun.FORMULAIRE_TITRE):
         assert block in text
     assert f'name="variante" value="{slug}"' in text
     assert TAGLINE in text
+    assert text.index(commun.OPPORTUNITE_TITRE) < text.index(commun.SANS_ENGAGEMENT) < text.index(commun.offre(variant.taxe).attente)
     assert "/static/brand/og-image.png" in text
 
 

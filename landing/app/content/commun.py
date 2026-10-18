@@ -41,19 +41,23 @@ def cartes_rentabilite(hypotheses: Hypotheses) -> tuple[tuple[str, str], tuple[s
 
 
 FAISABILITE_TITRE = "On configure tout pour vous"
-FAISABILITE = (
-    (
-        "Prise en main accompagnée par un expert.",
-        "On configure le logiciel avec vous.",
-        "clock-countdown",
-    ),
-    (
-        "Votre tournée sur papier ou dans votre agenda.",
-        "Un PDF clair chaque matin, ou directement dans votre agenda numérique.",
-        "printer",
-    ),
-    ("Vous gardez la main.", "Chaque tournée proposée peut être validée ou ajustée en un geste.", "hand-heart"),
+SUPPORT_TOURNEE = (
+    "Votre tournée sur papier ou dans votre agenda.",
+    "Un PDF clair chaque matin, ou directement dans votre agenda numérique.",
+    "printer",
 )
+
+
+def faisabilite(support_tournee: tuple[str, str, str]) -> tuple[tuple[str, str, str], ...]:
+    return (
+        (
+            "Prise en main accompagnée par un expert.",
+            "On configure le logiciel avec vous.",
+            "clock-countdown",
+        ),
+        support_tournee,
+        ("Vous gardez la main.", "Chaque tournée proposée peut être validée ou ajustée en un geste.", "hand-heart"),
+    )
 
 MORALE_TITRE = "Vos données restent les vôtres"
 
@@ -67,7 +71,8 @@ def morale(clientele: str) -> tuple[tuple[str, str, str], ...]:
 
 
 
-OPPORTUNITE_TITRE = "Accès anticipé : le prix des premiers, à vie"
+OPPORTUNITE_TITRE = "Accès anticipé : rien à payer aujourd'hui"
+SANS_ENGAGEMENT = "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."
 
 
 @dataclass(frozen=True)
@@ -97,10 +102,7 @@ def offre(taxe: Taxe) -> Offre:
         economie_montant=format_euros(economie),
         economie_nombre=format_euros(economie).replace(",", "."),
         economie_apres=f" € {taxe} économisés chaque année.",
-        attente=(
-            f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {normal} € {taxe}/mois. "
-            "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."
-        ),
+        attente=f"Après les {PLACES_EARLY_ACCESS} premières places, le tarif passe à {normal} € {taxe}/mois.",
         mention_taxe=None if taxe == "HT" else "Prix TTC : votre activité est exonérée de TVA, vous ne la récupérez pas.",
     )
 

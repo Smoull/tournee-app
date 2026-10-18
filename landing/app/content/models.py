@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Literal
 
+from app.content.commun import SUPPORT_TOURNEE
 from app.demo.scenario import DemoScenario
 from app.rentabilite import Hypotheses
 
@@ -24,3 +25,4 @@ class Variant:
     douleurs: tuple[Pain, Pain, Pain]
     demo: DemoScenario
     rentabilite: Hypotheses
+    support_tournee: tuple[str, str, str] = SUPPORT_TOURNEE

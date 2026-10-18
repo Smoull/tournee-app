@@ -137,7 +137,8 @@ def test_each_variant_demo_sends_the_expected_sms(slug):
 
 def test_every_icon_used_in_content_is_vendored():
     used = [pain.icone for variant in VARIANTS.values() for pain in variant.douleurs]
-    used += [item[2] for item in commun.FAISABILITE + commun.morale("clients")]
+    used += [item[2] for variant in VARIANTS.values() for item in commun.faisabilite(variant.support_tournee)]
+    used += [item[2] for item in commun.morale("clients")]
     assert set(used) <= set(ICONS)
 
 
@@ -180,13 +181,22 @@ def test_copy_says_acces_anticipe_not_early_access():
 
 
 def test_feasibility_promises_expert_onboarding_and_paper_or_calendar():
-    assert commun.FAISABILITE[0][:2] == (
+    faisabilite = commun.faisabilite(VARIANTS["laveur-vitres"].support_tournee)
+    assert faisabilite[0][:2] == (
         "Prise en main accompagnée par un expert.",
         "On configure le logiciel avec vous.",
     )
-    assert commun.FAISABILITE[1][:2] == (
+    assert faisabilite[1][:2] == (
         "Votre tournée sur papier ou dans votre agenda.",
         "Un PDF clair chaque matin, ou directement dans votre agenda numérique.",
+    )
+
+
+def test_nurse_feasibility_shares_the_planning_with_the_practice():
+    assert commun.faisabilite(VARIANTS["infirmier"].support_tournee)[1] == (
+        "Un planning partagé avec tout le cabinet.",
+        "Chaque tournée du jour dans l'agenda de vos collègues, ou en PDF clair chaque matin.",
+        "calendar-check",
     )
 
 
@@ -203,7 +213,16 @@ def test_no_show_item_shows_a_crossed_calendar():
 
 
 def test_feasibility_keeps_the_user_in_control():
-    assert commun.FAISABILITE[2][:2] == (
+    assert commun.faisabilite(commun.SUPPORT_TOURNEE)[2][:2] == (
         "Vous gardez la main.",
         "Chaque tournée proposée peut être validée ou ajustée en un geste.",
     )
+
+
+def test_offer_title_says_nothing_to_pay_today():
+    assert commun.OPPORTUNITE_TITRE == "Accès anticipé : rien à payer aujourd'hui"
+
+
+def test_no_commitment_is_stated_once_as_its_own_line():
+    assert commun.SANS_ENGAGEMENT == "Sans engagement : vous réservez votre place, vous ne payez rien aujourd'hui."
+    assert "Sans engagement" not in commun.offre("HT").attente

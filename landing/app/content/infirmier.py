@@ -40,4 +40,9 @@ VARIANT = Variant(
         sms="Bonjour, mon passage chez vous est avancé à {heure}. Votre infirmière, Florence.",
     ),
     rentabilite=Hypotheses(km_par_semaine=40, heures_par_semaine=2, no_show_par_mois=2),
+    support_tournee=(
+        "Un planning partagé avec tout le cabinet.",
+        "Chaque tournée du jour dans l'agenda de vos collègues, ou en PDF clair chaque matin.",
+        "calendar-check",
+    ),
 )
