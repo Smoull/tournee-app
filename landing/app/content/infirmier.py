@@ -39,7 +39,7 @@ VARIANT = Variant(
         incident=Incident(kind="retrait", position=2, label="Patient absent", icon="user-minus"),
         sms="Bonjour, mon passage chez vous est avancé à {heure}. Votre infirmière, Florence.",
     ),
-    rentabilite=Hypotheses(km_par_semaine=40, heures_par_semaine=2, no_show_par_mois=2),
+    rentabilite=Hypotheses(heures_par_semaine=2),
     support_tournee=(
         "Un planning partagé avec tout le cabinet.",
         "Un remplacement d'un confrère, un imprévu : mise à jour de l'agenda automatique.",

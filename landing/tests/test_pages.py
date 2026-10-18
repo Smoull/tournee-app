@@ -209,16 +209,16 @@ def test_hero_cta_and_price_line_are_centered_on_all_screens(client):
 
 @pytest.mark.parametrize("slug", list(VARIANTS))
 def test_profitability_section_shows_persona_estimate_against_price(client, slug):
-    from app.rentabilite import gain_temps_par_mois
-
     variant = VARIANTS[slug]
     text = page(client, variant.path)
     section = text.split("data-rentabilite", 1)[1].split("</section>", 1)[0]
-    assert f">{gain_temps_par_mois(variant.rentabilite)} €</span>" in section
-    for chiffre, detail in commun.cartes_rentabilite(variant.rentabilite):
-        assert f">{chiffre}</p>" in section and detail in section
+    assert f">{commun.montant_gain(variant.rentabilite)}</span>" in section
+    for titre, detail, _ in commun.postes_rentabilite(variant.clientele):
+        assert titre in section and detail in section
+    assert " km" not in section and "≈" not in section
     assert commun.offre(variant.taxe).prix_early in section
     assert commun.RENTABILITE_MENTION in section
+    assert f'>{commun.RENTABILITE_LIAISON}</p>' in section and ">vs<" not in section
     assert text.index("data-rentabilite") < text.index(commun.FAISABILITE_TITRE)
 
 
@@ -247,7 +247,7 @@ def test_no_show_item_names_the_people_each_trade_visits(client, path, libelle):
 
 def test_profitability_cards_share_rows_so_figures_align(client):
     section = page(client, "/infirmier").split("data-rentabilite", 1)[1].split("</section>", 1)[0]
-    assert section.count('<li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:row-span-4 sm:grid sm:grid-rows-subgrid sm:gap-y-0">') == 3
+    assert section.count('<li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:row-span-3 sm:grid sm:grid-rows-subgrid sm:gap-y-0">') == 3
 
 
 RGPD = "Leurs données sont traitées dans le respect du RGPD."
@@ -267,6 +267,8 @@ def test_data_section_promises_gdpr_and_export(client, path, clientele, conformi
     text = page(client, path)
     assert f"Vos {clientele} respectés." in text
     assert f'<p class="mt-2">{conformite}</p>' in text
+    assert '<p class="mt-2">Jamais revendues.</p>' in text
+    assert "jamais partagées" not in text
     assert "Du temps rendu." not in text
     assert "Exportables à tout moment." in text
     assert "Vous partez quand vous voulez, avec toutes vos données." in text

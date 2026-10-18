@@ -40,5 +40,5 @@ VARIANT = Variant(
         ajout_xy=(140, 40),
         sms="Bonjour, votre passage est décalé à {heure}. Bouclé.tech",
     ),
-    rentabilite=Hypotheses(km_par_semaine=30, heures_par_semaine=2, no_show_par_mois=1),
+    rentabilite=Hypotheses(heures_par_semaine=2),
 )

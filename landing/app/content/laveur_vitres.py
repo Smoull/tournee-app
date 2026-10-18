@@ -38,5 +38,5 @@ VARIANT = Variant(
         incident=Incident(kind="retrait", position=0, label="Annulation à 7h", icon="x-circle"),
         sms="Bonjour, nous pouvons passer plus tôt : {heure}. Bouclé.tech",
     ),
-    rentabilite=Hypotheses(km_par_semaine=30, heures_par_semaine=2, no_show_par_mois=2),
+    rentabilite=Hypotheses(heures_par_semaine=2),
 )

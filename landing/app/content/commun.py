@@ -14,30 +14,22 @@ UTILITE_TITRE = "Ce que Bouclé.tech change dans votre journée"
 
 RENTABILITE_TITRE = "Rentable dès le premier mois"
 RENTABILITE_GAIN = "gagnés par mois, rien qu'en temps (calcul théorique)"
+RENTABILITE_LIAISON = "pour"
 RENTABILITE_ABONNEMENT = "Votre abonnement en accès anticipé"
 RENTABILITE_CHUTE = "Rien qu'avec le temps gagné, votre abonnement est remboursé."
 RENTABILITE_MENTION = "Calcul théorique sur la base de 25 euros de l'heure, à adapter à votre activité."
 
 
-def postes_rentabilite(clientele: str) -> tuple[tuple[str, str], tuple[str, str], tuple[str, str]]:
+def postes_rentabilite(clientele: str) -> tuple[tuple[str, str, str], tuple[str, str, str], tuple[str, str, str]]:
     return (
-        ("Économie d'essence", "gas-pump"),
-        ("Gain de temps", "watch"),
-        (f"Absences anticipées des {clientele}", "calendar-x"),
+        ("Économie d'essence", "Le bon ordre de passage évite les kilomètres inutiles.", "gas-pump"),
+        ("Gain de temps", "Moins d'appels et de planning à refaire chaque semaine.", "watch"),
+        (f"Absences anticipées des {clientele}", "Le SMS envoyé la veille évite les déplacements inutiles.", "calendar-x"),
     )
 
 
-def cartes_rentabilite(hypotheses: Hypotheses) -> tuple[tuple[str, str], tuple[str, str], tuple[str, str]]:
-    no_show = hypotheses.no_show_par_mois
-    deplacements = "déplacement inutile évité" if no_show == 1 else "déplacements inutiles évités"
-    return (
-        (f"≈ {hypotheses.km_par_semaine} km", "évités chaque semaine grâce au bon ordre de passage"),
-        (
-            f"{gain_temps_par_mois(hypotheses)} €",
-            f"par mois, avec {hypotheses.heures_par_semaine} h gagnées chaque semaine sur les appels et le planning",
-        ),
-        (f"≈ {no_show}", f"{deplacements} chaque mois, grâce au SMS envoyé la veille"),
-    )
+def montant_gain(hypotheses: Hypotheses) -> str:
+    return f"Environ {gain_temps_par_mois(hypotheses)} €"
 
 
 FAISABILITE_TITRE = "On configure tout pour vous"
@@ -67,7 +59,7 @@ CONFORMITE_RGPD = "Leurs données sont traitées dans le respect du RGPD."
 
 def morale(clientele: str, conformite: str) -> tuple[tuple[str, str, str], ...]:
     return (
-        ("Hébergées en France.", "Jamais revendues, jamais partagées.", "shield-check"),
+        ("Hébergées en France.", "Jamais revendues.", "shield-check"),
         (f"Vos {clientele} respectés.", conformite, "chat-text"),
         ("Exportables à tout moment.", "Vous partez quand vous voulez, avec toutes vos données.", "download-simple"),
     )

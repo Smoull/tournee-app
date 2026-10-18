@@ -201,15 +201,15 @@ def test_nurse_feasibility_shares_the_planning_with_the_practice():
 
 
 def test_profitability_first_item_speaks_of_fuel_savings():
-    assert commun.postes_rentabilite("clients")[0] == ("Économie d'essence", "gas-pump")
+    assert commun.postes_rentabilite("clients")[0][::2] == ("Économie d'essence", "gas-pump")
 
 
 def test_profitability_second_item_speaks_of_time_saved():
-    assert commun.postes_rentabilite("clients")[1] == ("Gain de temps", "watch")
+    assert commun.postes_rentabilite("clients")[1][::2] == ("Gain de temps", "watch")
 
 
 def test_no_show_item_shows_a_crossed_calendar():
-    assert commun.postes_rentabilite("patients")[2] == ("Absences anticipées des patients", "calendar-x")
+    assert commun.postes_rentabilite("patients")[2][::2] == ("Absences anticipées des patients", "calendar-x")
 
 
 def test_feasibility_keeps_the_user_in_control():
