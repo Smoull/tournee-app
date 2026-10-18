@@ -12,7 +12,7 @@ VARIANT = Variant(
     metier_prefill="infirmier",
     taxe="TTC",
     clientele="patients",
-    h1="Un passage ajouté, et votre tournée reste sous contrôle.",
+    h1="Un passage ajouté et votre tournée reste sous contrôle.",
     sous_titre=(
         "Bouclé.tech réorganise la tournée autour de vos horaires fixes "
         "et prévient vos patients de l'heure de passage."

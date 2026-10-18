@@ -234,3 +234,7 @@ def test_no_commitment_is_stated_once_as_its_own_line():
 
 def test_thank_you_fits_both_test_and_early_access_framings():
     assert commun.MERCI_TEXTE == "Votre demande est enregistrée. Si vous adoptez Bouclé.tech : -50 % à vie."
+
+
+def test_nurse_h1_reads_without_comma():
+    assert VARIANTS["infirmier"].h1 == "Un passage ajouté et votre tournée reste sous contrôle."
