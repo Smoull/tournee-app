@@ -10,7 +10,7 @@ VARIANT = Variant(
     metier_prefill=None,
     taxe="HT",
     clientele="clients",
-    h1="Plusieurs demandes à caser, et votre semaine reste sous contrôle.",
+    h1="Plusieurs demandes à caser et votre semaine reste sous contrôle.",
     sous_titre=(
         "Bouclé.tech trouve le bon ordre de passage et prévient vos clients par SMS. "
         "Vous arrivez à l'heure, sereinement."

@@ -10,7 +10,7 @@ VARIANT = Variant(
     metier_prefill="laveur-vitres",
     taxe="HT",
     clientele="clients",
-    h1="Une annulation en début de journée, et votre tournée reste sous contrôle.",
+    h1="Une annulation en début de journée et votre tournée reste sous contrôle.",
     sous_titre=(
         "Bouclé.tech recalcule la tournée et prévient vos clients par SMS. "
         "Votre matinée reste productive."

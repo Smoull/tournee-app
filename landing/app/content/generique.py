@@ -10,7 +10,7 @@ VARIANT = Variant(
     metier_prefill=None,
     taxe="HT",
     clientele="clients",
-    h1="Un imprévu dans la journée, et votre tournée reste sous contrôle.",
+    h1="Un imprévu dans la journée et votre tournée reste sous contrôle.",
     sous_titre=(
         "Bouclé.tech recalcule la tournée et prévient vos clients par SMS. "
         "Vous restez concentré sur la route."
