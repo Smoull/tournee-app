@@ -200,19 +200,58 @@ def test_hero_cta_and_price_line_are_centered_on_all_screens(client):
     block = text.split("<div data-hero-cta", 1)[1].split("</div>", 1)[0]
     opening = block.split(">", 1)[0]
     assert "text-center" in opening and "sm:" not in opening
-    assert commun.CTA in block
+    assert commun.HERO_CTA in block
     assert commun.offre("HT").sous_cta in block
 
 
 @pytest.mark.parametrize("slug", list(VARIANTS))
 def test_profitability_section_shows_persona_estimate_against_price(client, slug):
-    from app.rentabilite import gains
+    from app.rentabilite import gain_temps_par_mois
 
     variant = VARIANTS[slug]
     text = page(client, variant.path)
     section = text.split("data-rentabilite", 1)[1].split("</section>", 1)[0]
-    estimate = gains(variant.rentabilite)
-    assert f"{estimate.total} €" in section
+    assert f">{gain_temps_par_mois(variant.rentabilite)} €</span>" in section
+    for chiffre, detail in commun.cartes_rentabilite(variant.rentabilite):
+        assert f">{chiffre}</p>" in section and detail in section
     assert commun.offre(variant.taxe).prix_early in section
     assert commun.RENTABILITE_MENTION in section
     assert text.index("data-rentabilite") < text.index(commun.FAISABILITE_TITRE)
+
+
+def test_hero_cta_invites_to_start_while_form_button_keeps_reservation(client):
+    text = page(client, "/")
+    assert '#formulaire" class="inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">Lancer ma tournée</a>' in text
+    assert "disabled:opacity-60\">Je réserve ma place</button>" in text
+
+
+def test_profitability_title_promises_return_from_first_month(client):
+    assert '<span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>Rentable dès le premier mois</h2>' in page(client, "/")
+
+
+@pytest.mark.parametrize(
+    "path,libelle",
+    [
+        ("/infirmier", "Absences anticipées des patients"),
+        ("/", "Absences anticipées des clients"),
+        ("/laveur-vitres", "Absences anticipées des clients"),
+        ("/services-domicile", "Absences anticipées des clients"),
+    ],
+)
+def test_no_show_item_names_the_people_each_trade_visits(client, path, libelle):
+    assert f'<p class="mt-4 text-lg font-bold">{libelle}</p>' in page(client, path)
+
+
+def test_profitability_cards_share_rows_so_figures_align(client):
+    section = page(client, "/infirmier").split("data-rentabilite", 1)[1].split("</section>", 1)[0]
+    assert section.count('<li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:row-span-4 sm:grid sm:grid-rows-subgrid sm:gap-y-0">') == 3
+
+
+@pytest.mark.parametrize("path,clientele", [("/infirmier", "patients"), ("/", "clients"), ("/laveur-vitres", "clients"), ("/services-domicile", "clients")])
+def test_data_section_promises_gdpr_and_export(client, path, clientele):
+    text = page(client, path)
+    assert f"Vos {clientele} respectés." in text
+    assert "Leurs données sont traitées dans le respect du RGPD." in text
+    assert "Du temps rendu." not in text
+    assert "Exportables à tout moment." in text
+    assert "Vous partez quand vous voulez, avec toutes vos données." in text

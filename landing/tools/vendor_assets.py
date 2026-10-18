@@ -21,6 +21,8 @@ PHOSPHOR = (
 ICONS = (
     "x-circle",
     "user-minus",
+    "user",
+    "download-simple",
     "plus-circle",
     "lightning",
     "chat-text",
@@ -33,8 +35,8 @@ ICONS = (
     "arrow-counter-clockwise",
     "cloud-rain",
     "gas-pump",
-    "files",
-    "door-open",
+    "watch",
+    "calendar-x",
 )
 
 

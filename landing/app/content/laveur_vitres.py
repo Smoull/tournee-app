@@ -1,5 +1,4 @@
 from datetime import time
-from decimal import Decimal
 
 from app.content.models import Pain, Variant
 from app.demo.scenario import DemoScenario, Incident
@@ -10,28 +9,26 @@ VARIANT = Variant(
     path="/laveur-vitres",
     metier_prefill="laveur-vitres",
     taxe="HT",
-    h1="6h58, un client annule. L'échelle est déjà sur le camion.",
+    clientele="clients",
+    h1="Une annulation en début de journée, et votre tournée reste sous contrôle.",
     sous_titre=(
         "Bouclé.tech recalcule la tournée et prévient vos clients par SMS. "
-        "Vous gardez votre matinée, et votre raclette ne chôme pas."
+        "Votre matinée reste productive."
     ),
     douleurs=(
         Pain(
-            "Il pleut. Encore. Et toute la journée est à décaler.",
-            "Reportez en un geste : Bouclé.tech repropose les créneaux et prévient chaque client. "
-            "Vous, vous regardez la pluie avec un café.",
+            "La météo qui décale toute la journée.",
+            "Vous reportez en un geste, Bouclé.tech repropose les créneaux et prévient chaque client.",
             "cloud-rain",
         ),
         Pain(
-            "Le passage tous les 2 mois chez la boulangerie : noté où, déjà ?",
-            "Les clients récurrents reviennent tout seuls dans votre planning, au bon rythme. "
-            "Le carnet à spirale peut prendre sa retraite.",
+            "Des passages réguliers à ne pas oublier.",
+            "Les clients récurrents reviennent automatiquement dans votre planning, au bon rythme.",
             "calendar-check",
         ),
         Pain(
-            "Porte fermée, volets clos, 25 minutes de route pour rien.",
-            "La veille, un SMS confirme le passage. Le client absent se signale avant, "
-            "pas quand vous êtes déjà sur le trottoir.",
+            "Un client absent, un déplacement perdu.",
+            "La veille, un SMS confirme le passage. Le client absent se signale à l'avance.",
             "chat-text",
         ),
     ),
@@ -41,5 +38,5 @@ VARIANT = Variant(
         incident=Incident(kind="retrait", position=0, label="Annulation à 7h", icon="x-circle"),
         sms="Bonjour, nous pouvons passer plus tôt : {heure}. Bouclé.tech",
     ),
-    rentabilite=Hypotheses(km_par_semaine=30, heures_admin_par_mois=2, no_show_par_mois=2, valeur_passage=Decimal("45")),
+    rentabilite=Hypotheses(km_par_semaine=30, heures_par_semaine=2, no_show_par_mois=2),
 )

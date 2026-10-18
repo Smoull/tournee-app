@@ -7,7 +7,7 @@
     <p class="mt-5 max-w-2xl text-lg sm:text-xl">{{ variant.sous_titre }}</p>
     {% include "_demo.html" %}
     <div data-hero-cta class="mt-8 text-center">
-      <a href="#formulaire" class="inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">{{ commun.CTA }}</a>
+      <a href="#formulaire" class="inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">{{ commun.HERO_CTA }}</a>
       <p class="mt-3 font-bold">{{ offre.sous_cta }}</p>
     </div>
   </section>
@@ -17,7 +17,7 @@
       <h2 class="text-3xl font-bold text-principale"><span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>{{ commun.UTILITE_TITRE }}</h2>
       <ul data-reveal-group class="mt-8 grid gap-5 sm:grid-cols-3">
         {% for pain in variant.douleurs %}
-        <li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10">
+        <li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:row-span-4 sm:grid sm:grid-rows-subgrid sm:gap-y-0">
           {{ icon(pain.icone, "size-7 text-principale") }}
           <p class="mt-4 text-lg font-bold">{{ pain.probleme }}</p>
           <p class="mt-3">{{ pain.solution }}</p>
@@ -29,19 +29,19 @@
 
   <section data-rentabilite class="mx-auto max-w-5xl px-4 py-16">
     <h2 class="text-3xl font-bold text-principale"><span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>{{ commun.RENTABILITE_TITRE }}</h2>
-    {% set montants = [estimation.essence, estimation.administratif, estimation.no_show] %}
     <ul data-reveal-group class="mt-8 grid gap-5 sm:grid-cols-3">
-      {% for titre, icone in commun.RENTABILITE_POSTES %}
-      <li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10">
+      {% for titre, icone in postes_rentabilite %}
+      {% set chiffre, detail = cartes_rentabilite[loop.index0] %}
+      <li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:row-span-4 sm:grid sm:grid-rows-subgrid sm:gap-y-0">
         {{ icon(icone, "size-7 text-principale") }}
         <p class="mt-4 text-lg font-bold">{{ titre }}</p>
-        <p class="mt-1 text-3xl font-extrabold text-principale">≈ {{ montants[loop.index0] }} €</p>
-        <p class="mt-2 text-sm">{{ lignes_rentabilite[loop.index0] }}</p>
+        <p class="mt-1 text-3xl font-extrabold text-principale">{{ chiffre }}</p>
+        <p class="mt-2 text-sm">{{ detail }}</p>
       </li>
       {% endfor %}
     </ul>
     <div class="mt-8 flex flex-col items-center gap-3 rounded-2xl bg-principale/5 p-6 text-center sm:flex-row sm:justify-around">
-      <p><span class="block text-4xl font-extrabold text-principale">≈ {{ estimation.total }} €</span><span class="font-bold">{{ commun.RENTABILITE_GAIN }}</span></p>
+      <p><span class="block text-4xl font-extrabold text-principale">{{ gain_temps }} €</span><span class="font-bold">{{ commun.RENTABILITE_GAIN }}</span></p>
       <p class="text-2xl font-bold text-texte/60" aria-hidden="true">vs</p>
       <p><span class="block text-2xl font-extrabold text-accent">{{ offre.prix_early }}</span><span class="font-bold">{{ commun.RENTABILITE_ABONNEMENT }}</span></p>
     </div>
@@ -49,7 +49,7 @@
     <p class="mt-2 text-center text-sm text-texte/70">{{ commun.RENTABILITE_MENTION }}</p>
   </section>
 
-  {% for title, items in [(commun.FAISABILITE_TITRE, commun.FAISABILITE), (commun.MORALE_TITRE, commun.MORALE)] %}
+  {% for title, items in [(commun.FAISABILITE_TITRE, commun.FAISABILITE), (commun.MORALE_TITRE, morale)] %}
   <section class="mx-auto max-w-5xl px-4 py-16">
     <h2 class="text-3xl font-bold text-principale"><span data-route-stop class="route-stop is-reached" aria-hidden="true"></span>{{ title }}</h2>
     <ul data-reveal-group class="mt-8 grid gap-6 sm:grid-cols-3">

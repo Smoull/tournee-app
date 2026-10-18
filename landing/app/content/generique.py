@@ -1,5 +1,4 @@
 from datetime import time
-from decimal import Decimal
 
 from app.content.models import Pain, Variant
 from app.demo.scenario import DemoScenario, Incident
@@ -10,28 +9,27 @@ VARIANT = Variant(
     path="/",
     metier_prefill=None,
     taxe="HT",
-    h1="7h05, un client annule. 7h06, votre journée entière est à refaire.",
+    clientele="clients",
+    h1="Un imprévu dans la journée, et votre tournée reste sous contrôle.",
     sous_titre=(
         "Bouclé.tech recalcule la tournée et prévient vos clients par SMS. "
-        "Vous conduisez, le téléphone reste dans la poche."
+        "Vous restez concentré sur la route."
     ),
     douleurs=(
         Pain(
-            "Un client annule, un autre veut passer « juste avant midi, si possible ».",
-            "Un geste, la tournée se réorganise. Les clients concernés reçoivent leur nouvel horaire par SMS, "
-            "sans que vous décrochiez.",
+            "Un client annule, un autre demande un passage.",
+            "La tournée se réorganise en un geste et les clients concernés "
+            "reçoivent leur nouvel horaire par SMS.",
             "calendar-check",
         ),
         Pain(
-            "Le soir, le compteur affiche 40 km de plus que prévu. Personne ne sait où ils sont passés.",
-            "Bouclé.tech ordonne vos arrêts et chiffre chaque journée : carburant, temps, rentabilité. "
-            "Les kilomètres fantômes disparaissent.",
+            "Des kilomètres en trop, difficiles à repérer.",
+            "Bouclé.tech ordonne vos arrêts et chiffre chaque journée : carburant, temps, rentabilité.",
             "map-pin",
         ),
         Pain(
-            "Le planning de la semaine tient dans votre tête. Jusqu'au jour où un client passe à la trappe.",
-            "Il tient sur une page, imprimable chaque matin et partageable avec vos collègues. "
-            "Votre mémoire peut souffler.",
+            "Un planning qui ne repose que sur votre mémoire.",
+            "Il tient sur une page, imprimable chaque matin et partageable avec vos collègues.",
             "printer",
         ),
     ),
@@ -42,5 +40,5 @@ VARIANT = Variant(
         ajout_xy=(140, 40),
         sms="Bonjour, votre passage est décalé à {heure}. Bouclé.tech",
     ),
-    rentabilite=Hypotheses(km_par_semaine=30, heures_admin_par_mois=2, no_show_par_mois=1, valeur_passage=Decimal("40")),
+    rentabilite=Hypotheses(km_par_semaine=30, heures_par_semaine=2, no_show_par_mois=1),
 )

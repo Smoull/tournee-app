@@ -47,4 +47,4 @@ def test_read_member_missing_file_fails():
 
 
 def test_icon_list_is_closed_and_unique():
-    assert len(ICONS) == len(set(ICONS)) == 16
+    assert len(ICONS) == len(set(ICONS)) == 18

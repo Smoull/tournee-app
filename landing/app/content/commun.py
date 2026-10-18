@@ -1,34 +1,42 @@
 from dataclasses import dataclass
 from typing import Literal
 
-from app.rentabilite import Hypotheses
+from app.rentabilite import Hypotheses, gain_temps_par_mois
 from app.offer import PLACES_EARLY_ACCESS, PRIX_HT, PRIX_TTC, economie_annuelle, format_euros, prix_acces_anticipe
 
 Taxe = Literal["HT", "TTC"]
 
 CTA = "Je réserve ma place"
+HERO_CTA = "Lancer ma tournée"
 REJOUER = "Rejouer la démo"
 
 UTILITE_TITRE = "Ce que Bouclé.tech change dans votre journée"
 
-RENTABILITE_TITRE = "Bouclé.tech se rembourse tout seul"
-RENTABILITE_POSTES = (("Moins d'essence", "gas-pump"), ("Moins de paperasse", "files"), ("Moins de déplacements pour rien", "door-open"))
-RENTABILITE_GAIN = "gagnés par mois (calcul théorique)"
+RENTABILITE_TITRE = "Rentable dès le premier mois"
+RENTABILITE_GAIN = "gagnés par mois, rien qu'en temps (calcul théorique)"
 RENTABILITE_ABONNEMENT = "Votre abonnement en accès anticipé"
-RENTABILITE_CHUTE = "Rentabilisé dès le premier déplacement pour rien évité."
-RENTABILITE_MENTION = (
-    "Calcul théorique, à ajuster à votre activité : carburant à 2 euros le litre pour 6,5 litres aux 100 km, "
-    "votre heure de travail comptée 30 euros."
-)
+RENTABILITE_CHUTE = "Rien qu'avec le temps gagné, votre abonnement est remboursé."
+RENTABILITE_MENTION = "Calcul théorique sur la base de 25 euros de l'heure, à adapter à votre activité."
 
 
-def lignes_rentabilite(hypotheses: Hypotheses) -> tuple[str, str, str]:
-    no_show = hypotheses.no_show_par_mois
-    deplacements = "1 déplacement pour rien évité" if no_show == 1 else f"{no_show} déplacements pour rien évités"
+def postes_rentabilite(clientele: str) -> tuple[tuple[str, str], tuple[str, str], tuple[str, str]]:
     return (
-        f"{hypotheses.km_par_semaine} km évités par semaine grâce au bon ordre de passage",
-        f"{hypotheses.heures_admin_par_mois} h de coups de fil et de planning en moins par mois",
-        f"{deplacements} par mois, grâce au SMS de confirmation la veille",
+        ("Économie d'essence", "gas-pump"),
+        ("Gain de temps", "watch"),
+        (f"Absences anticipées des {clientele}", "calendar-x"),
+    )
+
+
+def cartes_rentabilite(hypotheses: Hypotheses) -> tuple[tuple[str, str], tuple[str, str], tuple[str, str]]:
+    no_show = hypotheses.no_show_par_mois
+    deplacements = "déplacement inutile évité" if no_show == 1 else "déplacements inutiles évités"
+    return (
+        (f"≈ {hypotheses.km_par_semaine} km", "évités chaque semaine grâce au bon ordre de passage"),
+        (
+            f"{gain_temps_par_mois(hypotheses)} €",
+            f"par mois, avec {hypotheses.heures_par_semaine} h gagnées chaque semaine sur les appels et le planning",
+        ),
+        (f"≈ {no_show}", f"{deplacements} chaque mois, grâce au SMS envoyé la veille"),
     )
 
 
@@ -36,7 +44,7 @@ FAISABILITE_TITRE = "On configure tout pour vous"
 FAISABILITE = (
     (
         "Prise en main accompagnée par un expert.",
-        "On importe vos clients avec vous, au téléphone. 5 minutes et c'est parti.",
+        "On configure le logiciel avec vous.",
         "clock-countdown",
     ),
     (
@@ -44,15 +52,20 @@ FAISABILITE = (
         "Un PDF clair chaque matin, ou directement dans votre agenda numérique.",
         "printer",
     ),
-    ("Vous gardez la main.", "Bouclé.tech propose, vous validez ou vous modifiez. Toujours.", "hand-heart"),
+    ("Vous gardez la main.", "Chaque tournée proposée peut être validée ou ajustée en un geste.", "hand-heart"),
 )
 
 MORALE_TITRE = "Vos données restent les vôtres"
-MORALE = (
-    ("Hébergées en France.", "Jamais revendues, jamais partagées.", "shield-check"),
-    ("Vos clients respectés.", "Prévenus avant, jamais surpris par un retard.", "chat-text"),
-    ("Du temps rendu.", "Moins de trajets et de coups de fil, plus de soirées pour vous et vos proches.", "clock-countdown"),
-)
+
+
+def morale(clientele: str) -> tuple[tuple[str, str, str], ...]:
+    return (
+        ("Hébergées en France.", "Jamais revendues, jamais partagées.", "shield-check"),
+        (f"Vos {clientele} respectés.", "Leurs données sont traitées dans le respect du RGPD.", "chat-text"),
+        ("Exportables à tout moment.", "Vous partez quand vous voulez, avec toutes vos données.", "download-simple"),
+    )
+
+
 
 OPPORTUNITE_TITRE = "Accès anticipé : le prix des premiers, à vie"
 

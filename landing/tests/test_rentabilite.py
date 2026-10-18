@@ -1,53 +1,40 @@
-from decimal import Decimal
-
 import pytest
 
 from app.content import VARIANTS, commun
-from app.rentabilite import COUT_CARBURANT_PAR_KM, Hypotheses, gains
+from app.rentabilite import Hypotheses, gain_temps_par_mois
 
 
-def test_monthly_gains_from_fuel_admin_time_and_no_show():
-    result = gains(Hypotheses(km_par_semaine=30, heures_admin_par_mois=2, no_show_par_mois=1, valeur_passage=Decimal("40")))
-
-    assert (result.essence, result.administratif, result.no_show) == (17, 60, 40)
-    assert result.total == 117
-
-
-def test_fuel_cost_comes_from_2_euros_per_litre_at_6_5_litres_per_100_km():
-    assert COUT_CARBURANT_PAR_KM == Decimal("0.13")
-
-
-@pytest.mark.parametrize(
-    "slug,total",
-    [("generique", 117), ("laveur-vitres", 167), ("infirmier", 137), ("services-domicile", 109)],
-)
-def test_each_persona_has_its_own_estimate(slug, total):
-    assert gains(VARIANTS[slug].rentabilite).total == total
+def test_two_hours_per_week_over_four_weeks_at_25_euros_per_hour_are_worth_200_euros():
+    assert gain_temps_par_mois(Hypotheses(km_par_semaine=30, heures_par_semaine=2, no_show_par_mois=1)) == 200
 
 
 @pytest.mark.parametrize("slug", list(VARIANTS))
-def test_estimate_covers_the_full_price_not_only_the_early_access_price(slug):
+def test_every_persona_saves_two_hours_per_week(slug):
+    assert VARIANTS[slug].rentabilite.heures_par_semaine == 2
+
+
+@pytest.mark.parametrize("slug", list(VARIANTS))
+def test_time_saved_alone_covers_the_full_price(slug):
     variant = VARIANTS[slug]
     prix_plein = commun.offre(variant.taxe).prix_normal
-    assert gains(variant.rentabilite).total > int(prix_plein.split(" ")[0].split(",")[0])
+    assert gain_temps_par_mois(variant.rentabilite) > int(prix_plein.split(" ")[0].split(",")[0])
 
 
-def test_hypothesis_lines_agree_in_number():
-    lines = commun.lignes_rentabilite(
-        Hypotheses(km_par_semaine=25, heures_admin_par_mois=2, no_show_par_mois=1, valeur_passage=Decimal("35"))
+def test_cards_show_km_time_value_and_avoided_trips():
+    cartes = commun.cartes_rentabilite(Hypotheses(km_par_semaine=40, heures_par_semaine=2, no_show_par_mois=2))
+    assert cartes == (
+        ("≈ 40 km", "évités chaque semaine grâce au bon ordre de passage"),
+        ("200 €", "par mois, avec 2 h gagnées chaque semaine sur les appels et le planning"),
+        ("≈ 2", "déplacements inutiles évités chaque mois, grâce au SMS envoyé la veille"),
     )
-    assert lines == (
-        "25 km évités par semaine grâce au bon ordre de passage",
-        "2 h de coups de fil et de planning en moins par mois",
-        "1 déplacement pour rien évité par mois, grâce au SMS de confirmation la veille",
-    )
-    assert commun.lignes_rentabilite(
-        Hypotheses(km_par_semaine=30, heures_admin_par_mois=3, no_show_par_mois=2, valeur_passage=Decimal("12"))
-    )[2] == "2 déplacements pour rien évités par mois, grâce au SMS de confirmation la veille"
 
 
-def test_estimate_is_labelled_as_a_theoretical_calculation():
-    assert commun.RENTABILITE_MENTION.startswith("Calcul théorique")
-    assert "6,5 litres aux 100 km" in commun.RENTABILITE_MENTION
-    assert "votre heure de travail comptée 30 euros" in commun.RENTABILITE_MENTION
-    assert commun.RENTABILITE_GAIN == "gagnés par mois (calcul théorique)"
+def test_single_avoided_trip_is_singular():
+    cartes = commun.cartes_rentabilite(Hypotheses(km_par_semaine=25, heures_par_semaine=2, no_show_par_mois=1))
+    assert cartes[2] == ("≈ 1", "déplacement inutile évité chaque mois, grâce au SMS envoyé la veille")
+
+
+def test_estimate_is_labelled_as_a_theoretical_calculation_on_time_only():
+    assert commun.RENTABILITE_MENTION == "Calcul théorique sur la base de 25 euros de l'heure, à adapter à votre activité."
+    assert commun.RENTABILITE_GAIN == "gagnés par mois, rien qu'en temps (calcul théorique)"
+    assert commun.RENTABILITE_CHUTE == "Rien qu'avec le temps gagné, votre abonnement est remboursé."

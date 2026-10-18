@@ -125,7 +125,7 @@ def test_only_nurses_see_ttc_prices():
 EXPECTED_SMS = {
     "generique": "Bonjour, votre passage est décalé à 10h15. Bouclé.tech",
     "laveur-vitres": "Bonjour, nous pouvons passer plus tôt : 7h00. Bouclé.tech",
-    "infirmier": "Bonjour, mon passage chez vous est avancé à 9h00. Bouclé.tech",
+    "infirmier": "Bonjour, mon passage chez vous est avancé à 9h00. Votre infirmière, Florence.",
     "services-domicile": "Bonjour, votre passage est décalé à 15h00. Bouclé.tech",
 }
 
@@ -137,7 +137,7 @@ def test_each_variant_demo_sends_the_expected_sms(slug):
 
 def test_every_icon_used_in_content_is_vendored():
     used = [pain.icone for variant in VARIANTS.values() for pain in variant.douleurs]
-    used += [item[2] for item in commun.FAISABILITE + commun.MORALE]
+    used += [item[2] for item in commun.FAISABILITE + commun.morale("clients")]
     assert set(used) <= set(ICONS)
 
 
@@ -182,9 +182,28 @@ def test_copy_says_acces_anticipe_not_early_access():
 def test_feasibility_promises_expert_onboarding_and_paper_or_calendar():
     assert commun.FAISABILITE[0][:2] == (
         "Prise en main accompagnée par un expert.",
-        "On importe vos clients avec vous, au téléphone. 5 minutes et c'est parti.",
+        "On configure le logiciel avec vous.",
     )
     assert commun.FAISABILITE[1][:2] == (
         "Votre tournée sur papier ou dans votre agenda.",
         "Un PDF clair chaque matin, ou directement dans votre agenda numérique.",
+    )
+
+
+def test_profitability_first_item_speaks_of_fuel_savings():
+    assert commun.postes_rentabilite("clients")[0] == ("Économie d'essence", "gas-pump")
+
+
+def test_profitability_second_item_speaks_of_time_saved():
+    assert commun.postes_rentabilite("clients")[1] == ("Gain de temps", "watch")
+
+
+def test_no_show_item_shows_a_crossed_calendar():
+    assert commun.postes_rentabilite("patients")[2] == ("Absences anticipées des patients", "calendar-x")
+
+
+def test_feasibility_keeps_the_user_in_control():
+    assert commun.FAISABILITE[2][:2] == (
+        "Vous gardez la main.",
+        "Chaque tournée proposée peut être validée ou ajustée en un geste.",
     )

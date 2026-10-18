@@ -18,6 +18,7 @@ class Variant:
     path: str
     metier_prefill: str | None
     taxe: Literal["HT", "TTC"]
+    clientele: str
     h1: str
     sous_titre: str
     douleurs: tuple[Pain, Pain, Pain]

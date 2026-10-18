@@ -1,5 +1,4 @@
 from datetime import time
-from decimal import Decimal
 
 from app.content.models import Pain, Variant
 from app.demo.scenario import DemoScenario, Incident
@@ -11,27 +10,26 @@ VARIANT = Variant(
     path="/infirmier",
     metier_prefill="infirmier",
     taxe="TTC",
-    h1="7h12, le cabinet ajoute un passage. 7h13, toute votre tournée a glissé.",
+    clientele="patients",
+    h1="Un passage ajouté, et votre tournée reste sous contrôle.",
     sous_titre=(
-        "Bouclé.tech recale la tournée autour de vos horaires fixes et prévient vos patients "
-        "de l'heure de passage. Vous gardez le volant, il garde le planning."
+        "Bouclé.tech réorganise la tournée autour de vos horaires fixes "
+        "et prévient vos patients de l'heure de passage."
     ),
     douleurs=(
         Pain(
-            "Le passage de 8h pile, celui qu'on ne décale pas, même pour un café.",
-            "Vous le verrouillez une fois. Bouclé.tech construit le reste autour, sans discuter.",
+            "Gestion automatique des passages à heure fixe.",
+            "Vous indiquez les passages à heure fixe, Bouclé.tech organise le reste de la tournée.",
             "clock-countdown",
         ),
         Pain(
-            "Vous sonnez, personne. Le patient est parti chez sa fille depuis hier.",
-            "Un clic, la tournée se recalcule et les suivants reçoivent leur nouvel horaire par SMS. "
-            "Fini les dix appels depuis la voiture.",
-            "user-minus",
+            "Un patient absent ou un imprévu.",
+            "La tournée se recalcule et les patients suivants reçoivent leur nouvel horaire par SMS.",
+            "user",
         ),
         Pain(
-            "Votre collègue fait 12 km de plus que vous, et vous le rappelle à chaque relève.",
-            "Tous les trajets de la journée sur une seule vue, à imprimer ou partager avec le cabinet "
-            "ou votre remplaçante. Les comptes sont vite faits.",
+            "Des trajets optimisés.",
+            "Moins d'essence dépensée chaque jour, une vue claire des trajets, facile à partager.",
             "map-pin",
         ),
     ),
@@ -39,7 +37,7 @@ VARIANT = Variant(
         debut=time(7, 30),
         positions=((30, 60), (90, 140), (155, 70), (220, 150), (290, 80)),
         incident=Incident(kind="retrait", position=2, label="Patient absent", icon="user-minus"),
-        sms="Bonjour, mon passage chez vous est avancé à {heure}. Bouclé.tech",
+        sms="Bonjour, mon passage chez vous est avancé à {heure}. Votre infirmière, Florence.",
     ),
-    rentabilite=Hypotheses(km_par_semaine=40, heures_admin_par_mois=3, no_show_par_mois=2, valeur_passage=Decimal("12")),
+    rentabilite=Hypotheses(km_par_semaine=40, heures_par_semaine=2, no_show_par_mois=2),
 )
