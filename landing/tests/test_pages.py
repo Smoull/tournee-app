@@ -250,11 +250,23 @@ def test_profitability_cards_share_rows_so_figures_align(client):
     assert section.count('<li class="rounded-2xl bg-fond p-6 ring-1 ring-texte/10 sm:row-span-4 sm:grid sm:grid-rows-subgrid sm:gap-y-0">') == 3
 
 
-@pytest.mark.parametrize("path,clientele", [("/infirmier", "patients"), ("/", "clients"), ("/laveur-vitres", "clients"), ("/services-domicile", "clients")])
-def test_data_section_promises_gdpr_and_export(client, path, clientele):
+RGPD = "Leurs données sont traitées dans le respect du RGPD."
+RGPD_HDS = "Leurs données sont traitées dans le respect du RGPD, chez un hébergeur certifié HDS."
+
+
+@pytest.mark.parametrize(
+    "path,clientele,conformite",
+    [
+        ("/infirmier", "patients", RGPD_HDS),
+        ("/", "clients", RGPD),
+        ("/laveur-vitres", "clients", RGPD),
+        ("/services-domicile", "clients", RGPD),
+    ],
+)
+def test_data_section_promises_gdpr_and_export(client, path, clientele, conformite):
     text = page(client, path)
     assert f"Vos {clientele} respectés." in text
-    assert "Leurs données sont traitées dans le respect du RGPD." in text
+    assert f'<p class="mt-2">{conformite}</p>' in text
     assert "Du temps rendu." not in text
     assert "Exportables à tout moment." in text
     assert "Vous partez quand vous voulez, avec toutes vos données." in text

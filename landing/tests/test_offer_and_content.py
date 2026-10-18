@@ -138,7 +138,7 @@ def test_each_variant_demo_sends_the_expected_sms(slug):
 def test_every_icon_used_in_content_is_vendored():
     used = [pain.icone for variant in VARIANTS.values() for pain in variant.douleurs]
     used += [item[2] for variant in VARIANTS.values() for item in commun.faisabilite(variant.support_tournee)]
-    used += [item[2] for item in commun.morale("clients")]
+    used += [item[2] for item in commun.morale("clients", commun.CONFORMITE_RGPD)]
     assert set(used) <= set(ICONS)
 
 
@@ -195,7 +195,7 @@ def test_feasibility_promises_expert_onboarding_and_paper_or_calendar():
 def test_nurse_feasibility_shares_the_planning_with_the_practice():
     assert commun.faisabilite(VARIANTS["infirmier"].support_tournee)[1] == (
         "Un planning partagé avec tout le cabinet.",
-        "Chaque tournée du jour dans l'agenda de vos collègues, ou en PDF clair chaque matin.",
+        "Un remplacement d'un confrère, un imprévu : mise à jour de l'agenda automatique.",
         "calendar-check",
     )
 

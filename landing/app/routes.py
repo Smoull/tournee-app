@@ -60,7 +60,7 @@ def build_router(settings: Settings, repository: LeadRepository, templates: Jinj
                     "gain_temps": gain_temps_par_mois(variant.rentabilite),
                     "postes_rentabilite": commun.postes_rentabilite(variant.clientele),
                     "faisabilite": commun.faisabilite(variant.support_tournee),
-                    "morale": commun.morale(variant.clientele),
+                    "morale": commun.morale(variant.clientele, variant.conformite),
                     "cartes_rentabilite": commun.cartes_rentabilite(variant.rentabilite),
                     "utm_source": request.query_params.get("utm_source", ""),
                     "utm_campaign": request.query_params.get("utm_campaign", ""),

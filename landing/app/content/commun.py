@@ -62,10 +62,13 @@ def faisabilite(support_tournee: tuple[str, str, str]) -> tuple[tuple[str, str, 
 MORALE_TITRE = "Vos données restent les vôtres"
 
 
-def morale(clientele: str) -> tuple[tuple[str, str, str], ...]:
+CONFORMITE_RGPD = "Leurs données sont traitées dans le respect du RGPD."
+
+
+def morale(clientele: str, conformite: str) -> tuple[tuple[str, str, str], ...]:
     return (
         ("Hébergées en France.", "Jamais revendues, jamais partagées.", "shield-check"),
-        (f"Vos {clientele} respectés.", "Leurs données sont traitées dans le respect du RGPD.", "chat-text"),
+        (f"Vos {clientele} respectés.", conformite, "chat-text"),
         ("Exportables à tout moment.", "Vous partez quand vous voulez, avec toutes vos données.", "download-simple"),
     )
 

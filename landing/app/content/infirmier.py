@@ -42,7 +42,8 @@ VARIANT = Variant(
     rentabilite=Hypotheses(km_par_semaine=40, heures_par_semaine=2, no_show_par_mois=2),
     support_tournee=(
         "Un planning partagé avec tout le cabinet.",
-        "Chaque tournée du jour dans l'agenda de vos collègues, ou en PDF clair chaque matin.",
+        "Un remplacement d'un confrère, un imprévu : mise à jour de l'agenda automatique.",
         "calendar-check",
     ),
+    conformite="Leurs données sont traitées dans le respect du RGPD, chez un hébergeur certifié HDS.",
 )
