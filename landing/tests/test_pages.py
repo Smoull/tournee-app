@@ -202,7 +202,7 @@ def test_hero_cta_and_price_line_are_centered_on_all_screens(client):
     block = text.split("<div data-hero-cta", 1)[1].split("</div>", 1)[0]
     opening = block.split(">", 1)[0]
     assert "text-center" in opening and "sm:" not in opening
-    assert commun.HERO_CTA in block
+    assert commun.ACCES_ANTICIPE.hero_cta in block
     assert "24,50 € HT/mois à vie pour les 10 premiers." in block
 
 
@@ -225,6 +225,12 @@ def test_hero_cta_invites_to_start_while_form_button_keeps_reservation(client):
     text = page(client, "/")
     assert '#formulaire" class="inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">Lancer ma tournée</a>' in text
     assert "disabled:opacity-60\">Je réserve ma place</button>" in text
+
+
+def test_nurse_hero_cta_leads_to_becoming_a_tester(client):
+    text = page(client, "/infirmier")
+    assert '#formulaire" class="inline-block rounded-2xl bg-accent px-7 py-4 text-lg font-extrabold text-texte">Devenir testeur</a>' in text
+    assert "Lancer ma tournée" not in text
 
 
 def test_profitability_title_promises_return_from_first_month(client):

@@ -125,7 +125,7 @@ def test_only_nurses_see_ttc_prices():
 EXPECTED_SMS = {
     "generique": "Bonjour, votre passage est décalé à 10h15. Bouclé.tech",
     "laveur-vitres": "Bonjour, nous pouvons passer plus tôt : 7h00. Bouclé.tech",
-    "infirmier": "Bonjour, mon passage chez vous est avancé à 9h00. Votre infirmière, Florence.",
+    "infirmier": "Bonjour M. Martin, mon passage chez vous est avancé à 9h00. Votre infirmière, Florence.",
     "services-domicile": "Bonjour, votre passage est décalé à 15h00. Bouclé.tech",
 }
 

@@ -38,7 +38,7 @@ VARIANT = Variant(
         debut=time(7, 30),
         positions=((30, 60), (90, 140), (155, 70), (220, 150), (290, 80)),
         incident=Incident(kind="retrait", position=2, label="Patient absent", icon="user-minus"),
-        sms="Bonjour, mon passage chez vous est avancé à {heure}. Votre infirmière, Florence.",
+        sms="Bonjour M. Martin, mon passage chez vous est avancé à {heure}. Votre infirmière, Florence.",
     ),
     rentabilite=Hypotheses(heures_par_semaine=2),
     support_tournee=(

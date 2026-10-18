@@ -6,7 +6,6 @@ from app.offer import PLACES_EARLY_ACCESS, PRIX_HT, PRIX_TTC, economie_annuelle,
 
 Taxe = Literal["HT", "TTC"]
 
-HERO_CTA = "Lancer ma tournée"
 REJOUER = "Rejouer la démo"
 
 UTILITE_TITRE = "Ce que Bouclé.tech change dans votre journée"
@@ -69,6 +68,7 @@ def morale(clientele: str, conformite: str) -> tuple[tuple[str, str, str], ...]:
 
 @dataclass(frozen=True)
 class Cadrage:
+    hero_cta: str
     sous_cta: str
     titre: str
     intro: str | None
@@ -81,6 +81,7 @@ class Cadrage:
 
 
 ACCES_ANTICIPE = Cadrage(
+    hero_cta="Lancer ma tournée",
     sous_cta=f"{{prix}} pour les {PLACES_EARLY_ACCESS} premiers.",
     titre="Accès anticipé : rien à payer aujourd'hui",
     intro=None,
@@ -93,6 +94,7 @@ ACCES_ANTICIPE = Cadrage(
 )
 
 TEST_GRATUIT = Cadrage(
+    hero_cta="Devenir testeur",
     sous_cta="Test gratuit, puis {prix} si vous l'adoptez.",
     titre="Testez Bouclé.tech avec nous",
     intro=(
